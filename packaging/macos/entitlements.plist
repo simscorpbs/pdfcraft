@@ -5,5 +5,10 @@
      command line and drag-and-drop). Add exceptions here only with a reason in a comment. -->
 <plist version="1.0">
 <dict>
+    <!-- Fork: the PKCS #11 modules that sign with token certificates (Certisign desktopID,
+         eToken) are signed by their vendors, and the hardened runtime only loads code signed by
+         Apple or by this app's team. Without this, dlopen refuses them ("different Team IDs"). -->
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <true/>
 </dict>
 </plist>

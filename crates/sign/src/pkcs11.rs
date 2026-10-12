@@ -152,8 +152,23 @@ pub fn reference(c: &Certificate) -> String {
 fn listing() -> Vec<(Certificate, Location)> {
     let mut out = Vec::new();
     for module in modules() {
-        let Ok(p) = context(&module) else { continue };
-        let Ok(slots) = p.get_slots_with_token() else { continue };
+        // A module that doesn't load says why in the log (the hardened runtime refusing a
+        // vendor's library looked exactly like "no token" before).
+        let p = match context(&module) {
+            Ok(p) => p,
+            Err(e) => {
+                log::warn!("PKCS #11 module not loaded: {e}");
+                continue;
+            }
+        };
+        let slots = match p.get_slots_with_token() {
+            Ok(s) => s,
+            Err(e) => {
+                log::warn!("PKCS #11 {}: no slots: {e}", module.display());
+                continue;
+            }
+        };
+        log::info!("PKCS #11 {}: {} token(s)", module.display(), slots.len());
         for slot in slots {
             let Ok(info) = p.get_token_info(slot) else { continue };
             let Ok(session) = p.open_ro_session(slot) else { continue };
