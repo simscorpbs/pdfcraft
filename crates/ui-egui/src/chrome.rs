@@ -55,8 +55,8 @@ pub fn tab_strip(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
                     app.active = None;
                     app.combine_tab.focused = false;
                 }
-                // Keep the two icon buttons, Discord's text/padding and three gaps outside the scrolling tabs.
-                let controls_width = ui.fonts_mut(|f| f.layout_no_wrap("Discord".into(), theme::medium(13.0), t.text).size().x) + 2.0 * button + 50.0;
+                // Keep the two icon buttons and their gaps outside the scrolling tabs.
+                let controls_width = 2.0 * button + 16.0;
                 // Open stays in sight after the tabs: its icon, text and padding, and the gaps around it.
                 let open_width = if native {
                     button + 12.0
@@ -224,9 +224,9 @@ fn window_drag(ui: &mut egui::Ui) {
     }
 }
 
-/// The theme, keyboard-shortcut and Discord buttons at the right of the title bar (laid out right
-/// to left).
-fn window_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, button: f32, height: f32) {
+/// The theme and keyboard-shortcut buttons at the right of the title bar (laid out right to left).
+/// This fork leaves out the Discord button.
+fn window_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, button: f32, _height: f32) {
     let (icon, label) = match app.theme_preference {
         ThemePreference::System => ("monitor", tl!("Use system setting")),
         ThemePreference::Light => ("sun", tl!("Light gray")),
@@ -245,10 +245,6 @@ fn window_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, button: f32, height
     egui::Popup::context_menu(&response).id(response.id.with("theme_menu")).show(|ui| appearance_menu(app, ui));
     if icons::button(ui, "circle-help", button, false, tl!("Keyboard shortcuts")).clicked() {
         app.dialog = Some(Dialog::Shortcuts);
-    }
-    // One click to the community, from anywhere in the app.
-    if widgets::ghost_button_sized(ui, "messages-square", "Discord", height).on_hover_text(pdfcraft_engine::links::DISCORD).clicked() {
-        app.execute("help.discord");
     }
 }
 
