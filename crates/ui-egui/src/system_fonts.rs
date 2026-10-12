@@ -79,6 +79,53 @@ pub fn devanagari_fallback() -> Option<Arc<FontData>> {
         .clone()
 }
 
+/// One Apple interface face of this fork and the embedded face it goes in front of.
+pub struct AppleFace {
+    /// The embedded face it precedes in every stack (`Inter`, `JetBrainsMono`, …).
+    pub embedded: &'static str,
+    /// Its key in the font definitions.
+    pub name: &'static str,
+    pub data: Arc<FontData>,
+}
+
+/// The macOS system faces, read once: SF Pro (`SFNS.ttf`, variable) at the weights AppKit uses
+/// and SF Mono (`SFNSMono.ttf`), the interface faces of this private fork. Each goes in front of
+/// the embedded face it replaces, which stays as the fallback. The patched epaint sets the optical
+/// size from the point size and applies the `trak` tracking, as CoreText does; hinting is off,
+/// as in CoreText. Empty off macOS and with `PDFCRAFT_SYSTEM_FONTS=0`.
+pub fn apple_faces() -> &'static [AppleFace] {
+    static CACHE: OnceLock<Vec<AppleFace>> = OnceLock::new();
+    CACHE.get_or_init(load_apple_faces)
+}
+
+fn load_apple_faces() -> Vec<AppleFace> {
+    if !cfg!(target_os = "macos") || std::env::var_os("PDFCRAFT_SYSTEM_FONTS").is_some_and(|v| v == "0") {
+        return Vec::new();
+    }
+    let read = |path: &str| -> Option<&'static [u8]> {
+        let bytes = std::fs::read(path).ok().filter(|b| face_with(b, 'a') == Some(0))?;
+        log::info!("interface font: {path}");
+        // Read once per process and shared by every weight.
+        Some(Box::leak(bytes.into_boxed_slice()))
+    };
+    let face = |embedded, name, bytes: &'static [u8], coords: &[(&[u8; 4], f32)]| {
+        let mut data = FontData::from_static(bytes);
+        data.tweak.coords = egui::epaint::text::VariationCoords::new(coords.iter().copied());
+        data.tweak.hinting = Some(false);
+        AppleFace { embedded, name, data: Arc::new(data) }
+    };
+    let mut faces = Vec::new();
+    if let Some(sf) = read("/System/Library/Fonts/SFNS.ttf") {
+        faces.push(face("Inter", "SF-Pro", sf, &[(b"wght", 400.0)]));
+        faces.push(face("Inter-Medium", "SF-Pro-Medium", sf, &[(b"wght", 510.0)]));
+        faces.push(face("Inter-SemiBold", "SF-Pro-Semibold", sf, &[(b"wght", 590.0)]));
+    }
+    if let Some(mono) = read("/System/Library/Fonts/SFNSMono.ttf") {
+        faces.push(face("JetBrainsMono", "SF-Mono", mono, &[(b"wght", 400.0), (b"YAXS", 324.334)]));
+    }
+    faces
+}
+
 /// Well-known locations of Devanagari (Hindi) faces, best first.
 fn devanagari_candidates() -> Vec<PathBuf> {
     if cfg!(windows) {

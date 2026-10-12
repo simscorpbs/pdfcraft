@@ -240,6 +240,15 @@ pub fn installed_font_definitions(cjk: CjkPreference) -> FontDefinitions {
     #[cfg(not(target_arch = "wasm32"))]
     {
         use crate::system_fonts::{Need, fallback};
+        // Fork: SF Pro Text and SF Mono in front of Inter and JetBrains Mono, where installed.
+        for face in crate::system_fonts::apple_faces() {
+            fonts.font_data.insert(face.name.to_owned(), face.data.clone());
+            for stack in fonts.families.values_mut() {
+                if let Some(at) = stack.iter().position(|n| n == face.embedded) {
+                    stack.insert(at, face.name.to_owned());
+                }
+            }
+        }
         // Before the general installed face, which stays the last fallback outside Chinese.
         if let Some(data) = crate::system_fonts::devanagari_fallback() {
             fonts.font_data.insert(SYSTEM_DEVANAGARI_FALLBACK.to_owned(), data);

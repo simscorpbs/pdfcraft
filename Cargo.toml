@@ -111,3 +111,5 @@ hayro-jbig2 = { path = "vendor/hayro-jbig2" }
 lopdf = { path = "vendor/lopdf" }
 winit = { path = "vendor/winit" }
 egui-wgpu = { path = "vendor/egui-wgpu" }
+# Fork: optical size and `trak` tracking as CoreText applies them (Apple interface fonts).
+epaint = { path = "vendor/epaint" }
