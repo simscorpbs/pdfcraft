@@ -81,11 +81,9 @@ fn long_recent_names_and_paths_are_cut_before_the_page_count() {
     let text = painted_text(&h);
     let detail = text.iter().find(|(s, ..)| s.starts_with("7 pages")).expect("the row shows its page count").2;
     // Fork: the row shows the name only; the path is in its tooltip.
-    for whole in [&name] {
-        let (_, cut, rect) = text.iter().find(|(s, ..)| s == whole).expect("the row shows the name");
-        assert!(*cut, "{whole:?} is cut short");
-        assert!(rect.right() < detail.left(), "{whole:?} ends before the page count");
-    }
+    let (_, cut, rect) = text.iter().find(|(s, ..)| *s == name).expect("the row shows the name");
+    assert!(*cut, "{name:?} is cut short");
+    assert!(rect.right() < detail.left(), "{name:?} ends before the page count");
 }
 
 #[test]

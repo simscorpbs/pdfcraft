@@ -502,7 +502,6 @@ fn tab_cap(natural: &[f32], budget: f32, gap: f32, min: f32) -> Option<f32> {
     None
 }
 
-#[allow(clippy::too_many_arguments)]
 /// The Home tab (fork): the house icon in a tab-shaped button, filled like the active document tab
 /// when Home shows.
 fn home_tab(ui: &mut egui::Ui, t: &Tokens, width: f32, height: f32, active: bool) -> egui::Response {
@@ -528,6 +527,7 @@ fn home_tab(ui: &mut egui::Ui, t: &Tokens, width: f32, height: f32, active: bool
     theme::hand(resp).on_hover_text(tl!("Home"))
 }
 
+#[allow(clippy::too_many_arguments)]
 fn tab(
     ui: &mut egui::Ui,
     id: egui::Id,

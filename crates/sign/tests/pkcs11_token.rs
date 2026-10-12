@@ -12,7 +12,7 @@ fn token_identities_sign() {
     if std::env::var("PDFCRAFT_PKCS11_TEST").is_err() {
         return;
     }
-    let ids = pkcs11::identities();
+    let ids = pkcs11::identities(&[]);
     for id in &ids {
         println!("{} | {} | {} | pin: {}", id.reference, id.token, id.certificate.display_name(), id.needs_pin);
     }
@@ -20,7 +20,7 @@ fn token_identities_sign() {
     let first = ids.first().expect("a token identity");
     let pdf = b"%PDF-1.7\n1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj\n3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 200 200] >> endobj\ntrailer << /Root 1 0 R >>\n%%EOF";
     let doc = pdfcraft_cos::Document::open(std::sync::Arc::new(pdf.to_vec())).expect("fixture");
-    let id = pkcs11::find(&first.reference, None).expect("find");
+    let id = pkcs11::find(&first.reference, None, &[]).expect("find");
     let t = std::time::Instant::now();
     let signed = pdfcraft_sign::sign(&doc, &id, &SignOptions { page: 0, ..Default::default() }).expect("sign");
     println!("signed in {:?}", t.elapsed());

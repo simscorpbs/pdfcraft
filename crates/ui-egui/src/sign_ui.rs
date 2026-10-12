@@ -229,14 +229,17 @@ fn fork_text(en: &'static str, pt: &'static str) -> &'static str {
 }
 
 /// Fork: a PKCS #11 token identity (desktopID, eToken) by its `pkcs11:` reference.
-fn token_id(reference: &str, pin: &str) -> Result<DigitalId, String> {
+fn token_id(reference: &str, pin: &str, added: &[String]) -> Result<DigitalId, String> {
     #[cfg(not(target_arch = "wasm32"))]
-    return sign::pkcs11::find(reference, Some(pin)).map_err(|e| match e {
+    return sign::pkcs11::find(reference, Some(pin), &added.iter().map(PathBuf::from).collect::<Vec<_>>()).map_err(|e| match e {
         sign::SignError::WrongPassword => fork_text("The PIN is incorrect.", "O PIN está incorreto.").to_string(),
         e => e.to_string(),
     });
     #[cfg(target_arch = "wasm32")]
-    Err(format!("{reference}: tokens are only available in the desktop app"))
+    {
+        let _ = (pin, added);
+        Err(format!("{reference}: tokens are only available in the desktop app"))
+    }
 }
 
 /// A Keychain identity by its `keychain:` reference.
@@ -303,7 +306,8 @@ impl PdfCraftApp {
         #[cfg(not(target_arch = "wasm32"))]
         if self.os_key_store_ids {
             self.token_ids.clear();
-            for id in sign::pkcs11::identities() {
+            let added: Vec<PathBuf> = self.pkcs11_modules.iter().map(PathBuf::from).collect();
+            for id in sign::pkcs11::identities(&added) {
                 self.token_ids.insert(id.reference.clone(), (id.token.clone(), id.needs_pin));
                 self.digital_ids.push(entry_for(&id.reference, &id.certificate));
             }
@@ -411,7 +415,7 @@ impl PdfCraftApp {
         let d = self.sign_draft.clone().ok_or("nothing to sign")?;
         let entry = d.selected.and_then(|i| self.digital_ids.get(i)).filter(|e| e.unusable.is_none()).cloned().ok_or("Choose a digital ID.")?;
         let id = if entry.path.starts_with("pkcs11:") {
-            token_id(&entry.path, &d.password)?
+            token_id(&entry.path, &d.password, &self.pkcs11_modules)?
         } else if entry.path.starts_with("keychain:") {
             keychain_id(&entry.path)?
         } else if entry.path.starts_with("windows:") {
@@ -864,8 +868,9 @@ fn sign_as(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) -> bool {
     #[cfg(not(target_arch = "wasm32"))]
     if token.as_ref().is_some_and(|(_, pin)| !pin) && app.token_prepared.insert(entry.path.clone()) {
         let reference = entry.path.clone();
+        let added: Vec<PathBuf> = app.pkcs11_modules.iter().map(PathBuf::from).collect();
         std::thread::spawn(move || {
-            if let Err(e) = sign::pkcs11::prepare(&reference, None) {
+            if let Err(e) = sign::pkcs11::prepare(&reference, None, &added) {
                 log::warn!("{reference}: {e}");
             }
         });

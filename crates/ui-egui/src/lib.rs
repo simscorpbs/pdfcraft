@@ -611,6 +611,9 @@ pub struct PdfCraftApp {
     pub token_ids: std::collections::HashMap<String, (String, bool)>,
     /// Fork: tokens already being logged in ahead of signing, by reference.
     pub token_prepared: std::collections::HashSet<String>,
+    /// PKCS #11 libraries the user added (Configure a Digital ID ▸ from a device), read besides
+    /// the ones found in their vendors' usual places.
+    pub pkcs11_modules: Vec<String>,
     pub cert_viewer: Option<sign_ui::CertViewer>,
     /// The last space audit.
     pub space_audit: Vec<pdfcraft_engine::optimize::SpaceUse>,
@@ -901,6 +904,7 @@ impl PdfCraftApp {
             os_key_store_ids: false,
             token_ids: Default::default(),
             token_prepared: Default::default(),
+            pkcs11_modules: Vec::new(),
             cert_viewer: None,
             space_audit: Vec::new(),
             combine_draft: Vec::new(),
@@ -1800,7 +1804,12 @@ impl PdfCraftApp {
             "initials": self.initials,
             "sign_graphic": self.sign_graphic,
             // macOS Keychain and Windows store identities are read from their OS key stores each time.
-            "digital_ids": self.digital_ids.iter().filter(|e| !e.path.starts_with("keychain:") && !e.path.starts_with("windows:")).collect::<Vec<_>>(),
+            "digital_ids": self
+                .digital_ids
+                .iter()
+                .filter(|e| !e.path.starts_with("keychain:") && !e.path.starts_with("windows:") && !e.path.starts_with("pkcs11:"))
+                .collect::<Vec<_>>(),
+            "pkcs11_modules": self.pkcs11_modules,
             "trusted": trusted,
             "custom_stamps": stamps_ui::encode(&self.custom_stamps),
             "javascript": self.session.javascript(),
@@ -1947,6 +1956,9 @@ impl PdfCraftApp {
         self.sign_graphic = serde_json::from_value(v["sign_graphic"].clone()).unwrap_or_default();
         if let Ok(ids) = serde_json::from_value::<Vec<DigitalIdEntry>>(v["digital_ids"].clone()) {
             self.digital_ids = ids;
+        }
+        if let Ok(modules) = serde_json::from_value::<Vec<String>>(v["pkcs11_modules"].clone()) {
+            self.pkcs11_modules = modules;
         }
         self.custom_stamps = stamps_ui::decode(&v["custom_stamps"]);
         self.custom_actions = actions_ui::decode(&v["actions"]);
