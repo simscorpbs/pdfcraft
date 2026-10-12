@@ -38,8 +38,12 @@ fn panel_header(ui: &mut egui::Ui, t: &Tokens, title: &str, back: bool) -> (bool
         // Reserve space for Close before laying out the translated title. Long tool names
         // must never expand the fixed-width sidebar or push the Close control off-screen.
         let title_width = (ui.available_width() - 26.0 - ui.spacing().item_spacing.x).max(1.0);
-        ui.add_sized([title_width, 26.0], egui::Label::new(egui::RichText::new(tl!(title)).font(theme::semibold(15.5)).color(t.text)).truncate())
-            .on_hover_text(tl!(title));
+        // Fork: a quiet heading, left-aligned, so the list under it leads.
+        ui.allocate_ui_with_layout(vec2(title_width, 26.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+            ui.set_min_width(title_width);
+            ui.add(egui::Label::new(egui::RichText::new(tl!(title)).font(theme::medium(13.0)).color(t.text_muted)).truncate())
+                .on_hover_text(tl!(title));
+        });
         if icons::button(ui, "x", 26.0, false, tl!("Close panel")).clicked() {
             close = true;
         }

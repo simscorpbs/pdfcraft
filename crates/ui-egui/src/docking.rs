@@ -46,6 +46,12 @@ fn permissions(panel: &Panel) -> Permissions {
     if *panel == Panel::Canvas { Permissions::PROTECTED } else { Permissions::default() }
 }
 
+/// What the renderer is told (fork): the Tools panel draws without its "Tools" tab, like the
+/// document. The layout rules keep [`permissions`], so its × still closes it.
+fn render_permissions(panel: &Panel) -> Permissions {
+    if matches!(panel, Panel::Canvas | Panel::Tools) { Permissions::PROTECTED } else { Permissions::default() }
+}
+
 fn tabs(panel: Panel) -> Node<Panel> {
     Node::Tabs { panels: vec![panel], active: 0 }
 }
@@ -401,7 +407,7 @@ pub fn show(app: &mut crate::PdfCraftApp, ui: &mut egui::Ui) {
         &rendered,
         &style,
         |panel| crate::i18n::t(panel.label()).into(),
-        permissions,
+        render_permissions,
         panel_limits,
         |ui, panel| match panel {
             Panel::Canvas => {

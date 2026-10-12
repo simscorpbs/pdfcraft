@@ -945,7 +945,10 @@ fn sign_as(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) -> bool {
                             "A chave está na nuvem do desktopID. Se a sessão tiver expirado, aprove o pedido no celular.",
                         )
                     } else {
-                        fork_text("The key is on the token, which may ask to allow PdfCraft to use it.", "A chave está no token, que pode pedir autorização para o PdfCraft usá-la.")
+                        fork_text(
+                            "The key is on the token, which may ask to allow PdfCraft to use it.",
+                            "A chave está no token, que pode pedir autorização para o PdfCraft usá-la.",
+                        )
                     }
                 } else if entry.path.starts_with("windows:") {
                     tl!("The key is in the Windows certificate store, which may ask to allow PdfCraft to use it.")

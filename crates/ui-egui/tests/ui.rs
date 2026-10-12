@@ -349,14 +349,20 @@ fn the_integrated_title_bar_is_the_traffic_light_band() {
         app.open_bytes("band.pdf", None, FIXTURE.to_vec()).unwrap();
     });
     let band = 28.0;
-    for label in ["Home", "band.pdf", "Open", "Keyboard shortcuts"] {
+    let r = h.get_by_label("Keyboard shortcuts").rect();
+    assert!(r.top() >= 0.0 && r.bottom() <= band, "Keyboard shortcuts: {r:?} inside the {band} pt title bar");
+    assert!(r.height() >= 24.0, "Keyboard shortcuts: {r:?} stays clickable");
+    // Fork: the tabs are in a tab bar under the title bar, as in Finder and Safari.
+    let bar = 28.0;
+    for label in ["Home", "band.pdf", "Open"] {
         let r = h.get_by_label(label).rect();
-        assert!(r.top() >= 0.0 && r.bottom() <= band, "{label}: {r:?} inside the {band} pt title bar");
+        assert!(r.top() >= band - 0.5 && r.bottom() <= band + bar + 0.5, "{label}: {r:?} inside the tab bar under the title bar");
         assert!(r.height() >= 24.0, "{label}: {r:?} stays clickable");
     }
     // Content starts after the three lights (the last one ends 62 pt in) with a gap.
+    // The lights are in the title bar; the tab bar under it starts at the window's left edge.
     let home = h.get_by_label("Home").rect();
-    assert!(home.left() >= 62.0 + 4.0, "Home {home:?} clears the traffic lights");
+    assert!(home.top() >= band - 0.5, "Home {home:?} is below the traffic lights");
 }
 
 #[test]

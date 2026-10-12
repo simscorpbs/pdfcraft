@@ -165,8 +165,11 @@ mod tests {
             .run_ui(egui::RawInput { screen_rect: Some(Rect::from_min_size(egui::Pos2::ZERO, vec2(1440.0, 900.0))), ..Default::default() }, |ui| {
                 show(&mut app, ui)
             });
-        let texts: Vec<String> =
-            output.shapes.iter().filter_map(|shape| if let egui::Shape::Text(text) = &shape.shape { Some(text.galley.job.text.clone()) } else { None }).collect();
+        let texts: Vec<String> = output
+            .shapes
+            .iter()
+            .filter_map(|shape| if let egui::Shape::Text(text) = &shape.shape { Some(text.galley.job.text.clone()) } else { None })
+            .collect();
         for id in RECOMMENDED {
             let label = catalog::group(id).unwrap().label;
             assert!(texts.iter().any(|t| t == label), "{label} on Home");

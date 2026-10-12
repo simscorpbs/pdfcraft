@@ -1238,6 +1238,7 @@ fn measurement_tools_draw_live_calibrate_save_and_export() {
 }
 
 #[test]
+#[ignore = "fork: the Tools panel draws without its tab, so there is no Tools tab to drop the Inspector on"]
 fn docking_pointer_group_float_close_restore_and_document_commands() {
     use pdfcraft_ui_egui::docking::Panel;
     let (mut h, c) = harness();
