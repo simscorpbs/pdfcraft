@@ -222,6 +222,23 @@ fn save_new_id_file(dir: &std::path::Path, stem: &str, p12: &[u8]) -> std::io::R
     Err(std::io::Error::new(ErrorKind::AlreadyExists, "no free file name for the digital ID"))
 }
 
+/// Fork: a string the fork adds, in Portuguese for a Portuguese interface and in English
+/// otherwise (kept out of `tl!`, whose catalogs cover every language).
+fn fork_text(en: &'static str, pt: &'static str) -> &'static str {
+    if crate::i18n::current().code().starts_with("pt") { pt } else { en }
+}
+
+/// Fork: a PKCS #11 token identity (desktopID, eToken) by its `pkcs11:` reference.
+fn token_id(reference: &str, pin: &str) -> Result<DigitalId, String> {
+    #[cfg(not(target_arch = "wasm32"))]
+    return sign::pkcs11::find(reference, Some(pin)).map_err(|e| match e {
+        sign::SignError::WrongPassword => fork_text("The PIN is incorrect.", "O PIN está incorreto.").to_string(),
+        e => e.to_string(),
+    });
+    #[cfg(target_arch = "wasm32")]
+    Err(format!("{reference}: tokens are only available in the desktop app"))
+}
+
 /// A Keychain identity by its `keychain:` reference.
 fn keychain_id(reference: &str) -> Result<DigitalId, String> {
     #[cfg(target_os = "macos")]
@@ -280,7 +297,17 @@ impl PdfCraftApp {
 
     /// List OS key store signing identities (after the file-based IDs).
     fn refresh_os_key_store_ids(&mut self) {
-        self.digital_ids.retain(|e| !e.path.starts_with("keychain:") && !e.path.starts_with("windows:"));
+        self.digital_ids.retain(|e| !e.path.starts_with("keychain:") && !e.path.starts_with("windows:") && !e.path.starts_with("pkcs11:"));
+        // Fork: certificates on PKCS #11 tokens (desktopID, eToken), first: they are the ones the
+        // courts' systems ask for.
+        #[cfg(not(target_arch = "wasm32"))]
+        if self.os_key_store_ids {
+            self.token_ids.clear();
+            for id in sign::pkcs11::identities() {
+                self.token_ids.insert(id.reference.clone(), (id.token.clone(), id.needs_pin));
+                self.digital_ids.push(entry_for(&id.reference, &id.certificate));
+            }
+        }
         #[cfg(target_os = "macos")]
         if self.os_key_store_ids {
             match sign::keychain::identities(None) {
@@ -383,7 +410,9 @@ impl PdfCraftApp {
         let Some((_, doc_id)) = self.active_ids() else { return Err("no document".into()) };
         let d = self.sign_draft.clone().ok_or("nothing to sign")?;
         let entry = d.selected.and_then(|i| self.digital_ids.get(i)).filter(|e| e.unusable.is_none()).cloned().ok_or("Choose a digital ID.")?;
-        let id = if entry.path.starts_with("keychain:") {
+        let id = if entry.path.starts_with("pkcs11:") {
+            token_id(&entry.path, &d.password)?
+        } else if entry.path.starts_with("keychain:") {
             keychain_id(&entry.path)?
         } else if entry.path.starts_with("windows:") {
             windows_id(&entry.path)?
@@ -592,7 +621,9 @@ fn choose(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) -> bool {
                 ui.painter().layout_job(job)
             };
             let name = line(&e.name, theme::semibold(13.0), name_color);
-            let store = if e.path.starts_with("keychain:") {
+            let store = if let Some((token, _)) = app.token_ids.get(&e.path) {
+                format!("{token}  ·  ")
+            } else if e.path.starts_with("keychain:") {
                 tl!("Keychain  ·  ").to_string()
             } else if e.path.starts_with("windows:") {
                 tl!("Windows store  ·  ").to_string()
@@ -824,7 +855,21 @@ fn sign_as(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) -> bool {
             &[("verb", if d.certify.is_some() { tl!("Certify") } else { tl!("Sign") }), ("name", &entry.name)],
         ),
     );
-    let in_os_key_store = entry.path.starts_with("keychain:") || entry.path.starts_with("windows:");
+    // Fork: a token that approves on its own (desktopID) takes no password here; one with a PIN
+    // takes it in the password field.
+    let token = app.token_ids.get(&entry.path).cloned();
+    let in_os_key_store = entry.path.starts_with("keychain:") || entry.path.starts_with("windows:") || token.as_ref().is_some_and(|(_, pin)| !pin);
+    // Log in to such a token now, off the UI thread: if it asks for approval on the phone, it asks
+    // while the signature is set up, and Sign finds the session open.
+    #[cfg(not(target_arch = "wasm32"))]
+    if token.as_ref().is_some_and(|(_, pin)| !pin) && app.token_prepared.insert(entry.path.clone()) {
+        let reference = entry.path.clone();
+        std::thread::spawn(move || {
+            if let Err(e) = sign::pkcs11::prepare(&reference, None) {
+                log::warn!("{reference}: {e}");
+            }
+        });
+    }
     let mut close = false;
     let mut go = false;
     #[cfg(not(target_arch = "wasm32"))]
@@ -893,7 +938,16 @@ fn sign_as(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) -> bool {
         if in_os_key_store {
             ui.label("");
             ui.label(
-                egui::RichText::new(if entry.path.starts_with("windows:") {
+                egui::RichText::new(if let Some((name, _)) = &token {
+                    if name.eq_ignore_ascii_case("desktopid") {
+                        fork_text(
+                            "The key is in the desktopID cloud. If its session has expired, approve the request on your phone.",
+                            "A chave está na nuvem do desktopID. Se a sessão tiver expirado, aprove o pedido no celular.",
+                        )
+                    } else {
+                        fork_text("The key is on the token, which may ask to allow PdfCraft to use it.", "A chave está no token, que pode pedir autorização para o PdfCraft usá-la.")
+                    }
+                } else if entry.path.starts_with("windows:") {
                     tl!("The key is in the Windows certificate store, which may ask to allow PdfCraft to use it.")
                 } else {
                     tl!("The key is in the macOS Keychain, which may ask to allow PdfCraft to use it.")

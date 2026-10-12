@@ -606,6 +606,11 @@ pub struct PdfCraftApp {
     pub alt_draft: a11y_ui::AltDraft,
     /// List the OS key store's signing identities among the digital IDs (the desktop app).
     pub os_key_store_ids: bool,
+    /// Fork: PKCS #11 token identities by `pkcs11:` reference: the token's name and whether it
+    /// takes a PIN (desktopID doesn't: it approves on its own).
+    pub token_ids: std::collections::HashMap<String, (String, bool)>,
+    /// Fork: tokens already being logged in ahead of signing, by reference.
+    pub token_prepared: std::collections::HashSet<String>,
     pub cert_viewer: Option<sign_ui::CertViewer>,
     /// The last space audit.
     pub space_audit: Vec<pdfcraft_engine::optimize::SpaceUse>,
@@ -894,6 +899,8 @@ impl PdfCraftApp {
             a11y_skipped: Default::default(),
             alt_draft: Default::default(),
             os_key_store_ids: false,
+            token_ids: Default::default(),
+            token_prepared: Default::default(),
             cert_viewer: None,
             space_audit: Vec::new(),
             combine_draft: Vec::new(),
