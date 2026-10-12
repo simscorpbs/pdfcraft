@@ -2359,3 +2359,7 @@ animation effects	Off	Izklopljeni
 	Text rendering	Upodabljanje besedila
 	Standard	Standardno
 	Like macOS (fuller strokes, sub-pixel placement)	Kot v macOS (polnejše poteze, podslikovna postavitev)
+	App icon	Ikona aplikacije
+	Use the default	Uporabi privzeto
+	The Dock shows it the next time PdfCraft opens.	Dock jo bo pokazal ob naslednjem odprtju PdfCrafta.
+	The image couldn't be used as an icon: {e}	Slike ni bilo mogoče uporabiti kot ikone: {e}

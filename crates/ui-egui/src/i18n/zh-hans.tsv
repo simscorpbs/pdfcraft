@@ -2318,3 +2318,7 @@ animation effects	Off	关
 	Text rendering	文本渲染
 	Standard	标准
 	Like macOS (fuller strokes, sub-pixel placement)	与 macOS 相同（笔画更饱满，亚像素定位）
+	App icon	应用图标
+	Use the default	使用默认图标
+	The Dock shows it the next time PdfCraft opens.	下次打开 PdfCraft 时，程序坞将显示此图标。
+	The image couldn't be used as an icon: {e}	无法将该图像用作图标：{e}

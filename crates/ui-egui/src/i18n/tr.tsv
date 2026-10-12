@@ -2350,3 +2350,7 @@ animation effects	Off	Kapalı
 	Text rendering	Metin işleme
 	Standard	Standart
 	Like macOS (fuller strokes, sub-pixel placement)	macOS gibi (daha dolgun çizgiler, alt piksel yerleşimi)
+	App icon	Uygulama simgesi
+	Use the default	Varsayılanı kullan
+	The Dock shows it the next time PdfCraft opens.	Dock, PdfCraft bir sonraki açılışında gösterir.
+	The image couldn't be used as an icon: {e}	Görüntü simge olarak kullanılamadı: {e}

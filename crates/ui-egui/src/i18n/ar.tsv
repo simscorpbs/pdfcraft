@@ -2375,3 +2375,7 @@ animation effects	Off	معطّلة
 	Text rendering	عرض النص
 	Standard	قياسي
 	Like macOS (fuller strokes, sub-pixel placement)	مثل macOS (خطوط أكثر امتلاءً، وموضع دون البكسل)
+	App icon	أيقونة التطبيق
+	Use the default	استخدام الافتراضية
+	The Dock shows it the next time PdfCraft opens.	يعرضها Dock في المرة التالية التي يُفتح فيها PdfCraft.
+	The image couldn't be used as an icon: {e}	تعذّر استخدام الصورة كأيقونة: {e}

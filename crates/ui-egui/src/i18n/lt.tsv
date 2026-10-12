@@ -2598,3 +2598,7 @@ key	Space	Tarpas
 	Text rendering	Teksto atvaizdavimas
 	Standard	Standartinis
 	Like macOS (fuller strokes, sub-pixel placement)	Kaip „macOS“ (pilnesni brūkšniai, subpikselinis išdėstymas)
+	App icon	Programos piktograma
+	Use the default	Naudoti numatytąją
+	The Dock shows it the next time PdfCraft opens.	„Dock“ ją rodys kitą kartą atidarius „PdfCraft“.
+	The image couldn't be used as an icon: {e}	Paveikslėlio nepavyko naudoti kaip piktogramos: {e}

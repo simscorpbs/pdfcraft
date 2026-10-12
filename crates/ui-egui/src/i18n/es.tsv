@@ -2484,3 +2484,7 @@ animation effects	Off	Desactivados
 	Text rendering	Representación del texto
 	Standard	Estándar
 	Like macOS (fuller strokes, sub-pixel placement)	Como macOS (trazos más llenos, colocación por subpíxel)
+	App icon	Icono de la app
+	Use the default	Usar el predeterminado
+	The Dock shows it the next time PdfCraft opens.	El Dock lo mostrará la próxima vez que se abra PdfCraft.
+	The image couldn't be used as an icon: {e}	La imagen no se pudo usar como icono: {e}

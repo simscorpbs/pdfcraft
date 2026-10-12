@@ -2317,3 +2317,7 @@ animation effects	Off	Изключени
 	Text rendering	Изобразяване на текста
 	Standard	Стандартно
 	Like macOS (fuller strokes, sub-pixel placement)	Като в macOS (по-плътни щрихи, позициониране под пиксел)
+	App icon	Икона на приложението
+	Use the default	Използвай стандартната
+	The Dock shows it the next time PdfCraft opens.	Dock ще я покаже при следващото отваряне на PdfCraft.
+	The image couldn't be used as an icon: {e}	Изображението не може да се използва като икона: {e}

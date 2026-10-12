@@ -2228,3 +2228,7 @@ animation effects	Off	關
 	Text rendering	文字轉譯
 	Standard	標準
 	Like macOS (fuller strokes, sub-pixel placement)	與 macOS 相同（筆畫更飽滿，次像素定位）
+	App icon	App 圖示
+	Use the default	使用預設圖示
+	The Dock shows it the next time PdfCraft opens.	下次開啟 PdfCraft 時，Dock 會顯示此圖示。
+	The image couldn't be used as an icon: {e}	無法將此影像用作圖示：{e}
