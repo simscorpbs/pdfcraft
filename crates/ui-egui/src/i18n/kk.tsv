@@ -2345,3 +2345,10 @@ animation effects	Off	Өшірулі
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Кілт {device} құрылғысында, ол рұқсатты өзі сұрайды (PIN пернетақтасы немесе телефондағы қолданба).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Жүйелік қойындылар (macOS-тағы Finder және Windows-тағы Файл зерттеушісі сияқты)
 	Compact Home (tools and recent files only)	Ықшам басты бет (тек құралдар мен соңғы файлдар)
+	Interface font	Интерфейс қаріпі
+	Standard (Inter)	Стандартты (Inter)
+	System font	Жүйелік қаріп
+	Font file	Қаріп файлы
+	Text rendering	Мәтінді көрсету
+	Standard	Стандартты
+	Like macOS (fuller strokes, sub-pixel placement)	macOS сияқты (толығырақ сызықтар, субпиксельдік орналастыру)

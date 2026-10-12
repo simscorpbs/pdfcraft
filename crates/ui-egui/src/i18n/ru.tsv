@@ -2260,3 +2260,10 @@ animation effects	Off	Выкл
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Ключ находится на устройстве {device}, которое само запрашивает подтверждение (клавиатура для PIN-кода или приложение на телефоне).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Системные вкладки (как в Finder в macOS и в Проводнике в Windows)
 	Compact Home (tools and recent files only)	Компактная главная страница (только инструменты и недавние файлы)
+	Interface font	Шрифт интерфейса
+	Standard (Inter)	Стандартный (Inter)
+	System font	Системный шрифт
+	Font file	Файл шрифта
+	Text rendering	Отрисовка текста
+	Standard	Стандартная
+	Like macOS (fuller strokes, sub-pixel placement)	Как в macOS (более плотные штрихи, субпиксельное размещение)

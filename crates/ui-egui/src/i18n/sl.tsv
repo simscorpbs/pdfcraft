@@ -2352,3 +2352,10 @@ animation effects	Off	Izklopljeni
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Ključ je v napravi {device}, ki sama zahteva odobritev (tipkovnica za PIN ali aplikacija v telefonu).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Sistemski zavihki (kot v Finderju v macOS in Raziskovalcu v sistemu Windows)
 	Compact Home (tools and recent files only)	Strnjen začetni zaslon (samo orodja in nedavne datoteke)
+	Interface font	Pisava vmesnika
+	Standard (Inter)	Standardna (Inter)
+	System font	Sistemska pisava
+	Font file	Datoteka pisave
+	Text rendering	Upodabljanje besedila
+	Standard	Standardno
+	Like macOS (fuller strokes, sub-pixel placement)	Kot v macOS (polnejše poteze, podslikovna postavitev)

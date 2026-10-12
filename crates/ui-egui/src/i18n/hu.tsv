@@ -2346,3 +2346,10 @@ animation effects	Off	Ki
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	A kulcs a(z) {device} eszközön van, amely maga kér jóváhagyást (PIN-billentyűzet vagy alkalmazás a telefonján).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Natív lapok (mint a macOS Finderében és a Windows Fájlkezelőjében)
 	Compact Home (tools and recent files only)	Kompakt kezdőlap (csak eszközök és legutóbbi fájlok)
+	Interface font	Felület betűtípusa
+	Standard (Inter)	Normál (Inter)
+	System font	Rendszer-betűtípus
+	Font file	Betűtípusfájl
+	Text rendering	Szövegmegjelenítés
+	Standard	Normál
+	Like macOS (fuller strokes, sub-pixel placement)	Mint a macOS-en (teltebb vonalak, képpontnál finomabb elhelyezés)

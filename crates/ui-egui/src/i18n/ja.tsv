@@ -2347,3 +2347,10 @@ animation effects	Off	オフ
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	鍵は {device} にあり、デバイス自身が承認を求めます (PIN パッド、またはスマートフォンのアプリ)。
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	ネイティブのタブ (macOS の Finder、Windows のエクスプローラーと同じ)
 	Compact Home (tools and recent files only)	コンパクトなホーム (ツールと最近使ったファイルのみ)
+	Interface font	インターフェイスのフォント
+	Standard (Inter)	標準 (Inter)
+	System font	システムフォント
+	Font file	フォントファイル
+	Text rendering	テキストのレンダリング
+	Standard	標準
+	Like macOS (fuller strokes, sub-pixel placement)	macOS と同じ (太めの線、サブピクセル配置)

@@ -2327,3 +2327,10 @@ animation effects	Off	Wyłączone
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Klucz znajduje się na urządzeniu {device}, które samo prosi o zgodę (klawiatura PIN lub aplikacja w telefonie).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Natywne karty (jak w Finderze w macOS i w Eksploratorze plików w Windows)
 	Compact Home (tools and recent files only)	Kompaktowa strona główna (tylko narzędzia i ostatnie pliki)
+	Interface font	Czcionka interfejsu
+	Standard (Inter)	Standardowa (Inter)
+	System font	Czcionka systemowa
+	Font file	Plik czcionki
+	Text rendering	Renderowanie tekstu
+	Standard	Standardowe
+	Like macOS (fuller strokes, sub-pixel placement)	Jak w macOS (pełniejsze kreski, rozmieszczenie subpikselowe)

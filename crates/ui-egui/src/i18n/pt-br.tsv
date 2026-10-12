@@ -2361,3 +2361,10 @@ animation effects	Off	Desativados
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	A chave está em {device}, que pede a aprovação por conta própria (um teclado de PIN ou um app no seu celular).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Abas nativas (como no Finder do macOS e no Explorador de Arquivos do Windows)
 	Compact Home (tools and recent files only)	Início compacto (só ferramentas e arquivos recentes)
+	Interface font	Fonte da interface
+	Standard (Inter)	Padrão (Inter)
+	System font	Fonte do sistema
+	Font file	Arquivo de fonte
+	Text rendering	Renderização do texto
+	Standard	Padrão
+	Like macOS (fuller strokes, sub-pixel placement)	Como no macOS (traço mais cheio, posição em fração de pixel)

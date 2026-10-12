@@ -2368,3 +2368,10 @@ animation effects	Off	معطّلة
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	المفتاح موجود على {device}، الذي يطلب الموافقة بنفسه (لوحة PIN، أو تطبيق على هاتفك).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	علامات تبويب أصلية (كما في Finder على macOS ومستكشف الملفات على Windows)
 	Compact Home (tools and recent files only)	صفحة رئيسية مختصرة (الأدوات والملفات الأخيرة فقط)
+	Interface font	خط الواجهة
+	Standard (Inter)	قياسي (Inter)
+	System font	خط النظام
+	Font file	ملف خط
+	Text rendering	عرض النص
+	Standard	قياسي
+	Like macOS (fuller strokes, sub-pixel placement)	مثل macOS (خطوط أكثر امتلاءً، وموضع دون البكسل)

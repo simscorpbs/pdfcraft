@@ -2421,3 +2421,10 @@ animation effects	Off	Vypnuto
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Klíč je v zařízení {device}, které si samo vyžádá schválení (klávesnice pro PIN nebo aplikace v telefonu).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Nativní karty (jako ve Finderu v macOS a v Průzkumníku souborů ve Windows)
 	Compact Home (tools and recent files only)	Kompaktní domovská stránka (jen nástroje a nedávné soubory)
+	Interface font	Písmo rozhraní
+	Standard (Inter)	Standardní (Inter)
+	System font	Systémové písmo
+	Font file	Soubor písma
+	Text rendering	Vykreslování textu
+	Standard	Standardní
+	Like macOS (fuller strokes, sub-pixel placement)	Jako v macOS (plnější tahy, umístění v subpixelech)

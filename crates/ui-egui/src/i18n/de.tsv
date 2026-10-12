@@ -2348,3 +2348,10 @@ animation effects	Off	Aus
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Der Schlüssel befindet sich auf {device}, das selbst nach einer Bestätigung fragt (PIN-Pad oder eine App auf Ihrem Telefon).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Native Tabs (wie im Finder unter macOS und im Datei-Explorer unter Windows)
 	Compact Home (tools and recent files only)	Kompakte Startseite (nur Werkzeuge und zuletzt verwendete Dateien)
+	Interface font	Schrift der Oberfläche
+	Standard (Inter)	Standard (Inter)
+	System font	Systemschrift
+	Font file	Schriftdatei
+	Text rendering	Textdarstellung
+	Standard	Standard
+	Like macOS (fuller strokes, sub-pixel placement)	Wie macOS (vollere Striche, Subpixel-Platzierung)

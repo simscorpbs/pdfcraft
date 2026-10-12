@@ -2310,3 +2310,10 @@ animation effects	Off	Изключени
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Ключът е в {device}, което само иска одобрение (клавиатура за ПИН или приложение на телефона ви).
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Собствени раздели (като във Finder на macOS и File Explorer на Windows)
 	Compact Home (tools and recent files only)	Компактна начална страница (само инструменти и скорошни файлове)
+	Interface font	Шрифт на интерфейса
+	Standard (Inter)	Стандартен (Inter)
+	System font	Системен шрифт
+	Font file	Файл с шрифт
+	Text rendering	Изобразяване на текста
+	Standard	Стандартно
+	Like macOS (fuller strokes, sub-pixel placement)	Като в macOS (по-плътни щрихи, позициониране под пиксел)
