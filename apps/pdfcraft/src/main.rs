@@ -127,6 +127,9 @@ fn path_from_arg(arg: String) -> String {
     String::from_utf8(out).unwrap_or(arg)
 }
 
+/// Whether this build carries client credentials registered with the ICP-Brasil cloud providers.
+const PSC_REGISTERED: bool = false;
+
 fn main() -> eframe::Result {
     // First, so the panic hook and every start-up warning are recorded (`logging`).
     let logger = logging::install();
@@ -337,10 +340,14 @@ fn app_creator<'a>(
             app.motion.source = Some(motion::source());
         }
         app.update_source = Some(std::sync::Arc::new(updates::latest_release));
-        // ICP-Brasil cloud certificates sign over HTTPS with the system's trusted certificates.
-        match psc_http::Https::new() {
-            Ok(https) => app.psc_transport = Some(std::sync::Arc::new(https)),
-            Err(e) => log::warn!("cloud certificates unavailable: {e}"),
+        // ICP-Brasil cloud certificates need the app registered with each provider (its client ID
+        // and secret built in). This fork has no registration yet, so the option stays hidden; a
+        // cloud certificate signs through its vendor's PKCS #11 module (desktopID and the like).
+        if PSC_REGISTERED {
+            match psc_http::Https::new() {
+                Ok(https) => app.psc_transport = Some(std::sync::Arc::new(https)),
+                Err(e) => log::warn!("cloud certificates unavailable: {e}"),
+            }
         }
         app.printer_source = Some(pdfcraft_ui_egui::system_printers());
         app.os_key_store_ids = cfg!(any(target_os = "macos", target_os = "windows"));
