@@ -293,7 +293,7 @@ pub(crate) fn section(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
     app.refresh_pinned(ui.input(|i| i.time));
     let mut pin = false;
     ui.horizontal(|ui| {
-        ui.label(egui::RichText::new(tl!("Folders")).font(theme::semibold(17.0)));
+        ui.label(egui::RichText::new(tl!("Folders")).font(theme::semibold(15.0)));
         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
             pin = widgets::ghost_button(ui, "folder-plus", tl!("Pin a folder…")).clicked();
         });
