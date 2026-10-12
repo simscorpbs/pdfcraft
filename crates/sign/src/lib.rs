@@ -19,6 +19,7 @@ pub mod pdf;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod pkcs11;
 pub mod pkcs12;
+pub mod psc;
 pub mod revocation;
 mod rsa_pad;
 pub mod timestamp;

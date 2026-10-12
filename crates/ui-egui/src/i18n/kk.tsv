@@ -2356,3 +2356,16 @@ animation effects	Off	Өшірулі
 	Use the default	Әдепкісін пайдалану
 	The Dock shows it the next time PdfCraft opens.	Dock оны PdfCraft келесі ашылғанда көрсетеді.
 	The image couldn't be used as an icon: {e}	Суретті белгіше ретінде пайдалану мүмкін болмады: {e}
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Бұлттық сертификатты пайдалану (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Провайдер
+	API address	API мекенжайы
+	Client ID	Клиент ID-і
+	Client secret	Клиент құпиясы
+	Redirect URI	Қайта бағыттау URI-і
+	Your provider gives these when you register PdfCraft with it.	Провайдер оларды PdfCraft-ты онда тіркегенде береді.
+	Waiting for your approval in the browser…	Браузердегі мақұлдауыңыз күтілуде…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	{provider} сеансы аяқталды. «Цифрлық ID-ді баптау» арқылы қайта кіріңіз.
+	Fill in the provider, its API address and the client ID.	Провайдерді, оның API мекенжайын және клиент ID-ін толтырыңыз.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	Қайта бағыттау URI-і порты бар http://127.0.0.1 немесе http://localhost болуы керек.
+	No certificate was found with this provider.	Бұл провайдерде сертификат табылмады.
+	The provider's page didn't come back in time. Try again.	Провайдер беті уақытында оралмады. Қайталап көріңіз.

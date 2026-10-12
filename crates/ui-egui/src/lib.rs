@@ -6,6 +6,8 @@
 //! `pdfcraft-engine`.
 
 #![deny(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::unimplemented, clippy::todo, clippy::unreachable)]
+// The settings are one `serde_json::json!` object, past the macro's default recursion depth.
+#![recursion_limit = "256"]
 
 /// Translate an English UI string into the current language (see [`i18n`]).
 macro_rules! tl {
@@ -29,6 +31,8 @@ pub mod app_icon;
 mod appearance;
 pub mod canvas;
 mod chrome;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod cloud_sign;
 mod combine_grid;
 mod image_pick;
 mod tags_ui;
@@ -628,6 +632,15 @@ pub struct PdfCraftApp {
     /// with it when the file is there; the desktop app sets this), and the built-in icon to go back to.
     pub app_icon_file: Option<std::path::PathBuf>,
     pub default_app_icon: &'static [u8],
+    /// ICP-Brasil cloud certificates: the HTTPS transport (the desktop app sets it), the providers
+    /// configured (kept in the settings), this run's sessions with their certificates, and a
+    /// sign-in waiting for the browser.
+    pub psc_transport: Option<std::sync::Arc<dyn pdfcraft_engine::sign::psc::Transport>>,
+    pub psc_providers: Vec<pdfcraft_engine::sign::psc::Provider>,
+    #[cfg(not(target_arch = "wasm32"))]
+    pub psc_sessions: Vec<cloud_sign::SignedIn>,
+    #[cfg(not(target_arch = "wasm32"))]
+    pub psc_pending: Option<cloud_sign::Pending>,
     pub cert_viewer: Option<sign_ui::CertViewer>,
     /// The last space audit.
     pub space_audit: Vec<pdfcraft_engine::optimize::SpaceUse>,
@@ -929,6 +942,12 @@ impl PdfCraftApp {
             token_prepared: Default::default(),
             app_icon_file: None,
             default_app_icon: &[],
+            psc_transport: None,
+            psc_providers: Vec::new(),
+            #[cfg(not(target_arch = "wasm32"))]
+            psc_sessions: Vec::new(),
+            #[cfg(not(target_arch = "wasm32"))]
+            psc_pending: None,
             cert_viewer: None,
             space_audit: Vec::new(),
             combine_draft: Vec::new(),
@@ -1579,12 +1598,13 @@ impl PdfCraftApp {
         self.notify(error.to_string());
     }
 
-    /// Notify with a `{name}`-style template in the UI language (placeholders filled once).
-    /// The egui context, once the app has drawn a frame (for viewport commands from callbacks).
+    /// The egui context, once the app has drawn a frame (for viewport commands from callbacks and
+    /// repaints from other threads).
     pub(crate) fn egui_ctx(&self) -> Option<egui::Context> {
         self.ctx.clone()
     }
 
+    /// Notify with a `{name}`-style template in the UI language (placeholders filled once).
     pub fn notify_fmt(&mut self, template: &str, args: &[(&str, &str)]) {
         self.notify(i18n::fmt(tl!(template), args));
     }
@@ -1839,13 +1859,14 @@ impl PdfCraftApp {
             "signature_image": match &self.signature { Some(s @ fill_sign::SavedSig::Image(_)) => Some(s), _ => None },
             "initials": self.initials,
             "sign_graphic": self.sign_graphic,
-            // macOS Keychain, Windows store and device identities are read from their stores each time.
+            // macOS Keychain, Windows store, device and cloud identities are read from their stores each time.
             "digital_ids": self
                 .digital_ids
                 .iter()
-                .filter(|e| !e.path.starts_with("keychain:") && !e.path.starts_with("windows:") && !e.path.starts_with("pkcs11:"))
+                .filter(|e| ["keychain:", "windows:", "pkcs11:", "psc:"].iter().all(|p| !e.path.starts_with(p)))
                 .collect::<Vec<_>>(),
             "pkcs11_modules": self.pkcs11_modules,
+            "psc_providers": self.psc_providers,
             "trusted": trusted,
             "custom_stamps": stamps_ui::encode(&self.custom_stamps),
             "javascript": self.session.javascript(),
@@ -1999,6 +2020,9 @@ impl PdfCraftApp {
         }
         if let Ok(modules) = serde_json::from_value::<Vec<String>>(v["pkcs11_modules"].clone()) {
             self.pkcs11_modules = modules;
+        }
+        if let Ok(providers) = serde_json::from_value(v["psc_providers"].clone()) {
+            self.psc_providers = providers;
         }
         self.custom_stamps = stamps_ui::decode(&v["custom_stamps"]);
         self.custom_actions = actions_ui::decode(&v["actions"]);
