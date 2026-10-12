@@ -263,7 +263,8 @@ impl FontCell {
             Some(())
         })?;
 
-        let bounds = path.control_box().expand();
+        let dilation = glyph_dilation();
+        let bounds = path.control_box().inflate(dilation, dilation).expand();
         let width = bounds.width() as u16;
         let height = bounds.height() as u16;
 
@@ -274,6 +275,10 @@ impl FontCell {
             ctx.set_transform(kurbo::Affine::translate((-bounds.x0, -bounds.y0)));
             ctx.set_paint(color::OpaqueColor::<color::Srgb>::WHITE);
             ctx.fill_path(&path);
+            if dilation > 0.0 {
+                ctx.set_stroke(kurbo::Stroke::new(2.0 * dilation).with_join(kurbo::Join::Round));
+                ctx.stroke_path(&path);
+            }
             let mut dest = vello_cpu::Pixmap::new(width, height);
             let mut resources = vello_cpu::Resources::new();
             ctx.render(&mut dest, &mut resources);
@@ -312,6 +317,20 @@ impl FontCell {
 
         Some(GlyphAllocation { uv_rect })
     }
+}
+
+/// PdfCraft fork: how far glyph outlines grow, in physical pixels, before they are filled. CoreText
+/// does the same ("font smoothing" dilation), which is why native text has more body than egui's.
+static GLYPH_DILATION_BITS: std::sync::atomic::AtomicU32 = std::sync::atomic::AtomicU32::new(0);
+
+/// Set the glyph dilation (physical pixels). Call before the first text is drawn: glyphs already
+/// in the atlas keep their old shape.
+pub fn set_glyph_dilation(px: f32) {
+    GLYPH_DILATION_BITS.store(px.max(0.0).to_bits(), std::sync::atomic::Ordering::Relaxed);
+}
+
+fn glyph_dilation() -> f64 {
+    f32::from_bits(GLYPH_DILATION_BITS.load(std::sync::atomic::Ordering::Relaxed)) as f64
 }
 
 struct VelloPen<'a> {

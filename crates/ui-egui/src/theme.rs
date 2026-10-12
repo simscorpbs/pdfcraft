@@ -211,7 +211,19 @@ impl CjkPreference {
 /// first for Chinese, Japanese first otherwise). Call it when the language changes; the new
 /// faces take effect next frame.
 pub fn install_fonts_for(ctx: &egui::Context, cjk: CjkPreference) {
+    // Fork: grow glyph outlines as CoreText's font smoothing does, so text has the body of
+    // native macOS text. `PDFCRAFT_GLYPH_DILATION` (physical pixels) overrides it.
+    #[cfg(target_os = "macos")]
+    egui::epaint::text::set_glyph_dilation(env_f32("PDFCRAFT_GLYPH_DILATION").unwrap_or(GLYPH_DILATION));
     ctx.set_fonts(installed_font_definitions(cjk));
+}
+
+/// Glyph dilation, in physical pixels, measured against AppKit text drawn at the same size.
+#[cfg(target_os = "macos")]
+const GLYPH_DILATION: f32 = 0.15;
+
+fn env_f32(name: &str) -> Option<f32> {
+    std::env::var(name).ok()?.parse().ok()
 }
 
 /// The name of the installed face [`installed_font_definitions`] may add after the embedded ones.
@@ -369,6 +381,9 @@ fn font_definitions_for_platform(prefer_hans: bool, platform: FontPolicyPlatform
     fonts
 }
 
+/// The light theme's text coverage curve (`alpha = coverage^gamma`).
+const LIGHT_TEXT_GAMMA: f32 = 0.9;
+
 pub fn regular(size: f32) -> FontId {
     FontId::proportional(size)
 }
@@ -421,9 +436,19 @@ pub fn apply(ctx: &egui::Context, kind: ThemeKind) {
     // gamma darkens the antialiased edges of dark text (egui's default is linear, which reads thin
     // and grey next to the system's text); the dark theme keeps egui's own curve. At 200 % both
     // make little difference.
-    v.text_options.subpixel_binning = false;
+    // Fork: on macOS glyphs sit at quarter-pixel offsets, as CoreText places them; measured
+    // against AppKit at 2x this is closer than whole pixels. `PDFCRAFT_SUBPIXEL=0|1` overrides.
+    v.text_options.subpixel_binning = match std::env::var("PDFCRAFT_SUBPIXEL").as_deref() {
+        Ok("0") => false,
+        Ok("1") => true,
+        _ => cfg!(target_os = "macos"),
+    };
     if !t.dark() {
-        v.text_options.color_transfer_function = egui::epaint::FontColorTransferFunction::Gamma(0.75);
+        v.text_options.color_transfer_function = egui::epaint::FontColorTransferFunction::Gamma(LIGHT_TEXT_GAMMA);
+    }
+    // Fork: `PDFCRAFT_TEXT_GAMMA` overrides the light theme's curve; `1` means linear.
+    if let Some(g) = env_f32("PDFCRAFT_TEXT_GAMMA").filter(|_| !t.dark()) {
+        v.text_options.color_transfer_function = egui::epaint::FontColorTransferFunction::Gamma(g);
     }
     ctx.set_visuals(v);
     ctx.global_style_mut(|s| {

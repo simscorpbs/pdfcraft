@@ -8,6 +8,7 @@ mod text_layout;
 mod text_layout_types;
 
 pub use {
+    font::set_glyph_dilation,
     fonts::{
         FontData, FontDefinitions, FontFamily, FontId, FontInsert, FontPriority, FontTweak,
         FontVariationAxis, Fonts, FontsImpl, FontsView, HintingTarget, InsertFontFamily,
