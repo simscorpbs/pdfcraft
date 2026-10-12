@@ -2350,3 +2350,5 @@ animation effects	Off	Izklopljeni
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft išče knjižnice, ki jih namestijo proizvajalci naprav. Izberite jo le, če vaše naprave ne najde.
 	No signing certificate was found on this device. Is it connected?	V tej napravi ni bilo najdeno potrdilo za podpisovanje. Ali je priključena?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Ključ je v napravi {device}, ki sama zahteva odobritev (tipkovnica za PIN ali aplikacija v telefonu).
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Sistemski zavihki (kot v Finderju v macOS in Raziskovalcu v sistemu Windows)
+	Compact Home (tools and recent files only)	Strnjen začetni zaslon (samo orodja in nedavne datoteke)

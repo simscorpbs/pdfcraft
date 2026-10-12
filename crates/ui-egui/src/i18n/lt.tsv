@@ -2589,3 +2589,5 @@ key	Space	Tarpas
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft ieško bibliotekų, kurias įdiegia įrenginių gamintojai. Pasirinkite ją tik tada, jei jūsų įrenginys nerandamas.
 	No signing certificate was found on this device. Is it connected?	Šiame įrenginyje nerastas pasirašymo sertifikatas. Ar jis prijungtas?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Raktas yra įrenginyje {device}, kuris pats paprašo patvirtinimo (PIN klaviatūra arba programėlė jūsų telefone).
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Sistemos kortelės (kaip „Finder“ sistemoje „macOS“ ir failų naršyklėje sistemoje „Windows“)
+	Compact Home (tools and recent files only)	Kompaktiškas pradžios puslapis (tik įrankiai ir naujausi failai)

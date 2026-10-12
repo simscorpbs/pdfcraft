@@ -2419,3 +2419,5 @@ animation effects	Off	Vypnuto
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft hledá knihovny, které instalují výrobci zařízení. Vyberte knihovnu jen tehdy, když se vaše zařízení nenajde.
 	No signing certificate was found on this device. Is it connected?	V tomto zařízení nebyl nalezen podpisový certifikát. Je připojené?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Klíč je v zařízení {device}, které si samo vyžádá schválení (klávesnice pro PIN nebo aplikace v telefonu).
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Nativní karty (jako ve Finderu v macOS a v Průzkumníku souborů ve Windows)
+	Compact Home (tools and recent files only)	Kompaktní domovská stránka (jen nástroje a nedávné soubory)

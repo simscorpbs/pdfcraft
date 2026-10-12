@@ -2475,3 +2475,5 @@ animation effects	Off	Desactivados
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft busca las bibliotecas que instalan los fabricantes de dispositivos. Elija una solo si no se encuentra su dispositivo.
 	No signing certificate was found on this device. Is it connected?	No se encontró ningún certificado de firma en este dispositivo. ¿Está conectado?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	La clave está en {device}, que pide la aprobación por sí mismo (un teclado para el PIN o una app en su teléfono).
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Pestañas nativas (como en el Finder de macOS y el Explorador de archivos de Windows)
+	Compact Home (tools and recent files only)	Inicio compacto (solo herramientas y archivos recientes)

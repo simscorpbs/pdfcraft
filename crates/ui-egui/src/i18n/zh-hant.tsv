@@ -2219,3 +2219,5 @@ animation effects	Off	關
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft 會尋找裝置廠商安裝的程式庫。只有找不到您的裝置時才需要選擇。
 	No signing certificate was found on this device. Is it connected?	此裝置上找不到簽署憑證。裝置已連接嗎？
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	金鑰位於 {device}，由裝置自行要求核准（PIN 鍵盤，或手機上的 App）。
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	原生分頁（如 macOS 的 Finder 和 Windows 的檔案總管）
+	Compact Home (tools and recent files only)	精簡首頁（僅工具和最近的檔案）

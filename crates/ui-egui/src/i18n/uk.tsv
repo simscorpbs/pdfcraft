@@ -2367,3 +2367,5 @@ animation effects	Off	Вимкнено
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft шукає бібліотеки, які встановлюють виробники пристроїв. Вибирайте бібліотеку, лише якщо ваш пристрій не знайдено.
 	No signing certificate was found on this device. Is it connected?	На цьому пристрої не знайдено сертифіката для підпису. Його під’єднано?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Ключ на пристрої {device}, який сам запитує схвалення (клавіатура для PIN-коду або застосунок на телефоні).
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Системні вкладки (як у Finder у macOS і Провіднику у Windows)
+	Compact Home (tools and recent files only)	Компактна головна сторінка (лише інструменти й нещодавні файли)
