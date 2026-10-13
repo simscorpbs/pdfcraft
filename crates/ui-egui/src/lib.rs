@@ -632,9 +632,9 @@ pub struct PdfCraftApp {
     /// with it when the file is there; the desktop app sets this), and the built-in icon to go back to.
     pub app_icon_file: Option<std::path::PathBuf>,
     pub default_app_icon: &'static [u8],
-    /// ICP-Brasil cloud certificates: the HTTPS transport (the desktop app sets it), the providers
-    /// configured (kept in the settings), this run's sessions with their certificates, and a
-    /// sign-in waiting for the browser.
+    /// ICP-Brasil cloud certificates: the HTTPS transport and the providers the build is
+    /// registered with (the desktop app sets both), this run's sessions with their certificates,
+    /// and a sign-in waiting for the browser.
     pub psc_transport: Option<std::sync::Arc<dyn pdfcraft_engine::sign::psc::Transport>>,
     pub psc_providers: Vec<pdfcraft_engine::sign::psc::Provider>,
     #[cfg(not(target_arch = "wasm32"))]
@@ -1866,7 +1866,6 @@ impl PdfCraftApp {
                 .filter(|e| ["keychain:", "windows:", "pkcs11:", "psc:"].iter().all(|p| !e.path.starts_with(p)))
                 .collect::<Vec<_>>(),
             "pkcs11_modules": self.pkcs11_modules,
-            "psc_providers": self.psc_providers,
             "trusted": trusted,
             "custom_stamps": stamps_ui::encode(&self.custom_stamps),
             "javascript": self.session.javascript(),
@@ -2029,9 +2028,6 @@ impl PdfCraftApp {
         }
         if let Ok(modules) = serde_json::from_value::<Vec<String>>(v["pkcs11_modules"].clone()) {
             self.pkcs11_modules = modules;
-        }
-        if let Ok(providers) = serde_json::from_value(v["psc_providers"].clone()) {
-            self.psc_providers = providers;
         }
         self.custom_stamps = stamps_ui::decode(&v["custom_stamps"]);
         self.custom_actions = actions_ui::decode(&v["actions"]);
