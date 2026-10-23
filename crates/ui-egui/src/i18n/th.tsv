@@ -2688,3 +2688,12 @@ theme	Appearance	ลักษณะที่ปรากฏ
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft จะค้นหาไลบรารีที่ผู้ผลิตอุปกรณ์ติดตั้งไว้ เลือกเองเฉพาะเมื่อไม่พบอุปกรณ์ของคุณ
 	No signing certificate was found on this device. Is it connected?	ไม่พบใบรับรองสำหรับการลงนามในอุปกรณ์นี้ เชื่อมต่ออยู่หรือไม่
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	คีย์อยู่บน {device} ซึ่งขอการอนุมัติเอง (แป้น PIN หรือแอปบนโทรศัพท์ของคุณ)
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	ใช้ใบรับรองบนคลาวด์ (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	ผู้ให้บริการ
+	Waiting for your approval in the browser…	กำลังรอการอนุมัติของคุณในเบราว์เซอร์…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	เซสชันกับ {provider} สิ้นสุดแล้ว ลงชื่อเข้าใช้อีกครั้งจากกำหนดค่า Digital ID
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	URI สำหรับเปลี่ยนเส้นทางต้องเป็น http://127.0.0.1 หรือ http://localhost พร้อมพอร์ต
+	No certificate was found with this provider.	ไม่พบใบรับรองกับผู้ให้บริการนี้
+	The provider's page didn't come back in time. Try again.	หน้าของผู้ให้บริการไม่ตอบกลับทันเวลา ลองอีกครั้ง
+	Choose a provider.	เลือกผู้ให้บริการ
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft จะเปิดหน้าของผู้ให้บริการ ซึ่งคุณลงชื่อเข้าใช้ด้วย CPF, PIN และรหัสใช้ครั้งเดียว

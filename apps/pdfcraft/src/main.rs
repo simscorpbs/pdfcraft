@@ -37,6 +37,7 @@ mod decorations;
 mod logging;
 #[cfg(target_os = "windows")]
 mod motion;
+mod psc_http;
 mod reopen;
 mod settings;
 mod single_instance;
@@ -392,6 +393,15 @@ fn app_creator<'a>(
             app.motion.source = Some(motion::source());
         }
         app.update_source = Some(std::sync::Arc::new(updates::latest_release));
+        // ICP-Brasil cloud certificates sign over HTTPS with the system's trusted certificates,
+        // with the providers this build is registered with (none: the option isn't shown).
+        app.psc_providers = psc_http::registered();
+        if !app.psc_providers.is_empty() {
+            match psc_http::Https::new() {
+                Ok(https) => app.psc_transport = Some(std::sync::Arc::new(https)),
+                Err(e) => log::warn!("cloud certificates unavailable: {e}"),
+            }
+        }
         app.printer_source = Some(pdfcraft_ui_egui::system_printers());
         app.os_key_store_ids = cfg!(any(target_os = "macos", target_os = "windows"));
         app.pkcs11_ids = true;

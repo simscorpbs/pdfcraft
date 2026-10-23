@@ -2758,3 +2758,12 @@ theme	Appearance	Tampilan
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft mencari pustaka yang dipasang vendor perangkat. Pilih salah satu hanya jika perangkat Anda tidak ditemukan.
 	No signing certificate was found on this device. Is it connected?	Tidak ada sertifikat penandatanganan di perangkat ini. Apakah perangkat terhubung?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Kunci ada di {device}, yang meminta persetujuan sendiri (papan PIN, atau aplikasi di ponsel Anda).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Gunakan sertifikat cloud (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Penyedia
+	Waiting for your approval in the browser…	Menunggu persetujuan Anda di browser…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	Sesi dengan {provider} telah berakhir. Masuk lagi dari Konfigurasikan ID Digital.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	URI pengalihan harus http://127.0.0.1 atau http://localhost dengan port.
+	No certificate was found with this provider.	Tidak ada sertifikat di penyedia ini.
+	The provider's page didn't come back in time. Try again.	Halaman penyedia tidak kembali tepat waktu. Coba lagi.
+	Choose a provider.	Pilih penyedia.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft membuka halaman penyedia, tempat Anda masuk dengan CPF, PIN, dan kode sekali pakai.

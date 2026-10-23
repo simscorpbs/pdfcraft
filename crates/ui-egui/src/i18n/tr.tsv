@@ -2411,6 +2411,15 @@ animation effects	Off	Kapalı
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft, cihaz üreticilerinin yüklediği kitaplıkları arar. Yalnızca cihazınız bulunamazsa birini seçin.
 	No signing certificate was found on this device. Is it connected?	Bu cihazda imzalama sertifikası bulunamadı. Bağlı mı?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Anahtar {device} üzerinde; onay kendisi ister (PIN tuş takımı veya telefonunuzdaki bir uygulama).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Bulut sertifikası kullan (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Sağlayıcı
+	Waiting for your approval in the browser…	Tarayıcıda onayınız bekleniyor…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	{provider} ile oturum sona erdi. Dijital Kimlik Yapılandır bölümünden yeniden oturum açın.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	Yönlendirme URI'si bağlantı noktalı http://127.0.0.1 veya http://localhost olmalıdır.
+	No certificate was found with this provider.	Bu sağlayıcıda sertifika bulunamadı.
+	The provider's page didn't come back in time. Try again.	Sağlayıcının sayfası zamanında dönmedi. Yeniden deneyin.
+	Choose a provider.	Bir sağlayıcı seçin.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft sağlayıcının sayfasını açar; orada CPF, PIN ve tek kullanımlık kodla oturum açarsınız.
 	Cut Image	Resmi Kes
 	Redact Image	Resmi karart
 	Create Link…	Bağlantı oluştur…

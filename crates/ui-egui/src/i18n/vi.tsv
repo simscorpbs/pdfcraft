@@ -2787,3 +2787,12 @@ key	Space	Space
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft tìm các thư viện mà nhà sản xuất thiết bị cài đặt. Chỉ chọn một thư viện nếu không tìm thấy thiết bị của bạn.
 	No signing certificate was found on this device. Is it connected?	Không tìm thấy chứng thư ký trên thiết bị này. Thiết bị đã được kết nối chưa?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Khóa nằm trên {device}, thiết bị tự yêu cầu phê duyệt (bàn phím PIN hoặc ứng dụng trên điện thoại).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Dùng chứng thư trên đám mây (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Nhà cung cấp
+	Waiting for your approval in the browser…	Đang chờ bạn phê duyệt trong trình duyệt…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	Phiên với {provider} đã kết thúc. Hãy đăng nhập lại từ Cấu hình ID kỹ thuật số.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	URI chuyển hướng phải là http://127.0.0.1 hoặc http://localhost kèm cổng.
+	No certificate was found with this provider.	Không tìm thấy chứng thư nào ở nhà cung cấp này.
+	The provider's page didn't come back in time. Try again.	Trang của nhà cung cấp không phản hồi kịp. Hãy thử lại.
+	Choose a provider.	Hãy chọn một nhà cung cấp.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft mở trang của nhà cung cấp, nơi bạn đăng nhập bằng CPF, mã PIN và mã dùng một lần.

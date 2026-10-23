@@ -2720,3 +2720,12 @@ certificate	Version	وەشان
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft بەدوای ئەو کتێبخانانەدا دەگەڕێت کە دروستکەرانی ئامێر دایدەمەزرێنن. تەنها ئەگەر ئامێرەکەت نەدۆزرایەوە یەکێک هەڵبژێرە.
 	No signing certificate was found on this device. Is it connected?	هیچ بڕوانامەیەکی واژۆ لەم ئامێرەدا نەدۆزرایەوە. ئایا پەیوەستە؟
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	کلیلەکە لەسەر {device}ە، کە خۆی داوای پەسەندکردن دەکات (تەختەی PIN یان ئەپێک لە مۆبایلەکەت).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	بڕوانامەی هەور بەکاربهێنە (ICP-Brasil: BirdID، VIDaaS، NeoID، SafeID…)
+	Provider	دابینکەر
+	Waiting for your approval in the browser…	چاوەڕوانی پەسەندکردنت لە وێبگەڕدا…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	دانیشتن لەگەڵ {provider} کۆتایی هات. دووبارە لە ڕێکخستنی ناسنامەی دیجیتاڵەوە بچۆ ژوورەوە.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	URIی ئاڕاستەکردنەوە دەبێت http://127.0.0.1 یان http://localhost بێت لەگەڵ دەروازەیەک.
+	No certificate was found with this provider.	هیچ بڕوانامەیەک لای ئەم دابینکەرە نەدۆزرایەوە.
+	The provider's page didn't come back in time. Try again.	پەڕەی دابینکەر لە کاتی خۆیدا نەگەڕایەوە. دووبارە هەوڵ بدەوە.
+	Choose a provider.	دابینکەرێک هەڵبژێرە.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft پەڕەی دابینکەر دەکاتەوە، لەوێ بە CPF و PIN و کۆدی یەکجاری دەچیتە ژوورەوە.

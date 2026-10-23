@@ -2757,3 +2757,12 @@ theme	Appearance	स्वरूप
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft उन लाइब्रेरी को खोजता है जिन्हें डिवाइस निर्माता इंस्टॉल करते हैं। केवल तभी कोई चुनें जब आपका डिवाइस न मिले।
 	No signing certificate was found on this device. Is it connected?	इस डिवाइस पर कोई हस्ताक्षर प्रमाणपत्र नहीं मिला। क्या यह कनेक्ट है?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	कुंजी {device} पर है, जो स्वयं अनुमोदन मांगता है (पिन पैड या आपके फ़ोन का ऐप)।
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	क्लाउड प्रमाणपत्र का उपयोग करें (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	प्रदाता
+	Waiting for your approval in the browser…	ब्राउज़र में आपकी स्वीकृति की प्रतीक्षा है…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	{provider} के साथ सत्र समाप्त हो गया है। डिजिटल आईडी कॉन्फ़िगर करें से फिर से साइन इन करें।
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	रीडायरेक्ट URI पोर्ट के साथ http://127.0.0.1 या http://localhost होना चाहिए।
+	No certificate was found with this provider.	इस प्रदाता के पास कोई प्रमाणपत्र नहीं मिला।
+	The provider's page didn't come back in time. Try again.	प्रदाता का पेज समय पर वापस नहीं आया। फिर से प्रयास करें।
+	Choose a provider.	एक प्रदाता चुनें।
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft प्रदाता का पेज खोलता है, जहाँ आप अपने CPF, पिन और एक-बार के कोड से साइन इन करते हैं।

@@ -2781,3 +2781,12 @@ theme	Appearance	Aspecte
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	El PdfCraft cerca les biblioteques que instal·len els fabricants dels dispositius. Trieu-ne una només si no es troba el dispositiu.
 	No signing certificate was found on this device. Is it connected?	No s'ha trobat cap certificat de signatura en aquest dispositiu. Està connectat?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	La clau és a {device}, que demana l'aprovació pel seu compte (un teclat de PIN o una aplicació al telèfon).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Utilitza un certificat al núvol (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Proveïdor
+	Waiting for your approval in the browser…	S'està esperant la vostra aprovació al navegador…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	La sessió amb {provider} ha acabat. Torneu a iniciar la sessió des de Configura un identificador digital.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	L'URI de redirecció ha de ser http://127.0.0.1 o http://localhost amb un port.
+	No certificate was found with this provider.	No s'ha trobat cap certificat en aquest proveïdor.
+	The provider's page didn't come back in time. Try again.	La pàgina del proveïdor no ha tornat a temps. Torneu-ho a provar.
+	Choose a provider.	Trieu un proveïdor.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	El PdfCraft obre la pàgina del proveïdor, on inicieu la sessió amb el CPF, el PIN i un codi d'un sol ús.

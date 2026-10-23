@@ -2415,6 +2415,15 @@ animation effects	Off	オフ
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft はデバイスのメーカーがインストールするライブラリを探します。デバイスが見つからない場合のみ選択してください。
 	No signing certificate was found on this device. Is it connected?	このデバイスに署名用の証明書が見つかりません。接続されていますか?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	鍵は {device} にあり、デバイス自身が承認を求めます (PIN パッド、またはスマートフォンのアプリ)。
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	クラウド証明書を使用 (ICP-Brasil: BirdID、VIDaaS、NeoID、SafeID…)
+	Provider	プロバイダー
+	Waiting for your approval in the browser…	ブラウザーでの承認を待っています…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	{provider} とのセッションが終了しました。「デジタル ID の設定」から再度サインインしてください。
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	リダイレクト URI は、ポート付きの http://127.0.0.1 または http://localhost である必要があります。
+	No certificate was found with this provider.	このプロバイダーに証明書が見つかりませんでした。
+	The provider's page didn't come back in time. Try again.	プロバイダーのページが時間内に戻りませんでした。もう一度お試しください。
+	Choose a provider.	プロバイダーを選択してください。
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft がプロバイダーのページを開きます。CPF、PIN、ワンタイムコードでサインインしてください。
 	Cut Image	画像を切り取り
 	Redact Image	画像を墨消し
 	Create Link…	リンクを作成…

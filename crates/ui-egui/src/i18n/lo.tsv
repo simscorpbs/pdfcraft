@@ -2436,3 +2436,12 @@ animation effects	Off	ປິດ
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft ຊອກຫາຫ້ອງສະໝຸດທີ່ຜູ້ຜະລິດອຸປະກອນຕິດຕັ້ງ. ເລືອກອັນໜຶ່ງສະເພາະເມື່ອບໍ່ພົບອຸປະກອນຂອງທ່ານ.
 	No signing certificate was found on this device. Is it connected?	ບໍ່ພົບໃບຢັ້ງຢືນການເຊັນໃນອຸປະກອນນີ້. ມັນເຊື່ອມຕໍ່ແລ້ວບໍ?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	ກະແຈຢູ່ໃນ {device} ເຊິ່ງຂໍການອະນຸມັດເອງ (ແປ້ນ PIN ຫຼື ແອັບໃນໂທລະສັບຂອງທ່ານ).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	ໃຊ້ໃບຢັ້ງຢືນຄລາວ (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	ຜູ້ໃຫ້ບໍລິການ
+	Waiting for your approval in the browser…	ກຳລັງລໍຖ້າການອະນຸມັດຂອງທ່ານໃນບຣາວເຊີ…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	ເຊດຊັນກັບ {provider} ສິ້ນສຸດແລ້ວ. ເຂົ້າສູ່ລະບົບອີກຄັ້ງຈາກ ຕັ້ງຄ່າ ID ດິຈິຕອນ.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	URI ປ່ຽນທາງຕ້ອງເປັນ http://127.0.0.1 ຫຼື http://localhost ພ້ອມພອດ.
+	No certificate was found with this provider.	ບໍ່ພົບໃບຢັ້ງຢືນກັບຜູ້ໃຫ້ບໍລິການນີ້.
+	The provider's page didn't come back in time. Try again.	ໜ້າຂອງຜູ້ໃຫ້ບໍລິການບໍ່ກັບມາທັນເວລາ. ລອງໃໝ່.
+	Choose a provider.	ເລືອກຜູ້ໃຫ້ບໍລິການ.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft ເປີດໜ້າຂອງຜູ້ໃຫ້ບໍລິການ ເຊິ່ງທ່ານເຂົ້າສູ່ລະບົບດ້ວຍ CPF, PIN ແລະ ລະຫັດໃຊ້ຄັ້ງດຽວ.

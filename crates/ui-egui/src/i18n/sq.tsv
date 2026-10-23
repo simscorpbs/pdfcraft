@@ -2507,3 +2507,12 @@ animation effects	Off	Joaktiv
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft kërkon bibliotekat që instalojnë prodhuesit e pajisjeve. Zgjidhni një vetëm nëse pajisja juaj nuk gjendet.
 	No signing certificate was found on this device. Is it connected?	Në këtë pajisje nuk u gjet asnjë certifikatë nënshkrimi. A është e lidhur?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Çelësi është në {device}, që e kërkon vetë miratimin (një tastierë PIN ose një aplikacion në telefon).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Përdor një certifikatë në re (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Ofruesi
+	Waiting for your approval in the browser…	Në pritje të miratimit tuaj në shfletues…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	Sesioni me {provider} ka përfunduar. Hyni përsëri nga Konfiguro një ID dixhitale.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	URI-ja e ridrejtimit duhet të jetë http://127.0.0.1 ose http://localhost me një portë.
+	No certificate was found with this provider.	Nuk u gjet asnjë certifikatë te ky ofrues.
+	The provider's page didn't come back in time. Try again.	Faqja e ofruesit nuk u kthye në kohë. Provoni përsëri.
+	Choose a provider.	Zgjidhni një ofrues.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft hap faqen e ofruesit, ku hyni me CPF-në, PIN-in dhe një kod njëpërdorimësh.

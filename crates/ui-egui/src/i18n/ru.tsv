@@ -2328,6 +2328,15 @@ animation effects	Off	Выкл
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft ищет библиотеки, которые устанавливают производители устройств. Выберите библиотеку, только если устройство не найдено.
 	No signing certificate was found on this device. Is it connected?	На этом устройстве не найден сертификат для подписи. Оно подключено?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Ключ находится на устройстве {device}, которое само запрашивает подтверждение (клавиатура для PIN-кода или приложение на телефоне).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Использовать облачный сертификат (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Поставщик
+	Waiting for your approval in the browser…	Ожидание вашего подтверждения в браузере…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	Сеанс с {provider} завершён. Войдите снова в разделе «Настроить цифровой идентификатор».
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	URI перенаправления должен быть http://127.0.0.1 или http://localhost с портом.
+	No certificate was found with this provider.	У этого поставщика не найдено сертификатов.
+	The provider's page didn't come back in time. Try again.	Страница поставщика не вернулась вовремя. Попробуйте ещё раз.
+	Choose a provider.	Выберите поставщика.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft открывает страницу поставщика, где вы входите с CPF, PIN-кодом и одноразовым кодом.
 	Cut Image	Вырезать изображение
 	Redact Image	Скрыть изображение
 	Create Link…	Создать ссылку…

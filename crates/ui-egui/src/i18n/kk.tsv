@@ -2413,6 +2413,15 @@ animation effects	Off	Өшірулі
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft құрылғы өндірушілері орнататын кітапханаларды іздейді. Құрылғыңыз табылмаса ғана біреуін таңдаңыз.
 	No signing certificate was found on this device. Is it connected?	Бұл құрылғыда қолтаңба сертификаты табылмады. Ол қосулы ма?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Кілт {device} құрылғысында, ол рұқсатты өзі сұрайды (PIN пернетақтасы немесе телефондағы қолданба).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Бұлттық сертификатты пайдалану (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Провайдер
+	Waiting for your approval in the browser…	Браузердегі мақұлдауыңыз күтілуде…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	{provider} сеансы аяқталды. «Цифрлық ID-ді баптау» арқылы қайта кіріңіз.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	Қайта бағыттау URI-і порты бар http://127.0.0.1 немесе http://localhost болуы керек.
+	No certificate was found with this provider.	Бұл провайдерде сертификат табылмады.
+	The provider's page didn't come back in time. Try again.	Провайдер беті уақытында оралмады. Қайталап көріңіз.
+	Choose a provider.	Провайдерді таңдаңыз.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft провайдер бетін ашады, онда CPF, PIN және бір реттік кодпен кіресіз.
 	Cut Image	Суретті кесу
 	Redact Image	Суретті жасыру
 	Create Link…	Сілтеме жасау…

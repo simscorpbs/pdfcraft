@@ -36,6 +36,8 @@ mod appearance;
 mod calc_order_ui;
 pub mod canvas;
 mod chrome;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod cloud_sign;
 mod combine_grid;
 mod image_pick;
 mod tags_ui;
@@ -713,6 +715,15 @@ pub struct PdfCraftApp {
     pub token_ids: std::collections::HashMap<String, (String, bool)>,
     /// Devices already being logged in to ahead of signing, by reference.
     pub token_prepared: std::collections::HashSet<String>,
+    /// ICP-Brasil cloud certificates: the HTTPS transport and the providers the build is
+    /// registered with (the desktop app sets both), this run's sessions with their certificates,
+    /// and a sign-in waiting for the browser.
+    pub psc_transport: Option<std::sync::Arc<dyn pdfcraft_engine::sign::psc::Transport>>,
+    pub psc_providers: Vec<pdfcraft_engine::sign::psc::Provider>,
+    #[cfg(not(target_arch = "wasm32"))]
+    pub psc_sessions: Vec<cloud_sign::SignedIn>,
+    #[cfg(not(target_arch = "wasm32"))]
+    pub psc_pending: Option<cloud_sign::Pending>,
     pub cert_viewer: Option<sign_ui::CertViewer>,
     /// The last space audit.
     pub space_audit: Vec<pdfcraft_engine::optimize::SpaceUse>,
@@ -1070,6 +1081,12 @@ impl PdfCraftApp {
             pkcs11_modules: Vec::new(),
             token_ids: Default::default(),
             token_prepared: Default::default(),
+            psc_transport: None,
+            psc_providers: Vec::new(),
+            #[cfg(not(target_arch = "wasm32"))]
+            psc_sessions: Vec::new(),
+            #[cfg(not(target_arch = "wasm32"))]
+            psc_pending: None,
             cert_viewer: None,
             space_audit: Vec::new(),
             combine_draft: Vec::new(),
@@ -2134,6 +2151,11 @@ impl PdfCraftApp {
         self.notify(error.to_string());
     }
 
+    /// The egui context, once the app has drawn a frame (for repaints from other threads).
+    pub(crate) fn egui_ctx(&self) -> Option<egui::Context> {
+        self.ctx.clone()
+    }
+
     /// Notify with a `{name}`-style template in the UI language (placeholders filled once).
     pub fn notify_fmt(&mut self, template: &str, args: &[(&str, &str)]) {
         self.notify(i18n::fmt(tl!(template), args));
@@ -2428,11 +2450,11 @@ impl PdfCraftApp {
             "signature_image": match &self.signature { Some(s @ fill_sign::SavedSig::Image(_)) => Some(s), _ => None },
             "initials": self.initials,
             "sign_graphic": self.sign_graphic,
-            // macOS Keychain, Windows store and device identities are read from their stores each time.
+            // macOS Keychain, Windows store, device and cloud identities are read from their stores each time.
             "digital_ids": self
                 .digital_ids
                 .iter()
-                .filter(|e| !e.path.starts_with("keychain:") && !e.path.starts_with("windows:") && !e.path.starts_with("pkcs11:"))
+                .filter(|e| ["keychain:", "windows:", "pkcs11:", "psc:"].iter().all(|p| !e.path.starts_with(p)))
                 .collect::<Vec<_>>(),
             "pkcs11_modules": self.pkcs11_modules,
             "trusted": trusted,

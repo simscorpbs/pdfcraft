@@ -2790,3 +2790,12 @@ theme	Appearance	Teema
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft etsii laitevalmistajien asentamat kirjastot. Valitse kirjasto vain, jos laitettasi ei löydy.
 	No signing certificate was found on this device. Is it connected?	Tästä laitteesta ei löytynyt allekirjoitusvarmennetta. Onko se kytketty?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Avain on laitteessa {device}, joka pyytää hyväksynnän itse (PIN-näppäimistö tai puhelimen sovellus).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Käytä pilvivarmennetta (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)
+	Provider	Palveluntarjoaja
+	Waiting for your approval in the browser…	Odotetaan hyväksyntääsi selaimessa…
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	Istunto palveluntarjoajan {provider} kanssa on päättynyt. Kirjaudu uudelleen kohdasta Määritä digitaalinen tunnus.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	Uudelleenohjauksen URI:n on oltava http://127.0.0.1 tai http://localhost portin kanssa.
+	No certificate was found with this provider.	Tältä palveluntarjoajalta ei löytynyt varmennetta.
+	The provider's page didn't come back in time. Try again.	Palveluntarjoajan sivu ei palannut ajoissa. Yritä uudelleen.
+	Choose a provider.	Valitse palveluntarjoaja.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft avaa palveluntarjoajan sivun, jolla kirjaudut CPF:llä, PIN-koodilla ja kertakäyttökoodilla.

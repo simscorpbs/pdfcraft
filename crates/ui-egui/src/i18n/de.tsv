@@ -2416,6 +2416,15 @@ animation effects	Off	Aus
 	PdfCraft looks for the libraries device vendors install. Choose one only if your device isn't found.	PdfCraft sucht nach den Bibliotheken, die Gerätehersteller installieren. Wählen Sie nur eine aus, wenn Ihr Gerät nicht gefunden wird.
 	No signing certificate was found on this device. Is it connected?	Auf diesem Gerät wurde kein Signaturzertifikat gefunden. Ist es angeschlossen?
 	The key is on {device}, which asks for approval itself (a PIN pad, or an app on your phone).	Der Schlüssel befindet sich auf {device}, das selbst nach einer Bestätigung fragt (PIN-Pad oder eine App auf Ihrem Telefon).
+	Use a cloud certificate (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID…)	Cloud-Zertifikat verwenden (ICP-Brasil: BirdID, VIDaaS, NeoID, SafeID …)
+	Provider	Anbieter
+	Waiting for your approval in the browser…	Warten auf Ihre Bestätigung im Browser …
+	The session with {provider} has ended. Sign in again from Configure a Digital ID.	Die Sitzung mit {provider} ist beendet. Melden Sie sich unter „Digitale ID konfigurieren“ erneut an.
+	The redirect URI must be http://127.0.0.1 or http://localhost with a port.	Die Weiterleitungs-URI muss http://127.0.0.1 oder http://localhost mit einem Port sein.
+	No certificate was found with this provider.	Bei diesem Anbieter wurde kein Zertifikat gefunden.
+	The provider's page didn't come back in time. Try again.	Die Seite des Anbieters kam nicht rechtzeitig zurück. Versuchen Sie es erneut.
+	Choose a provider.	Wählen Sie einen Anbieter.
+	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft öffnet die Seite des Anbieters, auf der Sie sich mit CPF, PIN und Einmalcode anmelden.
 	Cut Image	Bild ausschneiden
 	Redact Image	Bild schwärzen
 	Create Link…	Link erstellen…
