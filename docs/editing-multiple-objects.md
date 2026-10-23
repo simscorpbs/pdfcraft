@@ -8,6 +8,13 @@ In **Edit a PDF → Edit text & images**, select several items on the same page:
   are selected; hold one of those modifiers to add to the selection.
 - Drag the selection to move all its items by the same distance. Blue outlines preview the move;
   releasing commits it as **one undo step**. Escape cancels the gesture or clears the selection.
+- A click on a closed paragraph's frame (just outside its text, above or below it) selects the
+  paragraph as a whole object; a click inside its text still opens it for typing, and its side
+  edges still rewrap it.
+- **Delete** or **Backspace** (or **Delete** in the right-click menu) deletes every selected item as
+  **one undo step**, unless a text field has the keyboard. Deleted paragraphs lose their glyphs
+  without moving the text drawn after them; images lose their placement, added items their stream.
+  Text used as a clipping path is refused, and a refusal keeps the selection and changes nothing.
 - Switching tabs, opening Home or a modal dialog, or losing window focus cancels a drag preview.
   Returning to the document keeps the selection without committing a release from elsewhere.
 - Modifier-clicks prefer added items and text over background artwork, so labels remain selectable.
@@ -39,7 +46,7 @@ selection only when the new geometry matches uniquely; other document edits clea
 
 `Document::editable_objects(page)` returns a mixed inventory with zero-based `ObjectTarget`
 references and user-space rectangles. Apply `Edit::MoveObjects { page, objects, offset }` through
-`Session`. Targets resolve together before mutation. Permission checks, dirty state, history,
+`Session`, or `Edit::DeleteObjects { page, objects }` to delete them. Targets resolve together before mutation. Permission checks, dirty state, history,
 incremental saving, and refreshing use the same transaction as other edits.
 
 `Document::object_move_offset(page, [dx, dy])` converts a displayed-page vector (points, right/down)
@@ -60,6 +67,9 @@ Treat those references as belonging to that generation and pass it back when mov
   {"tool":"object_list","args":{"doc":1,"page":1}}
 ]
 ```
+
+`object_delete {doc, page, objects, generation?}` takes the same references and deletes them
+together.
 
 After choosing references from the returned list, use a move call like this in the same MCP
 session. For a CLI script, include `doc_open` in that script before the move:

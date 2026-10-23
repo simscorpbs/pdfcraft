@@ -2338,6 +2338,11 @@ action wizard	Start	Inicia
 	Finish or discard the text being edited before selecting several objects.	Acaba o descarta el text que s'està editant abans de seleccionar diversos objectes.
 	Move object	Mou l'objecte
 	Move objects	Mou els objectes
+	Delete object	Suprimeix l'objecte
+	Delete objects	Suprimeix els objectes
+	Press Delete to remove the selection.	Prem Supr per eliminar la selecció.
+	Text used as a clipping path cannot be deleted with this selection.	El text utilitzat com a traçat de retall no es pot suprimir amb aquesta selecció.
+	These objects could not be deleted. Select them again and try again.	No s'han pogut suprimir aquests objectes. Torna'ls a seleccionar i torna-ho a provar.
 	Vertical text cannot be moved with this selection.	El text vertical no es pot moure amb aquesta selecció.
 	Text used as a clipping path cannot be moved with this selection.	El text utilitzat com a traçat de retall no es pot moure amb aquesta selecció.
 	These objects could not be moved. Select them again and try a smaller move.	No s'han pogut moure aquests objectes. Torna'ls a seleccionar i prova amb un moviment més petit.

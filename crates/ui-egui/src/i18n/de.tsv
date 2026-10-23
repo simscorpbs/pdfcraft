@@ -2277,6 +2277,11 @@ action wizard	Start	Starten
 	Finish or discard the text being edited before selecting several objects.	Schließen Sie die Textbearbeitung ab oder verwerfen Sie sie, bevor Sie mehrere Objekte auswählen.
 	Move object	Objekt verschieben
 	Move objects	Objekte verschieben
+	Delete object	Objekt löschen
+	Delete objects	Objekte löschen
+	Press Delete to remove the selection.	Drücken Sie Entf, um die Auswahl zu entfernen.
+	Text used as a clipping path cannot be deleted with this selection.	Text, der als Beschneidungspfad dient, kann mit dieser Auswahl nicht gelöscht werden.
+	These objects could not be deleted. Select them again and try again.	Diese Objekte konnten nicht gelöscht werden. Wählen Sie sie erneut aus und versuchen Sie es noch einmal.
 	Vertical text cannot be moved with this selection.	Vertikaler Text kann mit dieser Auswahl nicht verschoben werden.
 	Text used as a clipping path cannot be moved with this selection.	Text, der als Beschneidungspfad dient, kann mit dieser Auswahl nicht verschoben werden.
 	These objects could not be moved. Select them again and try a smaller move.	Diese Objekte konnten nicht verschoben werden. Wählen Sie sie erneut aus und versuchen Sie eine kleinere Verschiebung.

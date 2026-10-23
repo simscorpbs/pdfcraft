@@ -196,7 +196,11 @@ impl PdfCraftApp {
                         view.pending_text_open = None;
                     }
                 }
-                let message = if matches!(edit, Edit::MoveObjects { .. }) { crate::object_ui::move_error(&e) } else { e.to_string() };
+                let message = match &edit {
+                    Edit::MoveObjects { .. } => crate::object_ui::move_error(&e),
+                    Edit::DeleteObjects { .. } if !matches!(e, pdfcraft_engine::EditError::NotPermitted(_)) => crate::object_ui::delete_error(&e),
+                    _ => e.to_string(),
+                };
                 self.notify_fmt("{label} failed: {e}", &[("label", &crate::i18n::edit_label(&label)), ("e", &message)]);
                 false
             }
@@ -967,6 +971,7 @@ impl PdfCraftApp {
 fn content_page(edit: &Edit) -> Option<usize> {
     match edit {
         Edit::MoveObjects { page, .. }
+        | Edit::DeleteObjects { page, .. }
         | Edit::EditTextLine { page, .. }
         | Edit::EditTextBlock { page, .. }
         | Edit::EditPageImage { page, .. }
@@ -1621,6 +1626,8 @@ mod content_page_tests {
     fn single_page_content_edits_map_to_their_page() {
         let moved = Edit::MoveObjects { page: 3, objects: vec![ObjectTarget { kind: ObjectKind::Text, index: 0 }], offset: [1.0, 0.0] };
         assert_eq!(content_page(&moved), Some(3));
+        let deleted = Edit::DeleteObjects { page: 2, objects: vec![ObjectTarget { kind: ObjectKind::Image, index: 0 }] };
+        assert_eq!(content_page(&deleted), Some(2));
         assert_eq!(content_page(&Edit::RotatePages { pages: vec![0], degrees: 90 }), None);
         assert_eq!(content_page(&Edit::SetInfo { key: "Title".into(), value: "x".into() }), None);
     }

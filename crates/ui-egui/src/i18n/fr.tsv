@@ -2277,6 +2277,11 @@ signature pad	Type	Saisir
 	Finish or discard the text being edited before selecting several objects.	Terminez ou abandonnez la modification du texte avant de sélectionner plusieurs objets.
 	Move object	Déplacer un objet
 	Move objects	Déplacer des objets
+	Delete object	Supprimer l'objet
+	Delete objects	Supprimer les objets
+	Press Delete to remove the selection.	Appuyez sur Suppr pour supprimer la sélection.
+	Text used as a clipping path cannot be deleted with this selection.	Le texte utilisé comme tracé de découpe ne peut pas être supprimé avec cette sélection.
+	These objects could not be deleted. Select them again and try again.	Impossible de supprimer ces objets. Sélectionnez-les de nouveau, puis réessayez.
 	Vertical text cannot be moved with this selection.	Le texte vertical ne peut pas être déplacé avec cette sélection.
 	Text used as a clipping path cannot be moved with this selection.	Le texte utilisé comme chemin de découpe ne peut pas être déplacé avec cette sélection.
 	These objects could not be moved. Select them again and try a smaller move.	Ces objets n’ont pas pu être déplacés. Sélectionnez-les à nouveau et essayez un déplacement plus petit.

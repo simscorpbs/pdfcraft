@@ -3837,6 +3837,78 @@ fn group_move_refusals_leave_the_object_graph_untouched() {
 }
 
 #[test]
+fn deleting_a_paragraph_keeps_the_text_after_it_in_place() {
+    // The neighbour is positioned relative to the deleted text (same BT, no new Td): its glyphs
+    // must not slide left into the gap.
+    let mut doc = text_page("BT /F1 12 Tf 50 600 Td (Delete me) Tj ET BT /F1 12 Tf 50 400 Td (Keep) Tj 1 0 0 rg (Neighbour) Tj ET");
+    let before = editable_objects(&doc, 0).unwrap();
+    let doomed = before.iter().find(|o| o.text.as_deref() == Some("Delete me")).unwrap().target;
+    let lines = text::text_lines(&doc, 0).unwrap();
+    delete_objects(&mut doc, 0, &[doomed]).unwrap();
+    let doc = reopen(&doc);
+    let after = text::text_lines(&doc, 0).unwrap();
+    assert!(after.iter().all(|l| !l.text.contains("Delete me")), "{after:?}");
+    assert_eq!(after.len(), lines.len() - 1);
+    for line in after {
+        let old = lines.iter().find(|l| l.text == line.text).unwrap();
+        assert!(close(line.rect, old.rect), "{} moved: {:?} -> {:?}", line.text, old.rect, line.rect);
+    }
+}
+
+#[test]
+fn a_mixed_delete_removes_text_images_and_added_items_at_once() {
+    let mut doc = image_page_with("q 200 0 0 100 100 100 cm /Im0 Do Q BT /F1 12 Tf 72 700 Td (Caption) Tj ET BT /F1 12 Tf 72 650 Td (Stays) Tj ET");
+    add_content(&mut doc, 0, &Content::Text(AddedText { text: "First label".into(), rect: [50.0, 350.0, 200.0, 380.0], ..AddedText::default() }))
+        .unwrap();
+    add_content(&mut doc, 0, &Content::Text(AddedText { text: "Second label".into(), rect: [50.0, 300.0, 200.0, 330.0], ..AddedText::default() }))
+        .unwrap();
+    let before = editable_objects(&doc, 0).unwrap();
+    assert_eq!(before.len(), 5, "two added labels, two paragraphs, one image: {before:?}");
+    let kept = ["Stays", "Second label"];
+    let targets: Vec<_> = before.iter().filter(|o| !o.text.as_deref().is_some_and(|t| kept.contains(&t))).map(|o| o.target).collect();
+    assert_eq!(targets.len(), 3);
+    let original = pdfcraft_cos::write_full(&doc, &SaveOptions::default()).unwrap();
+    delete_objects(&mut doc, 0, &targets).unwrap();
+    let reopened = reopen(&doc);
+    let after = editable_objects(&reopened, 0).unwrap();
+    let mut texts: Vec<_> = after.iter().filter_map(|o| o.text.clone()).collect();
+    texts.sort();
+    assert_eq!(texts, ["Second label", "Stays"]);
+    assert!(images::page_images(&reopened, 0).unwrap().is_empty(), "the image is gone");
+    assert_eq!(list_added(&reopened).len(), 1);
+    // Every target refers to the inventory before the delete: the same request a second time is
+    // stale, and refused without a change.
+    let deleted = pdfcraft_cos::write_full(&doc, &SaveOptions::default()).unwrap();
+    assert!(delete_objects(&mut doc, 0, &targets).is_err());
+    assert_eq!(pdfcraft_cos::write_full(&doc, &SaveOptions::default()).unwrap(), deleted);
+    assert_ne!(deleted, original);
+}
+
+#[test]
+fn group_delete_refusals_leave_the_object_graph_untouched() {
+    let mut doc = image_page();
+    let target = editable_objects(&doc, 0).unwrap()[0].target;
+    let original = pdfcraft_cos::write_full(&doc, &SaveOptions::default()).unwrap();
+    for targets in [
+        vec![],
+        vec![target, target],
+        vec![target, ObjectTarget { kind: ObjectKind::Image, index: usize::MAX }],
+        vec![ObjectTarget { kind: ObjectKind::Added, index: 0 }],
+        vec![ObjectTarget { kind: ObjectKind::Text, index: 7 }],
+        vec![target; MAX_MOVE_OBJECTS + 1],
+    ] {
+        assert!(delete_objects(&mut doc, 0, &targets).is_err(), "{targets:?}");
+        assert_eq!(pdfcraft_cos::write_full(&doc, &SaveOptions::default()).unwrap(), original);
+    }
+    assert!(delete_objects(&mut doc, 9, &[target]).is_err(), "no such page");
+    let mut clipped = text_page("BT /F1 12 Tf 50 600 Td (Ordinary) Tj ET BT /F1 12 Tf 4 Tr 50 400 Td (Clipping) Tj ET");
+    let targets = editable_objects(&clipped, 0).unwrap().iter().map(|o| o.target).collect::<Vec<_>>();
+    let original = pdfcraft_cos::write_full(&clipped, &SaveOptions::default()).unwrap();
+    assert!(delete_objects(&mut clipped, 0, &targets).unwrap_err().to_string().contains("clipping"));
+    assert_eq!(pdfcraft_cos::write_full(&clipped, &SaveOptions::default()).unwrap(), original);
+}
+
+#[test]
 fn added_and_native_objects_move_together_on_cropped_rotated_user_unit_pages() {
     for rotation in [0, 90, 180, 270] {
         let mut doc = image_page();

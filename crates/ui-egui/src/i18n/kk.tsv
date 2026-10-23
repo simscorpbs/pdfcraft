@@ -2202,6 +2202,11 @@ calendar date	December	Желтоқсан
 	Mixed	Аралас
 	Move object	Объектіні жылжыту
 	Move objects	Объектілерді жылжыту
+	Delete object	Объектіні жою
+	Delete objects	Объектілерді жою
+	Press Delete to remove the selection.	Таңдалғанды жою үшін Delete пернесін басыңыз.
+	Text used as a clipping path cannot be deleted with this selection.	Қию жолы ретінде пайдаланылған мәтінді бұл таңдаумен жою мүмкін емес.
+	These objects could not be deleted. Select them again and try again.	Бұл объектілерді жою мүмкін болмады. Оларды қайта таңдап, әрекетті қайталаңыз.
 	Multiple words or phrases	Бірнеше сөз немесе тіркес
 	New bookmark ({key})	Жаңа бетбелгі ({key})
 	New bookmarks from structure	Құрылымнан жаңа бетбелгілер

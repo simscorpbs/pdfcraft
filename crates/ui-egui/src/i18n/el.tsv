@@ -1612,6 +1612,11 @@
 	Finish or discard the text being edited before selecting several objects.	Ολοκληρώστε ή απορρίψτε την επεξεργασία κειμένου προτού επιλέξετε πολλά αντικείμενα.
 	Move object	Μετακίνηση αντικειμένου
 	Move objects	Μετακίνηση αντικειμένων
+	Delete object	Διαγραφή αντικειμένου
+	Delete objects	Διαγραφή αντικειμένων
+	Press Delete to remove the selection.	Πατήστε Delete για να καταργήσετε την επιλογή.
+	Text used as a clipping path cannot be deleted with this selection.	Το κείμενο που χρησιμοποιείται ως διαδρομή αποκοπής δεν μπορεί να διαγραφεί με αυτή την επιλογή.
+	These objects could not be deleted. Select them again and try again.	Δεν ήταν δυνατή η διαγραφή αυτών των αντικειμένων. Επιλέξτε τα ξανά και δοκιμάστε πάλι.
 	Vertical text cannot be moved with this selection.	Δεν είναι δυνατή η μετακίνηση κατακόρυφου κειμένου με αυτή την επιλογή.
 	Text used as a clipping path cannot be moved with this selection.	Δεν είναι δυνατή η μετακίνηση κειμένου που χρησιμοποιείται ως διαδρομή αποκοπής με αυτή την επιλογή.
 	These objects could not be moved. Select them again and try a smaller move.	Δεν ήταν δυνατή η μετακίνηση αυτών των αντικειμένων. Επιλέξτε τα ξανά και δοκιμάστε μικρότερη μετακίνηση.

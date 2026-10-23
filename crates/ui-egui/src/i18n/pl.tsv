@@ -2294,6 +2294,11 @@ key	Space	Spacja
 	Finish or discard the text being edited before selecting several objects.	Zakończ lub odrzuć edycję tekstu przed zaznaczeniem kilku obiektów.
 	Move object	Przenieś obiekt
 	Move objects	Przenieś obiekty
+	Delete object	Usuń obiekt
+	Delete objects	Usuń obiekty
+	Press Delete to remove the selection.	Naciśnij Delete, aby usunąć zaznaczenie.
+	Text used as a clipping path cannot be deleted with this selection.	Tekstu użytego jako ścieżka przycinająca nie można usunąć przy tym zaznaczeniu.
+	These objects could not be deleted. Select them again and try again.	Nie udało się usunąć tych obiektów. Zaznacz je ponownie i spróbuj jeszcze raz.
 	Vertical text cannot be moved with this selection.	Tekstu pionowego nie można przenieść razem z tym zaznaczeniem.
 	Text used as a clipping path cannot be moved with this selection.	Tekstu używanego jako ścieżka przycinania nie można przenieść razem z tym zaznaczeniem.
 	These objects could not be moved. Select them again and try a smaller move.	Nie udało się przenieść tych obiektów. Zaznacz je ponownie i spróbuj mniejszego przesunięcia.

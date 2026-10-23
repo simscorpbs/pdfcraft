@@ -2232,6 +2232,11 @@ signature pad	Type	ພິມ
 	Finish or discard the text being edited before selecting several objects.	ເຮັດໃຫ້ສຳເລັດ ຫຼື ປະຖິ້ມຂໍ້ຄວາມທີ່ກຳລັງແກ້ໄຂກ່ອນທີ່ຈະເລືອກຫຼາຍວັດຖຸ.
 	Move object	ຍ້າຍວັດຖຸ
 	Move objects	ຍ້າຍຫຼາຍວັດຖຸ
+	Delete object	ລຶບວັດຖຸ
+	Delete objects	ລຶບຫຼາຍວັດຖຸ
+	Press Delete to remove the selection.	ກົດ Delete ເພື່ອລຶບສ່ວນທີ່ເລືອກ.
+	Text used as a clipping path cannot be deleted with this selection.	ບໍ່ສາມາດລຶບຂໍ້ຄວາມທີ່ໃຊ້ເປັນເສັ້ນຕັດດ້ວຍການເລືອກນີ້ໄດ້.
+	These objects could not be deleted. Select them again and try again.	ບໍ່ສາມາດລຶບວັດຖຸເຫຼົ່ານີ້ໄດ້. ເລືອກພວກມັນອີກຄັ້ງແລ້ວລອງໃໝ່.
 	Vertical text cannot be moved with this selection.	ບໍ່ສາມາດຍ້າຍຂໍ້ຄວາມແນວຕັ້ງດ້ວຍການເລືອກນີ້ໄດ້.
 	Text used as a clipping path cannot be moved with this selection.	ບໍ່ສາມາດຍ້າຍຂໍ້ຄວາມທີ່ໃຊ້ເປັນເສັ້ນທາງຕັດ (clipping path) ດ້ວຍການເລືອກນີ້ໄດ້.
 	These objects could not be moved. Select them again and try a smaller move.	ບໍ່ສາມາດຍ້າຍວັດຖຸເຫຼົ່ານີ້ໄດ້. ກະລຸນາເລືອກໃໝ່ ແລະ ທົດລອງຍ້າຍດ້ວຍໄລຍະທີ່ສັ້ນລົງ.

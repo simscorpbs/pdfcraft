@@ -1595,6 +1595,11 @@
 	Watermark	Vannmerke
 	Move object	Flytt objekt
 	Move objects	Flytt objekter
+	Delete object	Slett objekt
+	Delete objects	Slett objekter
+	Press Delete to remove the selection.	Trykk Delete for å fjerne utvalget.
+	Text used as a clipping path cannot be deleted with this selection.	Tekst som brukes som beskjæringsbane, kan ikke slettes med dette utvalget.
+	These objects could not be deleted. Select them again and try again.	Disse objektene kunne ikke slettes. Velg dem på nytt og prøv igjen.
 	All tools	Alle verktøy
 	Read	Les
 	E-Sign	E-signer

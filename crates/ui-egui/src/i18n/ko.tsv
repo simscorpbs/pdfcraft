@@ -2213,6 +2213,11 @@ certificate	Subject	주체
 	Finish or discard the text being edited before selecting several objects.	여러 개체를 선택하기 전에 편집 중인 텍스트를 완료하거나 취소하세요.
 	Move object	개체 이동
 	Move objects	개체 여러 개 이동
+	Delete object	개체 삭제
+	Delete objects	개체 여러 개 삭제
+	Press Delete to remove the selection.	Delete 키를 누르면 선택 항목이 삭제됩니다.
+	Text used as a clipping path cannot be deleted with this selection.	클리핑 패스로 쓰인 텍스트는 이 선택으로 삭제할 수 없습니다.
+	These objects could not be deleted. Select them again and try again.	이 개체들을 삭제하지 못했습니다. 다시 선택한 후 다시 시도하세요.
 	Vertical text cannot be moved with this selection.	세로 텍스트는 이 선택 항목과 함께 이동할 수 없습니다.
 	Text used as a clipping path cannot be moved with this selection.	클리핑 경로로 사용되는 텍스트는 이 선택 항목과 함께 이동할 수 없습니다.
 	These objects could not be moved. Select them again and try a smaller move.	이 개체를 이동할 수 없습니다. 다시 선택한 뒤 더 짧은 거리로 옮겨 보세요.

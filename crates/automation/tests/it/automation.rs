@@ -7154,6 +7154,33 @@ fn mixed_objects_move_through_tools_with_generation_and_one_undo() {
 }
 
 #[test]
+fn mixed_objects_delete_through_tools_with_generation_and_one_undo() {
+    let dir = workdir("mixed-object-delete");
+    let mut a = auto(&dir);
+    let doc = ok(&mut a, "doc_open", json!({"path":"a.pdf"}))["doc"].as_u64().unwrap();
+    ok(&mut a, "page_add_text", json!({"doc":doc,"page":1,"text":"Added label","rect":[20,20,130,45]}));
+    let inventory = ok(&mut a, "object_list", json!({"doc":doc,"page":1}));
+    assert_eq!(inventory["count"], 2);
+    let objects: Vec<_> = inventory["objects"].as_array().unwrap().iter().map(|o| json!({"kind":o["kind"],"index":o["index"]})).collect();
+    for bad in [json!([]), json!([{"kind":"text","index":0}]), json!([{"kind":"text","index":1},{"kind":"image","index":99}])] {
+        assert!(a.call("object_delete", &json!({"doc":doc,"page":1,"objects":bad})).is_err());
+        assert_eq!(ok(&mut a, "object_list", json!({"doc":doc,"page":1})), inventory);
+    }
+    let deleted = ok(&mut a, "object_delete", json!({"doc":doc,"page":1,"generation":inventory["generation"],"objects":objects}));
+    assert_eq!(deleted["deleted"], 2);
+    let after = ok(&mut a, "object_list", json!({"doc":doc,"page":1}));
+    assert_eq!(after["count"], 0);
+    assert!(a.call("object_delete", &json!({"doc":doc,"page":1,"generation":inventory["generation"],"objects":objects})).is_err());
+    ok(&mut a, "edit_undo", json!({"doc":doc}));
+    assert_eq!(ok(&mut a, "object_list", json!({"doc":doc,"page":1}))["objects"], inventory["objects"], "one undo restores both");
+    ok(&mut a, "edit_redo", json!({"doc":doc}));
+    ok(&mut a, "doc_save", json!({"doc":doc,"path":"deleted.pdf"}));
+    let reopened = ok(&mut a, "doc_open", json!({"path":"deleted.pdf"}))["doc"].as_u64().unwrap();
+    assert_eq!(ok(&mut a, "object_list", json!({"doc":reopened,"page":1}))["count"], 0);
+    assert!(!page_text(&mut a, reopened)[0].contains("Added label"));
+}
+
+#[test]
 fn object_move_rejects_invalid_nested_references_without_any_change() {
     let dir = workdir("object-move-refusals");
     let mut a = auto(&dir);

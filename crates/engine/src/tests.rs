@@ -5929,6 +5929,79 @@ fn mixed_object_moves_are_one_undo_step_and_survive_save_reopen() {
 }
 
 #[test]
+fn deleting_mixed_objects_is_one_undo_step_and_survives_save_reopen() {
+    let (mut s, id) = session_with(1);
+    let text = AddedText { text: "Added label".into(), rect: [20.0, 240.0, 140.0, 265.0], ..Default::default() };
+    s.apply(id, Edit::AddText { page: 0, text }).unwrap();
+    let image = image::RgbImage::from_pixel(12, 8, image::Rgb([240, 20, 20]));
+    let mut png = std::io::Cursor::new(Vec::new());
+    image.write_to(&mut png, image::ImageFormat::Png).unwrap();
+    s.apply(id, Edit::AddImage { page: 0, rect: Some([40.0, 40.0, 80.0, 70.0]), name: "red.png".into(), bytes: Arc::new(png.into_inner()) }).unwrap();
+    let saved = s.save_bytes(id).unwrap();
+    s.mark_saved(id, saved.clone(), None).unwrap();
+    let before = s.get(id).unwrap().editable_objects(0).unwrap();
+    assert_eq!(before.len(), 3, "one native paragraph, one added label and one added image");
+    let paragraph = before.iter().find(|o| o.target.kind == ObjectKind::Text).unwrap().target;
+    let generation = s.get(id).unwrap().edit_generation();
+    // A paragraph alone, then undo: the label is singular, and the page is as it was.
+    s.apply(id, Edit::DeleteObjects { page: 0, objects: vec![paragraph] }).unwrap();
+    assert_eq!(s.get(id).unwrap().can_undo(), Some("Delete object"));
+    assert!(s.get(id).unwrap().editable_objects(0).unwrap().iter().all(|o| o.target.kind != ObjectKind::Text));
+    assert_eq!(s.undo(id).unwrap().as_str(), "Delete object");
+    assert_eq!(s.get(id).unwrap().editable_objects(0).unwrap(), before);
+    // Everything at once.
+    let targets = before.iter().map(|o| o.target).collect();
+    s.apply(id, Edit::DeleteObjects { page: 0, objects: targets }).unwrap();
+    let doc = s.get(id).unwrap();
+    assert!(doc.dirty && doc.edit_generation() > generation);
+    assert_eq!(doc.can_undo(), Some("Delete objects"));
+    assert!(doc.editable_objects(0).unwrap().is_empty());
+    assert!(doc.added().is_empty(), "the added items' list is refreshed too");
+    let deleted = s.save_bytes(id).unwrap();
+    assert!(deleted.starts_with(saved.as_ref()), "an incremental update preserves the original revision");
+    let mut again = Session::new();
+    let other = again.open("deleted.pdf", None, deleted.clone(), None).unwrap();
+    assert!(again.get(other).unwrap().editable_objects(0).unwrap().is_empty());
+    let mut renderer = pdfcraft_render::PageRenderer::new(deleted, Default::default());
+    let rendered = renderer.render(pdfcraft_render::RenderRequest { page: 0, scale: 1.0, ..Default::default() });
+    let pixel = |x: usize, y: usize| &rendered.rgba[(y * rendered.width as usize + x) * 4..][..3];
+    assert!(pixel(60, 240).iter().all(|v| *v > 240), "the added image is gone");
+    assert_eq!(s.undo(id).unwrap().as_str(), "Delete objects");
+    assert_eq!(s.get(id).unwrap().editable_objects(0).unwrap(), before, "one undo restores all three objects");
+    assert_eq!(s.get(id).unwrap().added().len(), 2);
+    s.redo(id).unwrap();
+    assert!(s.get(id).unwrap().editable_objects(0).unwrap().is_empty());
+}
+
+#[test]
+fn refused_group_deletes_change_nothing() {
+    let (mut s, id) = session_with(1);
+    let objects: Vec<_> = s.get(id).unwrap().editable_objects(0).unwrap().iter().map(|o| o.target).collect();
+    let before = s.save_bytes(id).unwrap();
+    let generation = s.get(id).unwrap().edit_generation();
+    let mut stale = objects.clone();
+    stale.push(ObjectTarget { kind: ObjectKind::Image, index: 999 });
+    for bad in [vec![], stale, vec![objects[0], objects[0]]] {
+        assert!(s.apply(id, Edit::DeleteObjects { page: 0, objects: bad }).is_err());
+    }
+    assert!(s.apply(id, Edit::DeleteObjects { page: 99, objects: objects.clone() }).is_err());
+    let doc = s.get(id).unwrap();
+    assert!(!doc.dirty && doc.can_undo().is_none() && doc.edit_generation() == generation);
+    assert_eq!(s.save_bytes(id).unwrap(), before);
+    // A document that forbids changes refuses the delete, as it refuses a move.
+    let mut p = protection(None, Some("owner"));
+    p.changes = Changes::None;
+    s.apply(id, Edit::Protect(p)).unwrap();
+    let bytes = s.save_bytes(id).unwrap();
+    let mut reader = Session::new();
+    let id = reader.open("restricted.pdf", None, bytes, None).unwrap();
+    let objects = reader.get(id).unwrap().editable_objects(0).unwrap().iter().map(|o| o.target).collect();
+    assert!(matches!(reader.apply(id, Edit::DeleteObjects { page: 0, objects }), Err(EditError::NotPermitted(_))));
+    let doc = reader.get(id).unwrap();
+    assert!(!doc.dirty && doc.can_undo().is_none());
+}
+
+#[test]
 fn failed_group_moves_preserve_generation_dirty_state_and_redo_history() {
     let (mut s, id) = session_with(1);
     let objects: Vec<_> = s.get(id).unwrap().editable_objects(0).unwrap().iter().map(|o| o.target).collect();
@@ -6302,12 +6375,14 @@ fn content_refresh_lists_match_the_storages_an_edit_touches() {
             },
         },
         Edit::MoveObjects { page: 0, objects: vec![target(crate::ObjectKind::Added)], offset: [1.0, 0.0] },
+        Edit::DeleteObjects { page: 0, objects: vec![target(crate::ObjectKind::Text), target(crate::ObjectKind::Added)] },
     ];
     for edit in &added {
         assert_eq!(Session::content_refresh_lists(Some(edit)), (true, false), "{}", edit.label());
     }
     let plain = [
         Edit::MoveObjects { page: 0, objects: vec![target(crate::ObjectKind::Text)], offset: [1.0, 0.0] },
+        Edit::DeleteObjects { page: 0, objects: vec![target(crate::ObjectKind::Image)] },
         Edit::EditTextBlock { page: 0, block: 0, text: String::new(), style: pdfcraft_edit::BlockStyle::default() },
     ];
     for edit in &plain {

@@ -322,6 +322,7 @@ fn edit_panel(app: &mut PdfCraftApp, ui: &mut egui::Ui, t: &Tokens, g: &'static 
     if count > 0 {
         ui.label(crate::i18n::trn(crate::i18n::current(), count as u64, "{n} object selected", "{n} objects selected"));
         ui.label(tl!("Drag the selection to move it. Esc clears the selection."));
+        ui.label(tl!("Press Delete to remove the selection."));
         ui.add_space(6.0);
     }
     // Format text at the top while text is selected or being added.

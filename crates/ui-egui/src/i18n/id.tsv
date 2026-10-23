@@ -1584,6 +1584,11 @@
 	Watermark	Tanda air
 	Move object	Pindahkan objek
 	Move objects	Pindahkan objek
+	Delete object	Hapus objek
+	Delete objects	Hapus objek
+	Press Delete to remove the selection.	Tekan Delete untuk menghapus pilihan.
+	Text used as a clipping path cannot be deleted with this selection.	Teks yang digunakan sebagai jalur kliping tidak dapat dihapus dengan pilihan ini.
+	These objects could not be deleted. Select them again and try again.	Objek ini tidak dapat dihapus. Pilih lagi lalu coba lagi.
 	All tools	Semua alat
 	Read	Baca
 	E-Sign	E-Sign

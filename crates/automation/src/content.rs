@@ -223,9 +223,9 @@ impl Automation {
         Ok(json!({"page":page+1,"generation":doc.edit_generation(),"count":items.len(),"objects":items}))
     }
 
-    pub(crate) fn object_move(&mut self, a: &Args) -> Result<Value> {
+    /// The `objects` references of `object_move`/`object_delete`, in source inventory terms.
+    fn object_targets(a: &Args) -> Result<Vec<pdfcraft_engine::ObjectTarget>> {
         use pdfcraft_engine::{MAX_MOVE_OBJECTS, ObjectKind, ObjectTarget};
-        let page = self.page(a)?;
         let rows = a
             .get("objects")
             .and_then(Value::as_array)
@@ -251,6 +251,24 @@ impl Automation {
                 .ok_or_else(|| bad("object index must be a positive integer from object_list"))?;
             targets.push(ObjectTarget { kind, index });
         }
+        Ok(targets)
+    }
+
+    /// Refuse references from an older `object_list` when the caller passed its `generation`.
+    fn check_generation(&self, a: &Args, what: &str) -> Result<()> {
+        let doc = self.doc(a)?;
+        if let Some(g) = a.get("generation") {
+            let g = g.as_u64().ok_or_else(|| bad("generation must be a non-negative integer from object_list"))?;
+            if g != doc.edit_generation() {
+                return Err(failed(format!("the document changed; call object_list again before {what}")));
+            }
+        }
+        Ok(())
+    }
+
+    pub(crate) fn object_move(&mut self, a: &Args) -> Result<Value> {
+        let page = self.page(a)?;
+        let targets = Self::object_targets(a)?;
         let delta = a
             .get("offset")
             .and_then(Value::as_array)
@@ -258,17 +276,22 @@ impl Automation {
             .and_then(|v| Some([v.first()?.as_f64()?, v.get(1)?.as_f64()?]))
             .filter(|v| v.iter().all(|n| n.is_finite() && n.abs() <= 1e9))
             .ok_or_else(|| bad("offset must contain two finite numbers [dx, dy] in displayed points"))?;
-        let doc = self.doc(a)?;
-        if let Some(g) = a.get("generation") {
-            let g = g.as_u64().ok_or_else(|| bad("generation must be a non-negative integer from object_list"))?;
-            if g != doc.edit_generation() {
-                return Err(failed("the document changed; call object_list again before moving"));
-            }
-        }
-        let offset = doc.object_move_offset(page, delta).map_err(failed)?;
+        self.check_generation(a, "moving")?;
+        let offset = self.doc(a)?.object_move_offset(page, delta).map_err(failed)?;
         let count = targets.len();
         let mut result = self.apply(a, Edit::MoveObjects { page, objects: targets, offset })?;
         result["moved"] = json!(count);
+        Ok(result)
+    }
+
+    /// Edit a PDF ▸ Delete on a selection: paragraphs, images and added items go together.
+    pub(crate) fn object_delete(&mut self, a: &Args) -> Result<Value> {
+        let page = self.page(a)?;
+        let targets = Self::object_targets(a)?;
+        self.check_generation(a, "deleting")?;
+        let count = targets.len();
+        let mut result = self.apply(a, Edit::DeleteObjects { page, objects: targets })?;
+        result["deleted"] = json!(count);
         Ok(result)
     }
 }

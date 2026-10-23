@@ -1633,6 +1633,11 @@ theme	Appearance	Giao diện
 	Watermark	Hình mờ
 	Move object	Di chuyển đối tượng
 	Move objects	Di chuyển các đối tượng
+	Delete object	Xóa đối tượng
+	Delete objects	Xóa các đối tượng
+	Press Delete to remove the selection.	Nhấn Delete để xóa vùng chọn.
+	Text used as a clipping path cannot be deleted with this selection.	Không thể xóa văn bản dùng làm đường cắt với vùng chọn này.
+	These objects could not be deleted. Select them again and try again.	Không thể xóa các đối tượng này. Hãy chọn lại và thử lại.
 	All tools	Tất cả công cụ
 	Read	Đọc
 	E-Sign	Ký điện tử

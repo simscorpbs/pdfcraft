@@ -2189,6 +2189,11 @@ signature pad	Type	Shkruaj
 	List view	Pamja me listë
 	Move object	Lëviz objektin
 	Move objects	Lëviz objektet
+	Delete object	Fshi objektin
+	Delete objects	Fshi objektet
+	Press Delete to remove the selection.	Shtyp Delete për të hequr zgjedhjen.
+	Text used as a clipping path cannot be deleted with this selection.	Teksti i përdorur si shteg prerjeje nuk mund të fshihet me këtë zgjedhje.
+	These objects could not be deleted. Select them again and try again.	Këto objekte nuk mund të fshiheshin. Zgjidhi përsëri dhe provo sërish.
 	No fill	Pa mbushje
 	Pages: {k} of {n}	Faqet: {k} nga {n}
 	Preview unavailable: {e}	Pamja paraprake nuk është e disponueshme: {e}

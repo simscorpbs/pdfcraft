@@ -521,6 +521,31 @@ pub fn change_image(doc: &mut Document, page: usize, index: usize, change: &Imag
     Ok(())
 }
 
+/// Delete images `indexes` (from [`page_images`], all read before any change) in one pass, as
+/// [`ImageChange::Delete`] deletes one: each `Do` goes and every other byte stays.
+pub(crate) fn delete_images(doc: &mut Document, page: usize, indexes: &[usize]) -> Result<(), EditError> {
+    if indexes.is_empty() {
+        return Ok(());
+    }
+    let images = page_images(doc, page)?;
+    let p = page_of(doc, page)?;
+    let all = content_streams(doc, &p.dict)?;
+    let pieces = joined(&all);
+    let ops = pieces.parse().ops;
+    let mut doomed = std::collections::BTreeSet::new();
+    for index in indexes {
+        let image = images.get(*index).ok_or_else(|| EditError::Invalid("a selected image no longer exists".into()))?;
+        if !ops.get(image.op).is_some_and(|op| op.is("Do")) {
+            return Err(EditError::Invalid("the image operation is missing".into()));
+        }
+        doomed.insert(image.op);
+    }
+    let changed = crate::text::splice(&pieces, &ops, |index| (Vec::new(), !doomed.contains(&index)));
+    let contents = crate::text::rewritten_contents(doc, &all, changed);
+    doc.update_dict(p.obj, |d| d.set(b"Contents".to_vec(), contents))?;
+    Ok(())
+}
+
 /// Inventory indexes exclude the streams that belong to added content.
 pub(crate) fn selectable_images(
     doc: &Document,

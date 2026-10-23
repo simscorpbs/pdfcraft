@@ -86,7 +86,8 @@ impl ObjectSelection {
                 }
                 Some(out)
             });
-            if let Some(objects) = remapped {
+            // A delete expects nothing left: the selection goes with the objects.
+            if let Some(objects) = remapped.filter(|o| !o.is_empty()) {
                 self.selected = objects;
             } else {
                 self.clear();
@@ -111,11 +112,24 @@ impl ObjectSelection {
         Edit::MoveObjects { page, objects: self.selected.iter().map(|o| o.target).collect(), offset }
     }
 
+    /// Delete the whole selection (Delete or Backspace, or the page menu's Delete). The
+    /// selection stays until the edit applies, so a refused delete keeps it.
+    pub fn delete(&mut self) -> Option<Edit> {
+        let page = self.page.filter(|_| !self.selected.is_empty() && self.gesture.is_none())?;
+        self.pending = Some(Vec::new());
+        Some(Edit::DeleteObjects { page, objects: self.selected.iter().map(|o| o.target).collect() })
+    }
+
     fn inventory(&mut self, doc: &Document, page: usize) -> Result<Vec<EditableObject>, String> {
+        self.cached(doc, page).clone()
+    }
+
+    /// The page's inventory for this generation, read once.
+    fn cached(&mut self, doc: &Document, page: usize) -> &Result<Vec<EditableObject>, String> {
         if self.cache.len() >= 8 && !self.cache.contains_key(&page) {
             self.cache.clear();
         }
-        self.cache.entry(page).or_insert_with(|| doc.editable_objects(page)).clone()
+        self.cache.entry(page).or_insert_with(|| doc.editable_objects(page))
     }
 }
 
@@ -246,6 +260,15 @@ fn input(s: &mut ObjectSelection, ui: &egui::Ui, resp: &egui::Response, xf: &Pag
             }
             return true;
         }
+        // Over a closed paragraph's frame (not its rewrap handles): it can be taken as a whole.
+        if view.line_editor.as_ref().is_none_or(|e| e.page != page)
+            && let Ok(objects) = s.cached(doc, page)
+            && !objects.iter().any(|o| screen(xf, info, page, o).expand(2.0).contains(p))
+            && objects.iter().any(|o| o.target.kind == ObjectKind::Text && on_frame(screen(xf, info, page, o), p))
+            && !crate::edit_text_ui::grabs_edge(xf, info, page, objects.iter().filter(|o| o.target.kind == ObjectKind::Text).map(|o| o.rect), p)
+        {
+            ui.ctx().set_cursor_icon(egui::CursorIcon::Move);
+        }
         return false;
     }
     let objects = match s.inventory(doc, page) {
@@ -318,6 +341,16 @@ fn input(s: &mut ObjectSelection, ui: &egui::Ui, resp: &egui::Response, xf: &Pag
     if hit.is_some() || on_edge {
         return false;
     }
+    // A closed paragraph's frame selects the paragraph as a whole object, as in Acrobat: a click
+    // inside its text opens it for typing instead, and its side edges keep the rewrap handles.
+    if let Some(object) = objects.iter().rev().find(|o| o.target.kind == ObjectKind::Text && on_frame(screen(xf, info, page, o), p)) {
+        s.page = Some(page);
+        s.selected.push(object.clone());
+        s.gesture = Some(Gesture { start: p, now: p, marquee: false, additive: false });
+        leave_single(view);
+        view.current = page;
+        return true;
+    }
     leave_single(view);
     s.page = Some(page);
     s.gesture = Some(Gesture { start: p, now: p, marquee: true, additive: false });
@@ -333,6 +366,19 @@ fn on_frame(r: Rect, p: Pos2) -> bool {
 
 /// How far outside a paragraph's frame a press still grabs it (screen pixels).
 const FRAME_REACH: f32 = 6.0;
+
+/// Delete (or Backspace) deletes the selected objects, as in Acrobat, unless a text field has
+/// the keyboard. Taken before the Pages panel can read them as deleting pages.
+pub(crate) fn delete_keys(ctx: &egui::Context, view: &mut DocView) {
+    if ctx.egui_wants_keyboard_input() || view.pending_edit.is_some() || view.objects.count() == 0 || view.objects.gesture.is_some() {
+        return;
+    }
+    let pressed =
+        ctx.input_mut(|i| i.consume_key(egui::Modifiers::NONE, egui::Key::Delete) | i.consume_key(egui::Modifiers::NONE, egui::Key::Backspace));
+    if pressed {
+        view.pending_edit = view.objects.delete();
+    }
+}
 
 /// The arrow keys move the selected image or objects a point, Shift and an arrow ten points,
 /// as in Acrobat. They are taken before the view turns the page with them.
@@ -416,6 +462,14 @@ pub(crate) fn move_error(error: &pdfcraft_engine::EditError) -> String {
     }
 }
 
+/// [`move_error`] for a refused delete.
+pub(crate) fn delete_error(error: &pdfcraft_engine::EditError) -> String {
+    match error.to_string().as_str() {
+        "text used as a clipping path cannot be deleted" => tl!("Text used as a clipping path cannot be deleted with this selection.").into(),
+        _ => tl!("These objects could not be deleted. Select them again and try again.").into(),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -429,6 +483,12 @@ mod tests {
                 "Finish or discard the text being edited before selecting several objects.",
                 "Move object",
                 "Move objects",
+                "Delete object",
+                "Delete objects",
+                "Delete",
+                "Press Delete to remove the selection.",
+                "Text used as a clipping path cannot be deleted with this selection.",
+                "These objects could not be deleted. Select them again and try again.",
                 "Vertical text cannot be moved with this selection.",
                 "Text used as a clipping path cannot be moved with this selection.",
                 "These objects could not be moved. Select them again and try a smaller move.",

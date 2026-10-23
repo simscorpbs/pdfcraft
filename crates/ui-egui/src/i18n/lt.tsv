@@ -1644,6 +1644,11 @@
 	Watermark	Vandenženklis
 	Move object	Perkelti objektą
 	Move objects	Perkelti objektus
+	Delete object	Ištrinti objektą
+	Delete objects	Ištrinti objektus
+	Press Delete to remove the selection.	Paspauskite „Delete“, kad pašalintumėte pasirinkimą.
+	Text used as a clipping path cannot be deleted with this selection.	Teksto, naudojamo kaip apkirpimo kontūras, negalima ištrinti su šiuo pasirinkimu.
+	These objects could not be deleted. Select them again and try again.	Šių objektų ištrinti nepavyko. Pasirinkite juos iš naujo ir bandykite dar kartą.
 	All tools	Visi įrankiai
 	Read	Skaityti
 	E-Sign	Pasirašyti

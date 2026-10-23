@@ -3974,6 +3974,16 @@ pub fn document_area(app: &mut PdfCraftApp, index: usize, ui: &mut egui::Ui) {
                 }
                 return;
             }
+            // Objects selected in Edit text & images: Delete, as the Delete key does.
+            if tool == QuickTool::EditText && view.objects.count() > 0 {
+                if ui.add_enabled(can_modify, egui::Button::new(tl!("Delete"))).clicked() {
+                    if view.pending_edit.is_none() {
+                        view.pending_edit = view.objects.delete();
+                    }
+                    ui.close();
+                }
+                return;
+            }
             if let Some((page, index)) = view.links.context {
                 if ui.button(tl!("Properties…")).clicked() {
                     view.links.open_existing = Some((page, index));

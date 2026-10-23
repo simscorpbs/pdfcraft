@@ -136,7 +136,8 @@ claude mcp add pdfcraft -- pdfcraft-cli mcp --root <dir>
 `object_list {doc, page}` inventories recognised paragraphs, Image/Form artwork and added items
 with generation-scoped kind/index references. `object_move {doc, page, objects, offset, generation?}`
 moves 1–1000 references atomically in displayed points (right/down), preserving source glyph bytes
-and fonts. A refusal changes nothing; success is one undo step. See
+and fonts. `object_delete {doc, page, objects, generation?}` deletes them the same way (paragraph
+glyphs go without moving the text after them). A refusal changes nothing; success is one undo step. See
 [the selection and movement guide](../../docs/editing-multiple-objects.md) for limits and examples.
 
 ## Accessibility review record

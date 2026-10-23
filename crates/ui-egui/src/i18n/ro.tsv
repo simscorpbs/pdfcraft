@@ -1593,6 +1593,11 @@
 	Watermark	Filigran
 	Move object	Mutare obiect
 	Move objects	Mutare obiecte
+	Delete object	Ștergere obiect
+	Delete objects	Ștergere obiecte
+	Press Delete to remove the selection.	Apăsați Delete pentru a elimina selecția.
+	Text used as a clipping path cannot be deleted with this selection.	Textul folosit drept traseu de decupare nu poate fi șters cu această selecție.
+	These objects could not be deleted. Select them again and try again.	Aceste obiecte nu au putut fi șterse. Selectați-le din nou și încercați iar.
 	All tools	Toate instrumentele
 	Read	Citire
 	E-Sign	Semnătură electronică

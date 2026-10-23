@@ -2213,6 +2213,11 @@ certificate	Subject	विषय
 	Finish or discard the text being edited before selecting several objects.	कई ऑब्जेक्ट चुनने से पहले संपादित किया जा रहा टेक्स्ट पूरा करें या छोड़ दें।
 	Move object	ऑब्जेक्ट खिसकाएँ
 	Move objects	ऑब्जेक्ट खिसकाएँ
+	Delete object	ऑब्जेक्ट हटाएँ
+	Delete objects	ऑब्जेक्ट हटाएँ
+	Press Delete to remove the selection.	चयन हटाने के लिए Delete दबाएँ।
+	Text used as a clipping path cannot be deleted with this selection.	क्लिपिंग पथ के रूप में उपयोग किया गया टेक्स्ट इस चयन से हटाया नहीं जा सकता।
+	These objects could not be deleted. Select them again and try again.	ये ऑब्जेक्ट हटाए नहीं जा सके। इन्हें फिर से चुनें और दोबारा प्रयास करें।
 	Vertical text cannot be moved with this selection.	लंबवत टेक्स्ट इस चयन के साथ खिसकाया नहीं जा सकता।
 	Text used as a clipping path cannot be moved with this selection.	क्लिपिंग पथ के रूप में उपयोग होता टेक्स्ट इस चयन के साथ खिसकाया नहीं जा सकता।
 	These objects could not be moved. Select them again and try a smaller move.	इन ऑब्जेक्ट को खिसकाया नहीं जा सका। उन्हें दोबारा चुनें और कम खिसकाव आज़माएँ।

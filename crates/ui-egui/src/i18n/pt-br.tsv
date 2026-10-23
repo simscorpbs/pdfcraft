@@ -2274,6 +2274,11 @@ comment menu	Edit	Editar
 	Finish or discard the text being edited before selecting several objects.	Conclua ou descarte a edição do texto antes de selecionar vários objetos.
 	Move object	Mover objeto
 	Move objects	Mover objetos
+	Delete object	Excluir objeto
+	Delete objects	Excluir objetos
+	Press Delete to remove the selection.	Pressione Delete para remover a seleção.
+	Text used as a clipping path cannot be deleted with this selection.	O texto usado como caminho de recorte não pode ser excluído com esta seleção.
+	These objects could not be deleted. Select them again and try again.	Não foi possível excluir estes objetos. Selecione-os novamente e tente outra vez.
 	Vertical text cannot be moved with this selection.	O texto vertical não pode ser movido com esta seleção.
 	Text used as a clipping path cannot be moved with this selection.	O texto usado como caminho de recorte não pode ser movido com esta seleção.
 	These objects could not be moved. Select them again and try a smaller move.	Não foi possível mover estes objetos. Selecione-os novamente e tente um deslocamento menor.

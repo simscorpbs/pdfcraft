@@ -2486,28 +2486,73 @@ pub fn text_blocks(doc: &Document, page: usize) -> Result<Vec<TextBlock>, EditEr
 /// preserve the text matrix, so unselected text positioned relative to it stays in place.
 /// Call this on a clone: it is a preview operation, not a document edit.
 pub fn clear_block(doc: &mut Document, page: usize, block: usize) -> Result<(), EditError> {
+    erase_blocks(doc, page, &[block], &std::collections::BTreeSet::new(), false)
+}
+
+/// Delete paragraphs `blocks` (from [`text_blocks`], all read before any change) as Edit a
+/// PDF's Delete does: their glyphs go, and each show operation becomes the advance it had, so
+/// text positioned after them stays where it was. Lines drawn by an `excluded` stream (added
+/// content) are left alone. Text used as a clipping path is refused, since removing it would
+/// change what other content shows.
+pub(crate) fn delete_blocks(
+    doc: &mut Document,
+    page: usize,
+    blocks: &[usize],
+    excluded: &std::collections::BTreeSet<pdfcraft_cos::ObjRef>,
+) -> Result<(), EditError> {
+    if blocks.is_empty() {
+        return Ok(());
+    }
+    erase_blocks(doc, page, blocks, excluded, true)
+}
+
+/// [`clear_block`] for several paragraphs at once; `deleting` words the refusals for a delete
+/// rather than an editing preview.
+fn erase_blocks(
+    doc: &mut Document,
+    page: usize,
+    blocks: &[usize],
+    excluded: &std::collections::BTreeSet<pdfcraft_cos::ObjRef>,
+    deleting: bool,
+) -> Result<(), EditError> {
     let lines = text_lines(doc, page)?;
-    let blocks = group_blocks(&lines);
-    let target = blocks.get(block).ok_or_else(|| EditError::Invalid("the paragraph no longer exists".into()))?;
-    let targets: Vec<&TextLine> = target.lines.iter().filter_map(|i| lines.get(*i)).collect();
+    let grouped = group_blocks(&lines);
+    let mut targets: Vec<&TextLine> = Vec::new();
+    for block in blocks {
+        let target = grouped.get(*block).ok_or_else(|| EditError::Invalid("the paragraph no longer exists".into()))?;
+        targets.extend(target.lines.iter().filter_map(|i| lines.get(*i)));
+    }
     targets.iter().try_for_each(|line| line.ensure_editable())?;
-    let mut drops = coincident_ops(&lines, &targets);
-    drops.extend(target.lines.iter().filter_map(|i| lines.get(*i)).flat_map(|l| l.ops.iter().copied()));
     let p = page_dict(doc, page)?;
-    let res = p.dict.get(b"Resources").and_then(|r| doc.resolve(r).as_dict().cloned()).unwrap_or_default();
     let streams = content_streams(doc, &p.dict)?;
+    let owned = |line: &TextLine| streams.get(line.stream).and_then(|(o, _)| o.as_ref()).is_some_and(|r| excluded.contains(&r));
+    // A copy drawn over the paragraph (fake bold, an invisible OCR layer) goes with it, unless
+    // it belongs to added content, which is deleted (or kept) as its own object.
+    let kept: std::collections::HashSet<usize> = lines.iter().filter(|l| owned(l)).flat_map(|l| l.ops.iter().copied()).collect();
+    let mut drops = coincident_ops(&lines, &targets);
+    drops.retain(|op| !kept.contains(op));
+    drops.extend(targets.iter().flat_map(|l| l.ops.iter().copied()));
+    let res = p.dict.get(b"Resources").and_then(|r| doc.resolve(r).as_dict().cloned()).unwrap_or_default();
     let pieces = Pieces::join(&streams.iter().map(|(_, d)| d.as_slice()).collect::<Vec<_>>());
     let ops = pieces.parse().ops;
     let shown = interpret(doc, &ops, &res, &mut HashMap::new(), &mut Carry::new(), None, None)?;
     let mut patches = HashMap::new();
     for s in shown.into_iter().filter(|s| drops.contains(&s.op)) {
         if s.state.render_mode >= 4 {
-            return Err(EditError::Invalid("text used as a clipping path cannot be previewed for editing".into()));
+            return Err(EditError::Invalid(if deleting {
+                "text used as a clipping path cannot be deleted".into()
+            } else {
+                "text used as a clipping path cannot be previewed for editing".into()
+            }));
         }
         let denominator = s.state.size * s.state.scale;
         let adjustment = if denominator != 0.0 { -1000.0 * s.advance / denominator } else { 0.0 };
         if !adjustment.is_finite() || (denominator == 0.0 && s.advance != 0.0) {
-            return Err(EditError::Invalid("the paragraph's text advance cannot be previewed".into()));
+            return Err(EditError::Invalid(if deleting {
+                "the paragraph's text advance cannot be kept when deleting it".into()
+            } else {
+                "the paragraph's text advance cannot be previewed".into()
+            }));
         }
         let mut replacement = Vec::new();
         if let Some(op) = ops.get(s.op) {

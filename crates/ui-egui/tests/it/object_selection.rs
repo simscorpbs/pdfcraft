@@ -391,3 +391,63 @@ fn modifier_selection_picks_foreground_text_and_added_items_over_background_artw
         assert!(new.rect.iter().enumerate().all(|(i, value)| (value - old.rect[i] - shift[i % 2]).abs() < 0.01), "{old:?} -> {new:?}");
     }
 }
+
+#[test]
+fn delete_removes_the_marquee_selection_in_one_undoable_step() {
+    let mut h = harness();
+    let before = objects(&h);
+    marquee(&mut h);
+    h.get_by_label("Press Delete to remove the selection.");
+    h.key_press(Key::Delete);
+    h.run_steps(4);
+    let after = objects(&h);
+    let texts: Vec<_> = after.iter().map(|o| o.text.as_deref()).collect();
+    assert_eq!(texts, [Some("Keep here")], "only the unselected paragraph is left: {after:?}");
+    assert!(
+        h.query_all_by_label_contains("object selected").next().is_none() && h.query_all_by_label_contains("objects selected").next().is_none(),
+        "the selection went with the objects"
+    );
+    let app = h.state();
+    let doc = app.session.get(app.views[0].id).unwrap();
+    assert_eq!(doc.can_undo(), Some("Delete objects"));
+    assert_eq!(doc.info.pages.len(), 1, "Delete removed objects, not the page");
+    h.key_press_modifiers(Modifiers::COMMAND, Key::Z);
+    h.run_steps(4);
+    assert_eq!(objects(&h), before);
+}
+
+#[test]
+fn backspace_deletes_a_paragraph_selected_by_its_frame() {
+    let mut h = harness();
+    let before = objects(&h);
+    let headline = before.iter().find(|o| o.text.as_deref() == Some("Group headline")).unwrap().clone();
+    // Just above the middle of the closed paragraph's top edge: its frame, not its text.
+    let top = at(&h, ((headline.rect[0] + headline.rect[2]) / 2.0) as f32, 500.0 - headline.rect[3] as f32) - egui::vec2(0.0, 6.0);
+    click(&mut h, top, Modifiers::NONE);
+    h.get_by_label("1 object selected");
+    assert!(h.state().views[0].line_editor.is_none(), "the frame selects the box instead of opening it for typing");
+    h.key_press(Key::Backspace);
+    h.run_steps(4);
+    let after = objects(&h);
+    assert_eq!(after.len(), before.len() - 1);
+    assert!(after.iter().all(|o| o.text.as_deref() != Some("Group headline")));
+    assert_eq!(h.state().session.get(h.state().views[0].id).unwrap().can_undo(), Some("Delete object"));
+    // Inside the text, a click still opens the paragraph for typing.
+    let p = at(&h, 245.0, 405.0);
+    click(&mut h, p, Modifiers::NONE);
+    assert!(h.state().views[0].line_editor.is_some());
+    assert!(h.query_all_by_label_contains("object selected").next().is_none());
+}
+
+#[test]
+fn delete_while_typing_edits_the_text_not_the_objects() {
+    let mut h = harness();
+    let before = objects(&h);
+    let p = at(&h, 55.0, 70.0);
+    click(&mut h, p, Modifiers::NONE);
+    assert!(h.state().views[0].line_editor.is_some());
+    h.key_press(Key::Delete);
+    h.run_steps(4);
+    assert_eq!(objects(&h), before, "no object was deleted");
+    assert!(!h.state().session.get(h.state().views[0].id).unwrap().dirty);
+}

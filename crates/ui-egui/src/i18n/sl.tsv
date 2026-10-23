@@ -2245,6 +2245,11 @@ signature pad	Type	Vtipkaj
 	List view	Pogled seznama
 	Move object	Premakni objekt
 	Move objects	Premakni objekte
+	Delete object	Izbriši objekt
+	Delete objects	Izbriši objekte
+	Press Delete to remove the selection.	Pritisnite Delete, da odstranite izbor.
+	Text used as a clipping path cannot be deleted with this selection.	Besedila, uporabljenega kot pot obrezovanja, s tem izborom ni mogoče izbrisati.
+	These objects could not be deleted. Select them again and try again.	Teh objektov ni bilo mogoče izbrisati. Znova jih izberite in poskusite znova.
 	No fill	Brez polnila
 	Pages: {k} of {n}	Strani: {k} od {n}
 	Preview unavailable: {e}	Predogled ni na voljo: {e}
