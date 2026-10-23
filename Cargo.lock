@@ -4425,7 +4425,7 @@ dependencies = [
 
 [[package]]
 name = "pdfcraft-wincapi"
-version = "0.7.1"
+version = "0.13.0"
 dependencies = [
  "windows-sys 0.61.2",
 ]
