@@ -46,13 +46,6 @@ fn permissions(panel: &Panel) -> Permissions {
     if *panel == Panel::Canvas { Permissions::PROTECTED } else { Permissions::default() }
 }
 
-/// What the renderer is told: with native tabs (Preferences ▸ Appearance) the Tools panel draws
-/// without its "Tools" tab, like the document. The layout rules keep [`permissions`], so its ×
-/// still closes it.
-fn render_permissions(panel: &Panel, native_tabs: bool) -> Permissions {
-    if *panel == Panel::Canvas || (native_tabs && *panel == Panel::Tools) { Permissions::PROTECTED } else { Permissions::default() }
-}
-
 fn tabs(panel: Panel) -> Node<Panel> {
     Node::Tabs { panels: vec![panel], active: 0 }
 }
@@ -403,13 +396,17 @@ pub fn show(app: &mut crate::PdfCraftApp, ui: &mut egui::Ui) {
         // Availability is a render projection: the saved group, selection and width survive Home.
         let _ = rendered.apply(Action::Close { panel: Panel::Inspector });
     }
-    let native_tabs = app.native_tabs;
+    // Tools docked on its own is drawn bare, without a tab strip, like Acrobat's tool pane. Grouped
+    // with another panel, or floating, it keeps its tab so it can be dragged away again; moving it
+    // to the other side stays a preference and a command.
+    let bare_tools = rendered.location(&Panel::Tools).is_ok_and(|l| l.floating.is_none() && matches!(l.placement, Placement::Split(_)));
+    let render_permissions = move |panel: &Panel| if bare_tools && *panel == Panel::Tools { Permissions::PROTECTED } else { permissions(panel) };
     let output = DockArea::new(egui::Id::new("pdfcraft-docking")).show_with_limits(
         ui,
         &rendered,
         &style,
         |panel| crate::i18n::t(panel.label()).into(),
-        |panel| render_permissions(panel, native_tabs),
+        render_permissions,
         panel_limits,
         |ui, panel| match panel {
             Panel::Canvas => {
@@ -417,7 +414,10 @@ pub fn show(app: &mut crate::PdfCraftApp, ui: &mut egui::Ui) {
                 match app.active {
                     None if app.combine_showing() => crate::combine_ui::page(app, ui),
                     None => crate::home::show(app, ui),
-                    Some(index) => crate::canvas::document_area(app, index, ui),
+                    Some(index) => match crate::compare_ui::side_by_side(app, index) {
+                        Some((old, new)) => crate::compare_ui::compare_area(app, old, new, ui),
+                        None => crate::canvas::document_area(app, index, ui),
+                    },
                 }
             }
             Panel::Tools => crate::panels::left_panel(app, ui),
