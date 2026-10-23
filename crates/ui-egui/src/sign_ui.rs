@@ -968,7 +968,10 @@ fn configure(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) -> bool {
             n.provider = providers[0].clone();
         }
     }
-    if ui.add(widgets::radio(n.create && !n.device && !n.cloud, tl!("Create a new Digital ID (self-signed, saved to a password-protected file)"))).clicked() {
+    if ui
+        .add(widgets::radio(n.create && !n.device && !n.cloud, tl!("Create a new Digital ID (self-signed, saved to a password-protected file)")))
+        .clicked()
+    {
         (n.create, n.device, n.cloud) = (true, false, false);
     }
     #[cfg(target_arch = "wasm32")]
@@ -1078,8 +1081,7 @@ fn configure(ui: &mut egui::Ui, app: &mut PdfCraftApp, t: &Tokens) -> bool {
         });
     });
     if go {
-        let (create, device, cloud) =
-            app.sign_draft.as_ref().map_or((false, false, false), |d| (d.new_id.create, d.new_id.device, d.new_id.cloud));
+        let (create, device, cloud) = app.sign_draft.as_ref().map_or((false, false, false), |d| (d.new_id.create, d.new_id.device, d.new_id.cloud));
         #[cfg(not(target_arch = "wasm32"))]
         if cloud {
             let started = app.start_cloud_sign_in();
