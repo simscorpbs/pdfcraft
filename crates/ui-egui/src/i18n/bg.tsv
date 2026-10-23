@@ -2389,6 +2389,13 @@ animation effects	Off	Изключени
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft отваря страницата на доставчика, където влизате с CPF, PIN и еднократен код.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Собствени раздели (като във Finder на macOS и File Explorer на Windows)
 	Compact Home (tools and recent files only)	Компактна начална страница (само инструменти и скорошни файлове)
+	Interface font	Шрифт на интерфейса
+	Standard (Inter)	Стандартен (Inter)
+	System font	Системен шрифт
+	Font file	Файл с шрифт
+	Text rendering	Изобразяване на текста
+	Standard	Стандартно
+	Like macOS (fuller strokes, sub-pixel placement)	Като в macOS (по-плътни щрихи, позициониране под пиксел)
 	Cut Image	Изрежи изображението
 	Redact Image	Заличи изображението
 	Create Link…	Създай връзка…
@@ -2438,7 +2445,6 @@ animation effects	Off	Изключени
 	Word counting stopped unexpectedly.	Преброяването на думи спря неочаквано.
 	Word count…	Брой думи…
 @id	file.word_count	Брой думи…
-	Standard	Стандартни
 	Mobile	Мобилни устройства
 	Merge image fragments	Обединяване на фрагменти от изображения
 	Optimizing… merging image fragments	Оптимизиране… обединяване на фрагменти от изображения

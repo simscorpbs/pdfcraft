@@ -2768,3 +2768,9 @@ theme	Appearance	स्वरूप
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft प्रदाता का पेज खोलता है, जहाँ आप अपने CPF, पिन और एक-बार के कोड से साइन इन करते हैं।
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	नेटिव टैब (जैसे macOS के Finder और Windows के फ़ाइल एक्सप्लोरर में)
 	Compact Home (tools and recent files only)	संक्षिप्त होम (केवल टूल और हाल की फ़ाइलें)
+	Interface font	इंटरफ़ेस फ़ॉन्ट
+	Standard (Inter)	मानक (Inter)
+	System font	सिस्टम फ़ॉन्ट
+	Font file	फ़ॉन्ट फ़ाइल
+	Text rendering	टेक्स्ट रेंडरिंग
+	Like macOS (fuller strokes, sub-pixel placement)	macOS जैसा (भरे हुए स्ट्रोक, सब-पिक्सेल स्थिति)

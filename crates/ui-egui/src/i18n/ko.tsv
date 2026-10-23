@@ -2768,3 +2768,9 @@ theme	Appearance	모양
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft가 공급자 페이지를 열면 CPF, PIN 번호, 일회용 코드로 로그인합니다.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	네이티브 탭(macOS의 Finder, Windows의 파일 탐색기와 같이)
 	Compact Home (tools and recent files only)	간단한 홈(도구와 최근 파일만)
+	Interface font	인터페이스 글꼴
+	Standard (Inter)	기본(Inter)
+	System font	시스템 글꼴
+	Font file	글꼴 파일
+	Text rendering	텍스트 렌더링
+	Like macOS (fuller strokes, sub-pixel placement)	macOS처럼(더 굵은 획, 서브픽셀 배치)

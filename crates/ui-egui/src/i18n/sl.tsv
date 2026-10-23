@@ -2431,6 +2431,13 @@ animation effects	Off	Izklopljeni
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft odpre stran ponudnika, kjer se prijavite s CPF, kodo PIN in enkratno kodo.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Sistemski zavihki (kot v Finderju v macOS in Raziskovalcu v sistemu Windows)
 	Compact Home (tools and recent files only)	Strnjen začetni zaslon (samo orodja in nedavne datoteke)
+	Interface font	Pisava vmesnika
+	Standard (Inter)	Standardna (Inter)
+	System font	Sistemska pisava
+	Font file	Datoteka pisave
+	Text rendering	Upodabljanje besedila
+	Standard	Standardno
+	Like macOS (fuller strokes, sub-pixel placement)	Kot v macOS (polnejše poteze, podslikovna postavitev)
 	Cut Image	Izreži sliko
 	Redact Image	Počrni sliko
 	Create Link…	Ustvari povezavo…
@@ -2480,7 +2487,6 @@ animation effects	Off	Izklopljeni
 	Word counting stopped unexpectedly.	Štetje besed se je nepričakovano ustavilo.
 	Word count…	Število besed…
 @id	file.word_count	Število besed…
-	Standard	Standardno
 	Mobile	Mobilna naprava
 	Merge image fragments	Združi delce slik
 	Optimizing… merging image fragments	Optimiziranje… združevanje delcev slik

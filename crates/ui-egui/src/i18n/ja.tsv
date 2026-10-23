@@ -2426,6 +2426,13 @@ animation effects	Off	オフ
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft がプロバイダーのページを開きます。CPF、PIN、ワンタイムコードでサインインしてください。
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	ネイティブのタブ (macOS の Finder、Windows のエクスプローラーと同じ)
 	Compact Home (tools and recent files only)	コンパクトなホーム (ツールと最近使ったファイルのみ)
+	Interface font	インターフェイスのフォント
+	Standard (Inter)	標準 (Inter)
+	System font	システムフォント
+	Font file	フォントファイル
+	Text rendering	テキストのレンダリング
+	Standard	標準
+	Like macOS (fuller strokes, sub-pixel placement)	macOS と同じ (太めの線、サブピクセル配置)
 	Cut Image	画像を切り取り
 	Redact Image	画像を墨消し
 	Create Link…	リンクを作成…
@@ -2475,7 +2482,6 @@ animation effects	Off	オフ
 	Word counting stopped unexpectedly.	単語の集計が予期せず停止しました。
 	Word count…	文字数と単語数…
 @id	file.word_count	文字数と単語数…
-	Standard	標準
 	Mobile	モバイル
 	Merge image fragments	画像の断片を結合
 	Optimizing… merging image fragments	最適化中… 画像の断片を結合しています

@@ -2300,6 +2300,13 @@ animation effects	Off	關
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft 會開啟提供者頁面，您在該頁面以 CPF、PIN 和一次性驗證碼登入。
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	原生分頁（如 macOS 的 Finder 和 Windows 的檔案總管）
 	Compact Home (tools and recent files only)	精簡首頁（僅工具和最近的檔案）
+	Interface font	介面字型
+	Standard (Inter)	標準 (Inter)
+	System font	系統字型
+	Font file	字型檔案
+	Text rendering	文字轉譯
+	Standard	標準
+	Like macOS (fuller strokes, sub-pixel placement)	與 macOS 相同（筆畫更飽滿，次像素定位）
 	Cut Image	剪下圖片
 	Redact Image	遮蔽圖片
 	Create Link…	建立連結…
@@ -2426,7 +2433,6 @@ animation effects	Off	關
 	Word counting stopped unexpectedly.	字詞統計意外停止。
 	Word count…	字詞統計…
 @id	file.word_count	字詞統計…
-	Standard	標準
 	Mobile	行動裝置
 	Merge image fragments	合併影像片段
 	Optimizing… merging image fragments	正在最佳化… 正在合併影像片段

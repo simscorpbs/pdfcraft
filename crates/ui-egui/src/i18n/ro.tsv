@@ -2792,3 +2792,9 @@ theme	Appearance	Aspect
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft deschide pagina furnizorului, unde vă conectați cu CPF, PIN și un cod de unică folosință.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	File native (ca în Finder pe macOS și în Explorer pe Windows)
 	Compact Home (tools and recent files only)	Pagină de pornire compactă (doar instrumente și fișiere recente)
+	Interface font	Font pentru interfață
+	Standard (Inter)	Standard (Inter)
+	System font	Fontul sistemului
+	Font file	Fișier de font
+	Text rendering	Randarea textului
+	Like macOS (fuller strokes, sub-pixel placement)	Ca pe macOS (trasee mai pline, poziționare subpixel)

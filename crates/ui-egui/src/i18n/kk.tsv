@@ -2424,6 +2424,13 @@ animation effects	Off	Өшірулі
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft провайдер бетін ашады, онда CPF, PIN және бір реттік кодпен кіресіз.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Жүйелік қойындылар (macOS-тағы Finder және Windows-тағы Файл зерттеушісі сияқты)
 	Compact Home (tools and recent files only)	Ықшам басты бет (тек құралдар мен соңғы файлдар)
+	Interface font	Интерфейс қаріпі
+	Standard (Inter)	Стандартты (Inter)
+	System font	Жүйелік қаріп
+	Font file	Қаріп файлы
+	Text rendering	Мәтінді көрсету
+	Standard	Стандартты
+	Like macOS (fuller strokes, sub-pixel placement)	macOS сияқты (толығырақ сызықтар, субпиксельдік орналастыру)
 	Cut Image	Суретті кесу
 	Redact Image	Суретті жасыру
 	Create Link…	Сілтеме жасау…
@@ -2473,7 +2480,6 @@ animation effects	Off	Өшірулі
 	Word counting stopped unexpectedly.	Сөздерді санау күтпеген жерден тоқтады.
 	Word count…	Сөздер саны…
 @id	file.word_count	Сөздер саны…
-	Standard	Стандартты
 	Mobile	Мобильді құрылғы
 	Merge image fragments	Сурет фрагменттерін біріктіру
 	Optimizing… merging image fragments	Оңтайландыру… сурет фрагменттерін біріктіру

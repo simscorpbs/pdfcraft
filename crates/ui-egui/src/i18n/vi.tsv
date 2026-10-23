@@ -2798,3 +2798,9 @@ key	Space	Space
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft mở trang của nhà cung cấp, nơi bạn đăng nhập bằng CPF, mã PIN và mã dùng một lần.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Thẻ gốc của hệ thống (như Finder trên macOS và File Explorer trên Windows)
 	Compact Home (tools and recent files only)	Trang chủ thu gọn (chỉ công cụ và tệp gần đây)
+	Interface font	Phông chữ giao diện
+	Standard (Inter)	Tiêu chuẩn (Inter)
+	System font	Phông chữ hệ thống
+	Font file	Tệp phông chữ
+	Text rendering	Kết xuất văn bản
+	Like macOS (fuller strokes, sub-pixel placement)	Giống macOS (nét đầy hơn, đặt vị trí dưới điểm ảnh)

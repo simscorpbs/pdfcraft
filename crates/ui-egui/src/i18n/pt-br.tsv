@@ -2440,6 +2440,13 @@ animation effects	Off	Desativados
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	O PdfCraft abre a página do provedor, onde você entra com seu CPF, PIN e código de uso único.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Abas nativas (como no Finder do macOS e no Explorador de Arquivos do Windows)
 	Compact Home (tools and recent files only)	Início compacto (só ferramentas e arquivos recentes)
+	Interface font	Fonte da interface
+	Standard (Inter)	Padrão (Inter)
+	System font	Fonte do sistema
+	Font file	Arquivo de fonte
+	Text rendering	Renderização do texto
+	Standard	Padrão
+	Like macOS (fuller strokes, sub-pixel placement)	Como no macOS (traço mais cheio, posição em fração de pixel)
 	Cut Image	Recortar imagem
 	Redact Image	Ocultar dados da imagem
 	Create Link…	Criar link…
@@ -2489,7 +2496,6 @@ animation effects	Off	Desativados
 	Word counting stopped unexpectedly.	A contagem de palavras parou inesperadamente.
 	Word count…	Contagem de palavras…
 @id	file.word_count	Contagem de palavras…
-	Standard	Padrão
 	Mobile	Celular
 	Merge image fragments	Mesclar fragmentos de imagem
 	Optimizing… merging image fragments	Otimizando… mesclando fragmentos de imagem

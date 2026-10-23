@@ -2769,3 +2769,9 @@ theme	Appearance	Tampilan
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft membuka halaman penyedia, tempat Anda masuk dengan CPF, PIN, dan kode sekali pakai.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Tab bawaan (seperti di Finder macOS dan File Explorer Windows)
 	Compact Home (tools and recent files only)	Beranda ringkas (hanya alat dan file terbaru)
+	Interface font	Fon antarmuka
+	Standard (Inter)	Standar (Inter)
+	System font	Fon sistem
+	Font file	File fon
+	Text rendering	Perenderan teks
+	Like macOS (fuller strokes, sub-pixel placement)	Seperti macOS (goresan lebih penuh, penempatan subpiksel)

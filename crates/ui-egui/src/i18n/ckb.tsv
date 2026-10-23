@@ -2731,3 +2731,9 @@ certificate	Version	وەشان
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft پەڕەی دابینکەر دەکاتەوە، لەوێ بە CPF و PIN و کۆدی یەکجاری دەچیتە ژوورەوە.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	تابی ڕەسەن (وەک Finder لە macOS و File Explorer لە Windows)
 	Compact Home (tools and recent files only)	سەرەکی کورت (تەنها ئامراز و پەڕگە نوێیەکان)
+	Interface font	فۆنتی ڕووکار
+	Standard (Inter)	ستاندارد (Inter)
+	System font	فۆنتی سیستەم
+	Font file	پەڕگەی فۆنت
+	Text rendering	پیشاندانی دەق
+	Like macOS (fuller strokes, sub-pixel placement)	وەک macOS (هێڵی پڕتر، شوێنی ژێرپیکسڵ)

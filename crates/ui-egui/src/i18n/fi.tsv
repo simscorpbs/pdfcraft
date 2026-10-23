@@ -2801,3 +2801,9 @@ theme	Appearance	Teema
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft avaa palveluntarjoajan sivun, jolla kirjaudut CPF:llä, PIN-koodilla ja kertakäyttökoodilla.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Järjestelmän välilehdet (kuten macOSin Finderissa ja Windowsin Resurssienhallinnassa)
 	Compact Home (tools and recent files only)	Tiivis aloitusnäkymä (vain työkalut ja viimeisimmät tiedostot)
+	Interface font	Käyttöliittymän fontti
+	Standard (Inter)	Vakio (Inter)
+	System font	Järjestelmän fontti
+	Font file	Fonttitiedosto
+	Text rendering	Tekstin piirto
+	Like macOS (fuller strokes, sub-pixel placement)	Kuten macOS (täyteläisempi viiva, alipikselisijoittelu)

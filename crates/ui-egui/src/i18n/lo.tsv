@@ -2447,3 +2447,9 @@ animation effects	Off	ປິດ
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft ເປີດໜ້າຂອງຜູ້ໃຫ້ບໍລິການ ເຊິ່ງທ່ານເຂົ້າສູ່ລະບົບດ້ວຍ CPF, PIN ແລະ ລະຫັດໃຊ້ຄັ້ງດຽວ.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	ແຖບແບບລະບົບ (ຄືໃນ Finder ຂອງ macOS ແລະ File Explorer ຂອງ Windows)
 	Compact Home (tools and recent files only)	ໜ້າຫຼັກແບບຫຍໍ້ (ສະເພາະເຄື່ອງມື ແລະ ໄຟລ໌ຫຼ້າສຸດ)
+	Interface font	ຟອນຂອງສ່ວນຕິດຕໍ່
+	Standard (Inter)	ມາດຕະຖານ (Inter)
+	System font	ຟອນຂອງລະບົບ
+	Font file	ໄຟລ໌ຟອນ
+	Text rendering	ການສະແດງຂໍ້ຄວາມ
+	Like macOS (fuller strokes, sub-pixel placement)	ຄື macOS (ເສັ້ນໜາຂຶ້ນ, ການວາງລະດັບຍ່ອຍພິກເຊລ)

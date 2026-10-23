@@ -2518,3 +2518,9 @@ animation effects	Off	Joaktiv
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft hap faqen e ofruesit, ku hyni me CPF-në, PIN-in dhe një kod njëpërdorimësh.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Skeda vendase (si në Finder në macOS dhe File Explorer në Windows)
 	Compact Home (tools and recent files only)	Faqja kryesore kompakte (vetëm mjete dhe skedarë të fundit)
+	Interface font	Shkronja e ndërfaqes
+	Standard (Inter)	Standarde (Inter)
+	System font	Shkronja e sistemit
+	Font file	Skedar shkronjash
+	Text rendering	Paraqitja e tekstit
+	Like macOS (fuller strokes, sub-pixel placement)	Si macOS (vija më të plota, vendosje nënpikseli)

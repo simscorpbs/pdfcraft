@@ -2500,6 +2500,13 @@ animation effects	Off	Vypnuto
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft otevře stránku poskytovatele, kde se přihlásíte pomocí CPF, kódu PIN a jednorázového kódu.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Nativní karty (jako ve Finderu v macOS a v Průzkumníku souborů ve Windows)
 	Compact Home (tools and recent files only)	Kompaktní domovská stránka (jen nástroje a nedávné soubory)
+	Interface font	Písmo rozhraní
+	Standard (Inter)	Standardní (Inter)
+	System font	Systémové písmo
+	Font file	Soubor písma
+	Text rendering	Vykreslování textu
+	Standard	Standardní
+	Like macOS (fuller strokes, sub-pixel placement)	Jako v macOS (plnější tahy, umístění v subpixelech)
 	Cut Image	Vyjmout obrázek
 	Redact Image	Začernit obrázek
 	Create Link…	Vytvořit odkaz…
@@ -2549,7 +2556,6 @@ animation effects	Off	Vypnuto
 	Word counting stopped unexpectedly.	Počítání slov se neočekávaně zastavilo.
 	Word count…	Počet slov…
 @id	file.word_count	Počet slov…
-	Standard	Standardní
 	Mobile	Mobilní zařízení
 	Merge image fragments	Sloučit fragmenty obrázků
 	Optimizing… merging image fragments	Optimalizace… slučování fragmentů obrázků

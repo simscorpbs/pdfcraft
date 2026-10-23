@@ -2425,6 +2425,13 @@ animation effects	Off	Ki
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	A PdfCraft megnyitja a szolgáltató oldalát, ahol CPF-fel, PIN-kóddal és egyszer használatos kóddal jelentkezik be.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Natív lapok (mint a macOS Finderében és a Windows Fájlkezelőjében)
 	Compact Home (tools and recent files only)	Kompakt kezdőlap (csak eszközök és legutóbbi fájlok)
+	Interface font	Felület betűtípusa
+	Standard (Inter)	Normál (Inter)
+	System font	Rendszer-betűtípus
+	Font file	Betűtípusfájl
+	Text rendering	Szövegmegjelenítés
+	Standard	Normál
+	Like macOS (fuller strokes, sub-pixel placement)	Mint a macOS-en (teltebb vonalak, képpontnál finomabb elhelyezés)
 	Cut Image	Kép kivágása
 	Redact Image	Kép kitakarása
 	Create Link…	Hivatkozás létrehozása…
@@ -2474,7 +2481,6 @@ animation effects	Off	Ki
 	Word counting stopped unexpectedly.	A szavak számlálása váratlanul leállt.
 	Word count…	Szavak száma…
 @id	file.word_count	Szavak száma…
-	Standard	Normál
 	Mobile	Mobil
 	Merge image fragments	Képtöredékek egyesítése
 	Optimizing… merging image fragments	Optimalizálás… képtöredékek egyesítése

@@ -2792,3 +2792,9 @@ theme	Appearance	Aspecte
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	El PdfCraft obre la pàgina del proveïdor, on inicieu la sessió amb el CPF, el PIN i un codi d'un sol ús.
 	Native tabs (as in Finder on macOS and File Explorer on Windows)	Pestanyes natives (com al Finder del macOS i a l'Explorador de fitxers del Windows)
 	Compact Home (tools and recent files only)	Inici compacte (només eines i fitxers recents)
+	Interface font	Lletra de la interfície
+	Standard (Inter)	Estàndard (Inter)
+	System font	Lletra del sistema
+	Font file	Fitxer de lletra
+	Text rendering	Representació del text
+	Like macOS (fuller strokes, sub-pixel placement)	Com al macOS (traç més ple, posició subpíxel)
