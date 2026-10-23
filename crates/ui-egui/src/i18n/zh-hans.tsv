@@ -2505,3 +2505,5 @@ animation effects	Off	关
 	two cells would both be named {name}	两个单元格的名称都会是 {name}
 	a field named {name} already exists	已存在名为 {name} 的字段
 	Save this document to a folder first	请先将此文档保存到文件夹
+	Delete object	删除对象
+	Delete objects	删除多个对象

@@ -2803,3 +2803,5 @@ theme	Appearance	Aspecte
 	The Dock shows it the next time PdfCraft opens.	El Dock la mostrarà la propera vegada que s'obri el PdfCraft.
 	The image couldn't be used as an icon: {e}	No s'ha pogut utilitzar la imatge com a icona: {e}
 	Save this document to a folder first	Primer deseu aquest document en una carpeta
+	Delete object	Suprimeix l'objecte
+	Delete objects	Suprimeix els objectes

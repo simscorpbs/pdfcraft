@@ -2801,3 +2801,5 @@ theme	Appearance	Išvaizda
 	the first row number can be at most {max}	pirmosios eilutės numeris gali būti ne didesnis nei {max}
 	the area, the spacing and the column widths must be numbers, the spacing 0 or more and each width more than 0	sritis, tarpai ir stulpelių pločiai turi būti skaičiai, tarpai – 0 arba daugiau, o kiekvienas plotis – daugiau nei 0
 	Save this document to a folder first	Pirmiausia išsaugokite šį dokumentą aplanke
+	Delete object	Naikinti objektą
+	Delete objects	Naikinti objektus

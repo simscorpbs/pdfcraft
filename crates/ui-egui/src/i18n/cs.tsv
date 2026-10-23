@@ -2844,3 +2844,5 @@ certificate	Version	Verze
 	two cells would both be named {name}	dvě buňky by se jmenovaly {name}
 	a field named {name} already exists	pole s názvem {name} už existuje
 	Save this document to a folder first	Nejprve tento dokument uložte do složky
+	Delete object	Odstranit objekt
+	Delete objects	Odstranit objekty

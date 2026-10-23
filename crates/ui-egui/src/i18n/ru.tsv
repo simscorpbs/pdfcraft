@@ -2454,3 +2454,5 @@ animation effects	Off	Выкл
 	two cells would both be named {name}	две ячейки получили бы одно имя {name}
 	a field named {name} already exists	поле с именем {name} уже существует
 	Save this document to a folder first	Сначала сохраните этот документ в папку
+	Delete object	Удалить объект
+	Delete objects	Удалить объекты

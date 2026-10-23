@@ -2824,3 +2824,5 @@ theme	Appearance	Aparência
 	the first row number can be at most {max}	o número da primeira linha pode ser no máximo {max}
 	the area, the spacing and the column widths must be numbers, the spacing 0 or more and each width more than 0	a área, o espaçamento e as larguras das colunas devem ser números, o espaçamento 0 ou mais e cada largura maior que 0
 	Save this document to a folder first	Salve primeiro este documento em uma pasta
+	Delete object	Excluir objeto
+	Delete objects	Excluir objetos

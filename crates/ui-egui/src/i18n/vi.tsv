@@ -2809,3 +2809,5 @@ key	Space	Space
 	The Dock shows it the next time PdfCraft opens.	Dock sẽ hiển thị biểu tượng này vào lần mở PdfCraft tiếp theo.
 	The image couldn't be used as an icon: {e}	Không thể dùng hình ảnh làm biểu tượng: {e}
 	Save this document to a folder first	Hãy lưu tài liệu này vào một thư mục trước
+	Delete object	Xóa đối tượng
+	Delete objects	Xóa các đối tượng

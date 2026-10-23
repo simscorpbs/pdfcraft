@@ -2458,3 +2458,5 @@ animation effects	Off	ປິດ
 	The Dock shows it the next time PdfCraft opens.	Dock ຈະສະແດງມັນໃນເທື່ອຕໍ່ໄປທີ່ PdfCraft ເປີດ.
 	The image couldn't be used as an icon: {e}	ບໍ່ສາມາດໃຊ້ຮູບເປັນໄອຄອນໄດ້: {e}
 	Save this document to a folder first	ບັນທຶກເອກະສານນີ້ໃສ່ໂຟນເດີກ່ອນ
+	Delete object	ລຶບວັດຖຸ
+	Delete objects	ລຶບຫຼາຍວັດຖຸ
