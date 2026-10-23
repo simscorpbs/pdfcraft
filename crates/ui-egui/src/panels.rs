@@ -297,10 +297,12 @@ fn edit_panel(app: &mut PdfCraftApp, ui: &mut egui::Ui, t: &Tokens, g: &'static 
     let mut tool = None;
     // Back to All tools only when Edit was opened from there; the Edit tab is its own way back.
     let from_all_tools = app.mode != crate::Mode::Edit;
+    let mut put_down = false;
     ui.horizontal(|ui| {
         if from_all_tools && icons::button(ui, "chevron-left", 26.0, false, tl!("Back to all tools")).clicked() {
             app.left = LeftPanel::AllTools;
             app.mode = crate::Mode::AllTools;
+            put_down = true;
         }
         // "Edit" under the Edit tab, as Acrobat titles it; the tool's own name from All tools.
         let title = if from_all_tools { tl!(g.label) } else { tl!("Edit") };
@@ -312,8 +314,14 @@ fn edit_panel(app: &mut PdfCraftApp, ui: &mut egui::Ui, t: &Tokens, g: &'static 
         }
         if icons::button(ui, "x", 26.0, false, tl!("Close panel")).clicked() {
             app.left_open = false;
+            put_down = true;
         }
     });
+    // Closing the Edit panel or going back from it leaves editing, as in Acrobat: the paragraph
+    // and image boxes go away and a paragraph still open in the editor is applied.
+    if put_down && matches!(app.quick_tool, crate::QuickTool::EditText | crate::QuickTool::AddText) {
+        app.put_down_edit_text();
+    }
     ui.add_space(2.0);
     ui.separator();
     ui.add_space(4.0);

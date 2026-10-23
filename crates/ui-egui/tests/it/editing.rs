@@ -3311,6 +3311,50 @@ fn the_read_mode_command_applies_an_open_paragraph_and_puts_edit_text_down() {
     assert_eq!(texts_of(s, 0), ["Chapter One"], "the page shows it");
 }
 
+/// Opens the line "Page 1" under the Edit tab and retypes it, leaving its editor open.
+fn retype_page_one_in_edit(h: &mut egui_kittest::Harness<'static, pdfcraft_ui_egui::PdfCraftApp>) {
+    use pdfcraft_ui_egui::{Mode, QuickTool};
+    h.get_by_label("Edit").click();
+    h.run_steps(3);
+    assert_eq!((h.state().mode, h.state().quick_tool), (Mode::Edit, QuickTool::EditText));
+    let r = h.state().views[0].page_screen_rect(0).expect("on screen");
+    let at = egui::pos2(r.left() + 40.0 / 200.0 * r.width(), r.top() + (300.0 - 158.0) / 300.0 * r.height());
+    h.hover_at(at);
+    h.run_steps(1);
+    h.drag_at(at);
+    h.run_steps(1);
+    h.drop_at(at);
+    h.run_steps(3);
+    assert_eq!(h.state().views[0].line_editor.as_ref().expect("the line opens for editing").text, "Page 1");
+    h.state_mut().views[0].line_editor.as_mut().unwrap().text = "Chapter One".into();
+    h.run_steps(1);
+}
+
+/// The paragraph retyped by [`retype_page_one_in_edit`] is applied and editing is over: Select is
+/// the tool, so the page has no paragraph boxes left.
+fn assert_edit_text_put_down(h: &egui_kittest::Harness<'static, pdfcraft_ui_egui::PdfCraftApp>) {
+    let s = h.state();
+    assert_eq!(s.quick_tool, pdfcraft_ui_egui::QuickTool::Select, "Edit text & images is put down");
+    assert!(s.views[0].line_editor.is_none(), "no paragraph editor is left open");
+    let doc = s.session.get(s.views[0].id).unwrap();
+    assert_eq!(doc.can_undo(), Some("Edit text"), "the open paragraph's edit is applied");
+    assert_eq!(doc.text_lines(0)[0].text, "Chapter One");
+}
+
+/// Closing the Edit panel leaves editing, as in Acrobat: before, the panel went away and every
+/// paragraph kept its box and stayed editable, with no visible way out.
+#[test]
+fn closing_the_edit_panel_puts_edit_text_down_and_applies_an_open_paragraph() {
+    let mut h = harness(1, |_| {});
+    retype_page_one_in_edit(&mut h);
+    // The left panel's Close button: the one furthest left (the right panel has its own).
+    let close = h.get_all_by_label("Close panel").min_by(|a, b| a.rect().left().total_cmp(&b.rect().left())).expect("the Edit panel can be closed");
+    close.click();
+    h.run_steps(3);
+    assert!(!h.state().left_open, "the panel is closed");
+    assert_edit_text_put_down(&h);
+}
+
 #[test]
 fn text_tool_clicking_source_text_edits_instead_of_adding_a_copy() {
     let mut h = harness(1, |_| {});
