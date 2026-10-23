@@ -2710,3 +2710,5 @@ key	Space	Mellomrom
 	The provider's page didn't come back in time. Try again.	Leverandørens side kom ikke tilbake i tide. Prøv igjen.
 	Choose a provider.	Velg en leverandør.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft åpner leverandørens side, der du logger på med CPF, PIN og engangskode.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Systemfaner (som i Finder på macOS og Filutforsker på Windows)
+	Compact Home (tools and recent files only)	Kompakt startside (bare verktøy og nylige filer)

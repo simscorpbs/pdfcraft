@@ -2766,3 +2766,5 @@ theme	Appearance	स्वरूप
 	The provider's page didn't come back in time. Try again.	प्रदाता का पेज समय पर वापस नहीं आया। फिर से प्रयास करें।
 	Choose a provider.	एक प्रदाता चुनें।
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft प्रदाता का पेज खोलता है, जहाँ आप अपने CPF, पिन और एक-बार के कोड से साइन इन करते हैं।
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	नेटिव टैब (जैसे macOS के Finder और Windows के फ़ाइल एक्सप्लोरर में)
+	Compact Home (tools and recent files only)	संक्षिप्त होम (केवल टूल और हाल की फ़ाइलें)

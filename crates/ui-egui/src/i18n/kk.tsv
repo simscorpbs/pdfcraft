@@ -2422,6 +2422,8 @@ animation effects	Off	Өшірулі
 	The provider's page didn't come back in time. Try again.	Провайдер беті уақытында оралмады. Қайталап көріңіз.
 	Choose a provider.	Провайдерді таңдаңыз.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft провайдер бетін ашады, онда CPF, PIN және бір реттік кодпен кіресіз.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Жүйелік қойындылар (macOS-тағы Finder және Windows-тағы Файл зерттеушісі сияқты)
+	Compact Home (tools and recent files only)	Ықшам басты бет (тек құралдар мен соңғы файлдар)
 	Cut Image	Суретті кесу
 	Redact Image	Суретті жасыру
 	Create Link…	Сілтеме жасау…

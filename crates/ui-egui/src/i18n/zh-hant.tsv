@@ -2298,6 +2298,8 @@ animation effects	Off	關
 	The provider's page didn't come back in time. Try again.	提供者頁面未及時返回。請再試一次。
 	Choose a provider.	請選擇提供者。
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft 會開啟提供者頁面，您在該頁面以 CPF、PIN 和一次性驗證碼登入。
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	原生分頁（如 macOS 的 Finder 和 Windows 的檔案總管）
+	Compact Home (tools and recent files only)	精簡首頁（僅工具和最近的檔案）
 	Cut Image	剪下圖片
 	Redact Image	遮蔽圖片
 	Create Link…	建立連結…

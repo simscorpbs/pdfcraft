@@ -2429,6 +2429,8 @@ animation effects	Off	Izklopljeni
 	The provider's page didn't come back in time. Try again.	Stran ponudnika se ni pravočasno vrnila. Poskusite znova.
 	Choose a provider.	Izberite ponudnika.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft odpre stran ponudnika, kjer se prijavite s CPF, kodo PIN in enkratno kodo.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Sistemski zavihki (kot v Finderju v macOS in Raziskovalcu v sistemu Windows)
+	Compact Home (tools and recent files only)	Strnjen začetni zaslon (samo orodja in nedavne datoteke)
 	Cut Image	Izreži sliko
 	Redact Image	Počrni sliko
 	Create Link…	Ustvari povezavo…

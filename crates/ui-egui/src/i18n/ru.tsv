@@ -2337,6 +2337,8 @@ animation effects	Off	Выкл
 	The provider's page didn't come back in time. Try again.	Страница поставщика не вернулась вовремя. Попробуйте ещё раз.
 	Choose a provider.	Выберите поставщика.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft открывает страницу поставщика, где вы входите с CPF, PIN-кодом и одноразовым кодом.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Системные вкладки (как в Finder в macOS и в Проводнике в Windows)
+	Compact Home (tools and recent files only)	Компактная главная страница (только инструменты и недавние файлы)
 	Cut Image	Вырезать изображение
 	Redact Image	Скрыть изображение
 	Create Link…	Создать ссылку…

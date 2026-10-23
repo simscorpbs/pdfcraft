@@ -2790,3 +2790,5 @@ theme	Appearance	Aspect
 	The provider's page didn't come back in time. Try again.	Pagina furnizorului nu a revenit la timp. Încercați din nou.
 	Choose a provider.	Alegeți un furnizor.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft deschide pagina furnizorului, unde vă conectați cu CPF, PIN și un cod de unică folosință.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	File native (ca în Finder pe macOS și în Explorer pe Windows)
+	Compact Home (tools and recent files only)	Pagină de pornire compactă (doar instrumente și fișiere recente)

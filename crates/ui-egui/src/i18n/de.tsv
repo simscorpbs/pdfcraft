@@ -2425,6 +2425,8 @@ animation effects	Off	Aus
 	The provider's page didn't come back in time. Try again.	Die Seite des Anbieters kam nicht rechtzeitig zurück. Versuchen Sie es erneut.
 	Choose a provider.	Wählen Sie einen Anbieter.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft öffnet die Seite des Anbieters, auf der Sie sich mit CPF, PIN und Einmalcode anmelden.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Native Tabs (wie im Finder unter macOS und im Datei-Explorer unter Windows)
+	Compact Home (tools and recent files only)	Kompakte Startseite (nur Werkzeuge und zuletzt verwendete Dateien)
 	Cut Image	Bild ausschneiden
 	Redact Image	Bild schwärzen
 	Create Link…	Link erstellen…

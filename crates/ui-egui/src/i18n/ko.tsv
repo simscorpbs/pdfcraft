@@ -2766,3 +2766,5 @@ theme	Appearance	모양
 	The provider's page didn't come back in time. Try again.	공급자 페이지가 제때 돌아오지 않았습니다. 다시 시도하세요.
 	Choose a provider.	공급자를 선택하세요.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft가 공급자 페이지를 열면 CPF, PIN 번호, 일회용 코드로 로그인합니다.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	네이티브 탭(macOS의 Finder, Windows의 파일 탐색기와 같이)
+	Compact Home (tools and recent files only)	간단한 홈(도구와 최근 파일만)

@@ -2729,3 +2729,5 @@ certificate	Version	وەشان
 	The provider's page didn't come back in time. Try again.	پەڕەی دابینکەر لە کاتی خۆیدا نەگەڕایەوە. دووبارە هەوڵ بدەوە.
 	Choose a provider.	دابینکەرێک هەڵبژێرە.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft پەڕەی دابینکەر دەکاتەوە، لەوێ بە CPF و PIN و کۆدی یەکجاری دەچیتە ژوورەوە.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	تابی ڕەسەن (وەک Finder لە macOS و File Explorer لە Windows)
+	Compact Home (tools and recent files only)	سەرەکی کورت (تەنها ئامراز و پەڕگە نوێیەکان)

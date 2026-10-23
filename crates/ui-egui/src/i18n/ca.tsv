@@ -2790,3 +2790,5 @@ theme	Appearance	Aspecte
 	The provider's page didn't come back in time. Try again.	La pàgina del proveïdor no ha tornat a temps. Torneu-ho a provar.
 	Choose a provider.	Trieu un proveïdor.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	El PdfCraft obre la pàgina del proveïdor, on inicieu la sessió amb el CPF, el PIN i un codi d'un sol ús.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Pestanyes natives (com al Finder del macOS i a l'Explorador de fitxers del Windows)
+	Compact Home (tools and recent files only)	Inici compacte (només eines i fitxers recents)

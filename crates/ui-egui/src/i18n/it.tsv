@@ -2433,6 +2433,8 @@ animation effects	Off	Disattivati
 	The provider's page didn't come back in time. Try again.	La pagina del fornitore non è tornata in tempo. Riprova.
 	Choose a provider.	Scegli un fornitore.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft apre la pagina del fornitore, dove accedi con CPF, PIN e codice monouso.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Schede native (come nel Finder di macOS e in Esplora file di Windows)
+	Compact Home (tools and recent files only)	Home compatta (solo strumenti e file recenti)
 	Cut Image	Taglia immagine
 	Redact Image	Oscura immagine
 	Create Link…	Crea collegamento…

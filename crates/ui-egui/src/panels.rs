@@ -37,8 +37,9 @@ pub fn left_panel(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
 }
 
 /// A panel's title row: Back (with `back` as its tooltip) when given, the title and Close.
-/// Returns whether Back and Close were clicked.
-pub(crate) fn panel_header(ui: &mut egui::Ui, t: &Tokens, title: &str, back: Option<&str>) -> (bool, bool) {
+/// Returns whether Back and Close were clicked. `quiet`: native tabs (Preferences ▸ Appearance)
+/// give the panel a smaller, muted, left-aligned title, so the list under it leads.
+pub(crate) fn panel_header(ui: &mut egui::Ui, t: &Tokens, title: &str, back: Option<&str>, quiet: bool) -> (bool, bool) {
     let mut go_back = false;
     let mut close = false;
     ui.horizontal(|ui| {
@@ -50,8 +51,16 @@ pub(crate) fn panel_header(ui: &mut egui::Ui, t: &Tokens, title: &str, back: Opt
         // Reserve space for Close before laying out the translated title. Long tool names
         // must never expand the fixed-width sidebar or push the Close control off-screen.
         let title_width = (ui.available_width() - 26.0 - ui.spacing().item_spacing.x).max(1.0);
-        ui.add_sized([title_width, 26.0], egui::Label::new(egui::RichText::new(tl!(title)).font(theme::semibold(15.5)).color(t.text)).truncate())
-            .on_hover_text(tl!(title));
+        if quiet {
+            ui.allocate_ui_with_layout(vec2(title_width, 26.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                ui.set_min_width(title_width);
+                ui.add(egui::Label::new(egui::RichText::new(tl!(title)).font(theme::medium(13.0)).color(t.text_muted)).truncate())
+                    .on_hover_text(tl!(title));
+            });
+        } else {
+            ui.add_sized([title_width, 26.0], egui::Label::new(egui::RichText::new(tl!(title)).font(theme::semibold(15.5)).color(t.text)).truncate())
+                .on_hover_text(tl!(title));
+        }
         if icons::button(ui, "x", 26.0, false, tl!("Close panel")).clicked() {
             close = true;
         }
@@ -63,7 +72,7 @@ pub(crate) fn panel_header(ui: &mut egui::Ui, t: &Tokens, title: &str, back: Opt
 }
 
 fn all_tools(app: &mut PdfCraftApp, ui: &mut egui::Ui, t: &Tokens) {
-    let (_, close) = panel_header(ui, t, "All tools", None);
+    let (_, close) = panel_header(ui, t, "All tools", None, app.native_tabs);
     if close {
         app.left_open = false;
     }
@@ -153,7 +162,7 @@ fn tool_detail(app: &mut PdfCraftApp, ui: &mut egui::Ui, t: &Tokens, g: &'static
         edit_panel(app, ui, t, g);
         return;
     }
-    let (back, close) = panel_header(ui, t, g.label, Some(tl!("Back to all tools")));
+    let (back, close) = panel_header(ui, t, g.label, Some(tl!("Back to all tools")), app.native_tabs);
     if back {
         app.left = LeftPanel::AllTools;
         app.mode = crate::Mode::AllTools;
@@ -305,8 +314,9 @@ fn edit_panel(app: &mut PdfCraftApp, ui: &mut egui::Ui, t: &Tokens, g: &'static 
         // "Edit" under the Edit tab, as Acrobat titles it; the tool's own name from All tools.
         let title = if from_all_tools { tl!(g.label) } else { tl!("Edit") };
         let title_width = (ui.available_width() - 2.0 * (26.0 + ui.spacing().item_spacing.x)).max(1.0);
-        ui.add_sized([title_width, 26.0], egui::Label::new(egui::RichText::new(title).font(theme::semibold(15.5)).color(t.text)).truncate())
-            .on_hover_text(title);
+        // Native tabs (Preferences ▸ Appearance) quiet the title, as `panel_header` does.
+        let (font, color) = if app.native_tabs { (theme::medium(13.0), t.text_muted) } else { (theme::semibold(15.5), t.text) };
+        ui.add_sized([title_width, 26.0], egui::Label::new(egui::RichText::new(title).font(font).color(color)).truncate()).on_hover_text(title);
         if icons::button(ui, "settings", 26.0, false, tl!("Preferences")).clicked() {
             run = Some("app.preferences");
         }

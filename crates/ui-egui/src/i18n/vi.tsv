@@ -2796,3 +2796,5 @@ key	Space	Space
 	The provider's page didn't come back in time. Try again.	Trang của nhà cung cấp không phản hồi kịp. Hãy thử lại.
 	Choose a provider.	Hãy chọn một nhà cung cấp.
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft mở trang của nhà cung cấp, nơi bạn đăng nhập bằng CPF, mã PIN và mã dùng một lần.
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	Thẻ gốc của hệ thống (như Finder trên macOS và File Explorer trên Windows)
+	Compact Home (tools and recent files only)	Trang chủ thu gọn (chỉ công cụ và tệp gần đây)

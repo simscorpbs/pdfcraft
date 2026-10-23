@@ -2697,3 +2697,5 @@ theme	Appearance	ลักษณะที่ปรากฏ
 	The provider's page didn't come back in time. Try again.	หน้าของผู้ให้บริการไม่ตอบกลับทันเวลา ลองอีกครั้ง
 	Choose a provider.	เลือกผู้ให้บริการ
 	PdfCraft opens the provider's page, where you sign in with your CPF, PIN and one-time code.	PdfCraft จะเปิดหน้าของผู้ให้บริการ ซึ่งคุณลงชื่อเข้าใช้ด้วย CPF, PIN และรหัสใช้ครั้งเดียว
+	Native tabs (as in Finder on macOS and File Explorer on Windows)	แท็บแบบเนทีฟ (เหมือน Finder ใน macOS และ File Explorer ใน Windows)
+	Compact Home (tools and recent files only)	หน้าแรกแบบกะทัดรัด (เฉพาะเครื่องมือและไฟล์ล่าสุด)
