@@ -306,6 +306,25 @@ fn the_pages_menu_comes_from_the_registry() {
     assert_eq!(app.session.get(app.views[0].id).unwrap().info.pages.len(), 2);
 }
 
+/// File ▸ Reveal in Finder (⇧⌘R, Ctrl+Shift+R elsewhere): a document opened from memory has
+/// no folder to show, and a file deleted since it was opened is reported instead of revealed.
+#[test]
+fn reveal_needs_the_open_file_on_disk() {
+    let mut app = PdfCraftApp::new();
+    app.set_option("language", "en").unwrap();
+    app.open_bytes("doc.pdf", None, fixture(1)).unwrap();
+    assert!(app.execute("file.reveal"));
+    assert_eq!(app.toast.as_ref().map(|t| t.0.as_str()), Some("Save this document to a folder first"));
+    let dir = std::env::temp_dir().join(format!("pdfcraft-reveal-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let path = dir.join("gone.pdf");
+    app.open_bytes("gone.pdf", Some(path.to_string_lossy().into_owned()), fixture(1)).unwrap();
+    assert!(app.execute("file.reveal"));
+    assert_eq!(app.toast.as_ref().map(|t| t.0.as_str()), Some("The file no longer exists"));
+    let shortcut = pdfcraft_engine::commands::command("file.reveal").unwrap().shortcut.unwrap();
+    assert_eq!((shortcut.label(true), shortcut.label(false)), ("⇧⌘R".to_string(), "Ctrl+Shift+R".to_string()));
+}
+
 #[test]
 fn the_open_recent_menu_lists_files_and_opens_one() {
     let dir = std::env::temp_dir().join(format!("pdfcraft-recent-{}", std::process::id()));
