@@ -2804,3 +2804,7 @@ key	Space	Space
 	Font file	Tệp phông chữ
 	Text rendering	Kết xuất văn bản
 	Like macOS (fuller strokes, sub-pixel placement)	Giống macOS (nét đầy hơn, đặt vị trí dưới điểm ảnh)
+	App icon	Biểu tượng ứng dụng
+	Use the default	Dùng mặc định
+	The Dock shows it the next time PdfCraft opens.	Dock sẽ hiển thị biểu tượng này vào lần mở PdfCraft tiếp theo.
+	The image couldn't be used as an icon: {e}	Không thể dùng hình ảnh làm biểu tượng: {e}

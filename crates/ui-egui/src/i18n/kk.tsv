@@ -2431,6 +2431,10 @@ animation effects	Off	Өшірулі
 	Text rendering	Мәтінді көрсету
 	Standard	Стандартты
 	Like macOS (fuller strokes, sub-pixel placement)	macOS сияқты (толығырақ сызықтар, субпиксельдік орналастыру)
+	App icon	Қолданба белгішесі
+	Use the default	Әдепкісін пайдалану
+	The Dock shows it the next time PdfCraft opens.	Dock оны PdfCraft келесі ашылғанда көрсетеді.
+	The image couldn't be used as an icon: {e}	Суретті белгіше ретінде пайдалану мүмкін болмады: {e}
 	Cut Image	Суретті кесу
 	Redact Image	Суретті жасыру
 	Create Link…	Сілтеме жасау…

@@ -2433,6 +2433,10 @@ animation effects	Off	オフ
 	Text rendering	テキストのレンダリング
 	Standard	標準
 	Like macOS (fuller strokes, sub-pixel placement)	macOS と同じ (太めの線、サブピクセル配置)
+	App icon	アプリのアイコン
+	Use the default	デフォルトを使用
+	The Dock shows it the next time PdfCraft opens.	Dock には次に PdfCraft を開いたときに表示されます。
+	The image couldn't be used as an icon: {e}	画像をアイコンとして使用できませんでした: {e}
 	Cut Image	画像を切り取り
 	Redact Image	画像を墨消し
 	Create Link…	リンクを作成…

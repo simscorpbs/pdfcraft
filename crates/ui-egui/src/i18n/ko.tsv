@@ -2774,3 +2774,7 @@ theme	Appearance	모양
 	Font file	글꼴 파일
 	Text rendering	텍스트 렌더링
 	Like macOS (fuller strokes, sub-pixel placement)	macOS처럼(더 굵은 획, 서브픽셀 배치)
+	App icon	앱 아이콘
+	Use the default	기본값 사용
+	The Dock shows it the next time PdfCraft opens.	다음에 PdfCraft를 열 때 Dock에 표시됩니다.
+	The image couldn't be used as an icon: {e}	이미지를 아이콘으로 사용할 수 없습니다: {e}

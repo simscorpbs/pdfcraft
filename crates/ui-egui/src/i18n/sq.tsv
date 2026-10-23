@@ -2524,3 +2524,7 @@ animation effects	Off	Joaktiv
 	Font file	Skedar shkronjash
 	Text rendering	Paraqitja e tekstit
 	Like macOS (fuller strokes, sub-pixel placement)	Si macOS (vija më të plota, vendosje nënpikseli)
+	App icon	Ikona e aplikacionit
+	Use the default	Përdor parazgjedhjen
+	The Dock shows it the next time PdfCraft opens.	Dock e shfaq herën tjetër që hapet PdfCraft.
+	The image couldn't be used as an icon: {e}	Imazhi nuk mund të përdorej si ikonë: {e}

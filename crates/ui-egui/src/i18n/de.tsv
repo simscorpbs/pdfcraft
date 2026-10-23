@@ -2434,6 +2434,10 @@ animation effects	Off	Aus
 	Text rendering	Textdarstellung
 	Standard	Standard
 	Like macOS (fuller strokes, sub-pixel placement)	Wie macOS (vollere Striche, Subpixel-Platzierung)
+	App icon	App-Symbol
+	Use the default	Standard verwenden
+	The Dock shows it the next time PdfCraft opens.	Das Dock zeigt es beim nächsten Öffnen von PdfCraft.
+	The image couldn't be used as an icon: {e}	Das Bild kann nicht als Symbol verwendet werden: {e}
 	Cut Image	Bild ausschneiden
 	Redact Image	Bild schwärzen
 	Create Link…	Link erstellen…

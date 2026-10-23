@@ -2807,3 +2807,7 @@ theme	Appearance	Teema
 	Font file	Fonttitiedosto
 	Text rendering	Tekstin piirto
 	Like macOS (fuller strokes, sub-pixel placement)	Kuten macOS (täyteläisempi viiva, alipikselisijoittelu)
+	App icon	Sovelluksen kuvake
+	Use the default	Käytä oletusta
+	The Dock shows it the next time PdfCraft opens.	Dock näyttää sen, kun PdfCraft avataan seuraavan kerran.
+	The image couldn't be used as an icon: {e}	Kuvaa ei voitu käyttää kuvakkeena: {e}

@@ -2774,3 +2774,7 @@ theme	Appearance	स्वरूप
 	Font file	फ़ॉन्ट फ़ाइल
 	Text rendering	टेक्स्ट रेंडरिंग
 	Like macOS (fuller strokes, sub-pixel placement)	macOS जैसा (भरे हुए स्ट्रोक, सब-पिक्सेल स्थिति)
+	App icon	ऐप आइकन
+	Use the default	डिफ़ॉल्ट का उपयोग करें
+	The Dock shows it the next time PdfCraft opens.	अगली बार PdfCraft खुलने पर Dock इसे दिखाएगा।
+	The image couldn't be used as an icon: {e}	छवि को आइकन के रूप में उपयोग नहीं किया जा सका: {e}

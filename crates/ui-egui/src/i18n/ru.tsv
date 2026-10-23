@@ -2346,6 +2346,10 @@ animation effects	Off	Выкл
 	Text rendering	Отрисовка текста
 	Standard	Стандартная
 	Like macOS (fuller strokes, sub-pixel placement)	Как в macOS (более плотные штрихи, субпиксельное размещение)
+	App icon	Значок приложения
+	Use the default	Использовать стандартный
+	The Dock shows it the next time PdfCraft opens.	Dock покажет его при следующем открытии PdfCraft.
+	The image couldn't be used as an icon: {e}	Не удалось использовать изображение как значок: {e}
 	Cut Image	Вырезать изображение
 	Redact Image	Скрыть изображение
 	Create Link…	Создать ссылку…

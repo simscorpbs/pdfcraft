@@ -2346,6 +2346,10 @@ animation effects	Off	ఆఫ్
 	Text rendering	టెక్స్ట్ రెండరింగ్
 	Standard	ప్రామాణికం
 	Like macOS (fuller strokes, sub-pixel placement)	macOS లాగా (నిండైన గీతలు, సబ్-పిక్సెల్ స్థానం)
+	App icon	యాప్ ఐకాన్
+	Use the default	డిఫాల్ట్‌ను ఉపయోగించు
+	The Dock shows it the next time PdfCraft opens.	తదుపరిసారి PdfCraft తెరిచినప్పుడు Dock దీన్ని చూపుతుంది.
+	The image couldn't be used as an icon: {e}	చిత్రాన్ని ఐకాన్‌గా ఉపయోగించలేకపోయాం: {e}
 	Cut Image	చిత్రాన్ని కత్తిరించు
 	Redact Image	చిత్రాన్ని రెడాక్ట్ చేయి
 	Create Link…	లింక్ సృష్టించు…

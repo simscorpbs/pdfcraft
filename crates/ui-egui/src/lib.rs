@@ -32,6 +32,8 @@ macro_rules! tl_ctx {
 
 mod a11y_ui;
 mod actions_ui;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod app_icon;
 mod appearance;
 mod calc_order_ui;
 pub mod canvas;
@@ -729,6 +731,10 @@ pub struct PdfCraftApp {
     pub psc_sessions: Vec<cloud_sign::SignedIn>,
     #[cfg(not(target_arch = "wasm32"))]
     pub psc_pending: Option<cloud_sign::Pending>,
+    /// Preferences ▸ Appearance ▸ App icon: where the chosen icon is kept as a PNG (the app opens
+    /// with it when the file is there; the desktop app sets this), and the built-in icon to go back to.
+    pub app_icon_file: Option<std::path::PathBuf>,
+    pub default_app_icon: &'static [u8],
     pub cert_viewer: Option<sign_ui::CertViewer>,
     /// The last space audit.
     pub space_audit: Vec<pdfcraft_engine::optimize::SpaceUse>,
@@ -1099,6 +1105,8 @@ impl PdfCraftApp {
             psc_sessions: Vec::new(),
             #[cfg(not(target_arch = "wasm32"))]
             psc_pending: None,
+            app_icon_file: None,
+            default_app_icon: &[],
             cert_viewer: None,
             space_audit: Vec::new(),
             combine_draft: Vec::new(),
@@ -2166,7 +2174,8 @@ impl PdfCraftApp {
         self.notify(error.to_string());
     }
 
-    /// The egui context, once the app has drawn a frame (for repaints from other threads).
+    /// The egui context, once the app has drawn a frame (for viewport commands from callbacks and
+    /// repaints from other threads).
     pub(crate) fn egui_ctx(&self) -> Option<egui::Context> {
         self.ctx.clone()
     }

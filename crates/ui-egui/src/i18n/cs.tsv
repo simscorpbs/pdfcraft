@@ -2507,6 +2507,10 @@ animation effects	Off	Vypnuto
 	Text rendering	Vykreslování textu
 	Standard	Standardní
 	Like macOS (fuller strokes, sub-pixel placement)	Jako v macOS (plnější tahy, umístění v subpixelech)
+	App icon	Ikona aplikace
+	Use the default	Použít výchozí
+	The Dock shows it the next time PdfCraft opens.	Dock ji zobrazí při příštím otevření PdfCraftu.
+	The image couldn't be used as an icon: {e}	Obrázek nelze použít jako ikonu: {e}
 	Cut Image	Vyjmout obrázek
 	Redact Image	Začernit obrázek
 	Create Link…	Vytvořit odkaz…

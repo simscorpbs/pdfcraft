@@ -2798,3 +2798,7 @@ theme	Appearance	Aspect
 	Font file	Fișier de font
 	Text rendering	Randarea textului
 	Like macOS (fuller strokes, sub-pixel placement)	Ca pe macOS (trasee mai pline, poziționare subpixel)
+	App icon	Pictograma aplicației
+	Use the default	Folosiți implicitul
+	The Dock shows it the next time PdfCraft opens.	Dock-ul o va afișa la următoarea deschidere a PdfCraft.
+	The image couldn't be used as an icon: {e}	Imaginea nu a putut fi folosită ca pictogramă: {e}

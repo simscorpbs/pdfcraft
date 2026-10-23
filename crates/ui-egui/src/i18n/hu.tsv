@@ -2432,6 +2432,10 @@ animation effects	Off	Ki
 	Text rendering	Szövegmegjelenítés
 	Standard	Normál
 	Like macOS (fuller strokes, sub-pixel placement)	Mint a macOS-en (teltebb vonalak, képpontnál finomabb elhelyezés)
+	App icon	Alkalmazásikon
+	Use the default	Az alapértelmezett használata
+	The Dock shows it the next time PdfCraft opens.	A Dock a PdfCraft következő megnyitásakor mutatja.
+	The image couldn't be used as an icon: {e}	A kép nem használható ikonként: {e}
 	Cut Image	Kép kivágása
 	Redact Image	Kép kitakarása
 	Create Link…	Hivatkozás létrehozása…

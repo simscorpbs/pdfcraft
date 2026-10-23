@@ -2798,3 +2798,7 @@ theme	Appearance	Aspecte
 	Font file	Fitxer de lletra
 	Text rendering	Representació del text
 	Like macOS (fuller strokes, sub-pixel placement)	Com al macOS (traç més ple, posició subpíxel)
+	App icon	Icona de l'aplicació
+	Use the default	Utilitza la predeterminada
+	The Dock shows it the next time PdfCraft opens.	El Dock la mostrarà la propera vegada que s'obri el PdfCraft.
+	The image couldn't be used as an icon: {e}	No s'ha pogut utilitzar la imatge com a icona: {e}

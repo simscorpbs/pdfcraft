@@ -2453,3 +2453,7 @@ animation effects	Off	ປິດ
 	Font file	ໄຟລ໌ຟອນ
 	Text rendering	ການສະແດງຂໍ້ຄວາມ
 	Like macOS (fuller strokes, sub-pixel placement)	ຄື macOS (ເສັ້ນໜາຂຶ້ນ, ການວາງລະດັບຍ່ອຍພິກເຊລ)
+	App icon	ໄອຄອນແອັບ
+	Use the default	ໃຊ້ຄ່າເລີ່ມຕົ້ນ
+	The Dock shows it the next time PdfCraft opens.	Dock ຈະສະແດງມັນໃນເທື່ອຕໍ່ໄປທີ່ PdfCraft ເປີດ.
+	The image couldn't be used as an icon: {e}	ບໍ່ສາມາດໃຊ້ຮູບເປັນໄອຄອນໄດ້: {e}

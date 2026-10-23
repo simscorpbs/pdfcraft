@@ -2443,6 +2443,10 @@ animation effects	Off	Ανενεργά
 	Text rendering	Απόδοση κειμένου
 	Standard	Τυπική
 	Like macOS (fuller strokes, sub-pixel placement)	Όπως στο macOS (πιο γεμάτες πινελιές, τοποθέτηση υπο-εικονοστοιχείου)
+	App icon	Εικονίδιο εφαρμογής
+	Use the default	Χρήση του προεπιλεγμένου
+	The Dock shows it the next time PdfCraft opens.	Το Dock θα το δείξει την επόμενη φορά που θα ανοίξει το PdfCraft.
+	The image couldn't be used as an icon: {e}	Η εικόνα δεν μπορεί να χρησιμοποιηθεί ως εικονίδιο: {e}
 	Cut Image	Αποκοπή εικόνας
 	Redact Image	Απόκρυψη ευαίσθητου περιεχομένου εικόνας
 	Create Link…	Δημιουργία συνδέσμου…

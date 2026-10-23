@@ -2775,3 +2775,7 @@ theme	Appearance	Tampilan
 	Font file	File fon
 	Text rendering	Perenderan teks
 	Like macOS (fuller strokes, sub-pixel placement)	Seperti macOS (goresan lebih penuh, penempatan subpiksel)
+	App icon	Ikon aplikasi
+	Use the default	Gunakan bawaan
+	The Dock shows it the next time PdfCraft opens.	Dock menampilkannya saat PdfCraft dibuka berikutnya.
+	The image couldn't be used as an icon: {e}	Gambar tidak dapat digunakan sebagai ikon: {e}
