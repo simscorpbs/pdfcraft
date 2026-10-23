@@ -628,7 +628,7 @@ fn a_cloud_certificate_signs_in_through_the_browser() {
     struct Fake;
     impl Transport for Fake {
         fn get(&self, _: &str, _: &str) -> Result<String, String> {
-            let pem = include_str!("../../sign/tests/data/rsa.crt.pem");
+            let pem = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/../sign/tests/data/rsa.crt.pem"));
             Ok(serde_json::json!({"status": "S", "certificates": [{"alias": "TEST:00000000001", "certificate": pem}]}).to_string())
         }
         fn post_form(&self, _: &str, _: &str) -> Result<String, String> {
