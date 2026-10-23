@@ -2709,3 +2709,4 @@ theme	Appearance	ลักษณะที่ปรากฏ
 	Use the default	ใช้ค่าเริ่มต้น
 	The Dock shows it the next time PdfCraft opens.	Dock จะแสดงไอคอนนี้เมื่อเปิด PdfCraft ครั้งถัดไป
 	The image couldn't be used as an icon: {e}	ใช้รูปภาพเป็นไอคอนไม่ได้: {e}
+	Save this document to a folder first	บันทึกเอกสารนี้ลงในโฟลเดอร์ก่อน

@@ -192,6 +192,15 @@ pub const COMMANDS: &[CommandSpec] = &[
     c("file.revert", "Revert", FILE, None, Undo, "rotate-ccw"),
     c("print.dialog", "Print…", FILE, Some(Shortcut::cmd("P")), Printing, "printer"),
     c("file.properties", "Document properties…", FILE, Some(Shortcut::cmd("D")), Document, "info"),
+    // The folder holding the open file, with the file selected (the tab menu's Reveal, by key).
+    c(
+        "file.reveal",
+        if cfg!(target_os = "macos") { "Reveal in Finder" } else { "Reveal in File Explorer" },
+        FILE,
+        Some(Shortcut::cmd_shift("R")),
+        Document,
+        "folder-open",
+    ),
     c("file.word_count", "Word count…", FILE, None, Copying, "hash"),
     ct("edit.undo", "Undo", EDIT, Some(Shortcut::cmd("Z")), Undo, "undo-2"),
     ct("edit.redo", "Redo", EDIT, Some(Shortcut::cmd_shift("Z")), Redo, "redo-2"),
