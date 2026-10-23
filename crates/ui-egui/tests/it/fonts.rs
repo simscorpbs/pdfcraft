@@ -398,6 +398,7 @@ fn primary_ui_fonts_cover_latin_and_cyrillic_catalogs() {
 }
 
 /// Width of `text` laid out once in the proportional family at `size` points.
+#[cfg(target_os = "macos")]
 fn width_at(fonts: &mut Fonts, text: &str, size: f32) -> f32 {
     let mut view = fonts.with_pixels_per_point(2.0);
     view.layout_no_wrap(text.to_owned(), FontId::new(size, FontFamily::Proportional), Color32::BLACK).size().x
@@ -408,6 +409,8 @@ fn width_at(fonts: &mut Fonts, text: &str, size: f32) -> f32 {
 /// so text twice as large is not twice as wide (the display cut and the size's tracking are
 /// tighter). Without the patch the face stays at its default optical size with no tracking and the
 /// width scales exactly.
+// SF Pro's `trak` table is what makes the ratio fall below 2; Segoe UI Variable has none.
+#[cfg(target_os = "macos")]
 #[test]
 fn system_ui_font_follows_the_optical_size_and_tracking() {
     let defs = theme::installed_font_definitions_with(theme::CjkPreference::Default, &theme::UiFont::System);
