@@ -386,6 +386,14 @@ fn app_creator<'a>(
         app.enable_desktop_theme();
         // The system's reopen-windows choice (macOS) starts the preference; a saved choice replaces it.
         app.reopen_last_session = reopen::system_default();
+        // This fork's look: native tabs, the compact Home, the system font, and text drawn like
+        // AppKit's on macOS. Preferences ▸ Appearance changes each.
+        app.native_tabs = true;
+        app.compact_home = true;
+        app.ui_font = pdfcraft_ui_egui::theme::UiFont::System;
+        if cfg!(target_os = "macos") {
+            app.text_rendering = pdfcraft_ui_egui::theme::TextRendering::MacLike;
+        }
         if let Some(json) = cc.storage.and_then(|s| s.get_string("pdfcraft").or_else(|| s.get_string(LEGACY_STORAGE_KEY))) {
             app.restore(&json);
         }
