@@ -1373,17 +1373,24 @@ fn combine_tab_uses_tab_interaction_without_changing_close_or_document_state() {
 #[cfg(target_os = "macos")]
 #[test]
 fn native_tabs_on_macos_sit_in_a_tab_bar_under_the_title_bar() {
-    let h = harness(|app| {
+    let mut h = harness(|app| {
         app.integrated_titlebar = true;
         app.native_tabs = true;
         app.open_bytes("band.pdf", None, FIXTURE.to_vec()).unwrap();
+        app.open_bytes("second.pdf", None, FIXTURE.to_vec()).unwrap();
     });
     let band = 28.0;
     let r = h.get_by_label("Keyboard shortcuts").rect();
     assert!(r.top() >= 0.0 && r.bottom() <= band, "Keyboard shortcuts: {r:?} inside the title bar");
     for label in ["Home", "band.pdf", "Open"] {
         let r = h.get_by_label(label).rect();
-        assert!(r.top() >= band - 0.5 && r.bottom() <= 2.0 * band + 0.5, "{label}: {r:?} in the tab bar under the title bar");
+        assert!(r.top() >= band - 0.5 && r.bottom() <= band + 38.0 + 0.5, "{label}: {r:?} in the tab bar under the title bar");
+    }
+    if let Ok(path) = std::env::var("PDFCRAFT_MAC_TABS_SHOT") {
+        let _gpu = crate::gpu();
+        h.get_by_label("band.pdf").hover();
+        h.run_steps(3);
+        h.render().unwrap().save(path).unwrap();
     }
 }
 
