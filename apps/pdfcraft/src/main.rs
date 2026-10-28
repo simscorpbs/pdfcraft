@@ -394,9 +394,14 @@ fn app_creator<'a>(
         if cfg!(target_os = "macos") {
             app.text_rendering = pdfcraft_ui_egui::theme::TextRendering::MacLike;
         }
+        // The right panel stays out of the way: documents don't open it on their own.
+        app.right_panel_closed = true;
         if let Some(json) = cc.storage.and_then(|s| s.get_string("pdfcraft").or_else(|| s.get_string(LEGACY_STORAGE_KEY))) {
             app.restore(&json);
         }
+        // This fork starts with the right panel closed, whatever the last session left open; the
+        // rail on the right opens it.
+        app.right = None;
         app.window_state = pdfcraft_ui_egui::window_state::WindowState::started_with(cc.storage);
         app.integrated_titlebar = integrated;
         app.window_controls = window_controls;
