@@ -323,7 +323,12 @@ fn mac_title_bar(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
         .show(ui, |ui| {
             window_drag(ui);
             let full = ui.max_rect();
-            let title = if app.combine_showing() {
+            // With the tab bar under it, the active tab already names the document: the title bar
+            // only keeps the lights and the buttons, so the name doesn't show twice.
+            let tabs_shown = !app.views.is_empty() || app.combine_tab.open;
+            let title = if tabs_shown {
+                String::new()
+            } else if app.combine_showing() {
                 tl!("Combine files").to_string()
             } else {
                 app.active.and_then(|i| crate::canvas::tab_label(app, i)).unwrap_or_else(|| "PdfCraft".to_string())
