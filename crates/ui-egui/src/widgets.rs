@@ -105,13 +105,22 @@ pub(crate) fn paint_left(ui: &egui::Ui, pos: egui::Pos2, text: &str, font: egui:
 
 /// A mode-bar tab: text with an underline when active.
 pub fn mode_tab(ui: &mut egui::Ui, label: &str, active: bool) -> Response {
+    mode_tab_sized(ui, label, active, 48.0)
+}
+
+/// [`mode_tab`] at a given height. Below 40 pt (the macOS title bar, which holds the mode bar
+/// when the tabs have their own bar) the text is 13 pt, the wash keeps 3 pt above and below, and
+/// the active mode shows in its weight and colour alone: an underline would sit on the bar's edge.
+pub fn mode_tab_sized(ui: &mut egui::Ui, label: &str, active: bool, height: f32) -> Response {
     let t = Tokens::get(ui.ctx());
-    let font = if active { theme::semibold(13.5) } else { theme::medium(13.5) };
+    let compact = height < 40.0;
+    let size = if compact { 13.0 } else { 13.5 };
+    let font = if active { theme::semibold(size) } else { theme::medium(size) };
     let w = ui.fonts_mut(|f| f.layout_no_wrap(label.to_owned(), font.clone(), t.text).size().x);
-    let (rect, resp) = ui.allocate_exact_size(vec2(w + 22.0, 48.0), Sense::click());
+    let (rect, resp) = ui.allocate_exact_size(vec2(w + if compact { 18.0 } else { 22.0 }, height), Sense::click());
     resp.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::Button, ui.is_enabled(), active, label));
     let press = theme::Press::track(ui, &resp);
-    let well = rect.shrink2(vec2(2.0, 9.0));
+    let well = rect.shrink2(vec2(2.0, if compact { 3.0 } else { 9.0 }));
     if active {
         if press.down > 0.01 {
             ui.painter().rect_filled(well, CornerRadius::same(6), t.pressed.gamma_multiply(press.down));
@@ -121,7 +130,7 @@ pub fn mode_tab(ui: &mut egui::Ui, label: &str, active: bool) -> Response {
     }
     let body = rect.translate(press.offset());
     ui.painter().text(body.center(), Align2::CENTER_CENTER, label, font, if active { t.text } else { t.text_muted });
-    if active {
+    if active && !compact {
         let r = Rect::from_min_max(rect.left_bottom() + vec2(10.0, -2.0), rect.right_bottom() - vec2(10.0, 0.0));
         ui.painter().rect_filled(r, CornerRadius { nw: 1, ne: 1, sw: 0, se: 0 }, t.accent);
     }
@@ -178,21 +187,28 @@ pub fn ghost_button_sized(ui: &mut egui::Ui, icon: &str, label: &str, height: f3
 
 /// A search-field lookalike that opens the command palette.
 pub fn search_box(ui: &mut egui::Ui, placeholder: &str, width: f32) -> Response {
+    search_box_sized(ui, placeholder, width, 32.0)
+}
+
+/// [`search_box`] at a given height: the field stays a capsule and the magnifier scales with it
+/// (22 pt in the macOS title bar, as AppKit's small search field).
+pub fn search_box_sized(ui: &mut egui::Ui, placeholder: &str, width: f32, height: f32) -> Response {
     let t = Tokens::get(ui.ctx());
-    let (rect, resp) = ui.allocate_exact_size(vec2(width, 32.0), Sense::click());
+    let (rect, resp) = ui.allocate_exact_size(vec2(width, height), Sense::click());
     resp.widget_info(|| egui::WidgetInfo::labeled(egui::WidgetType::Button, ui.is_enabled(), placeholder));
     let press = theme::Press::track(ui, &resp);
     let fill = press.fill(t.field, t.hover, t.pressed);
     let edge = t.border.lerp_to_gamma(t.text_muted, press.hover * 0.35);
-    ui.painter().rect(rect, CornerRadius::same(16), fill, Stroke::new(1.0, edge), egui::StrokeKind::Inside);
-    icons::paint(ui, Rect::from_min_size(rect.min + vec2(10.0, 8.0), vec2(16.0, 16.0)), "search", 15.0, t.text_muted);
+    ui.painter().rect(rect, CornerRadius::same((height / 2.0) as u8), fill, Stroke::new(1.0, edge), egui::StrokeKind::Inside);
+    let glass = if height < 28.0 { 13.0 } else { 16.0 };
+    icons::paint(ui, Rect::from_min_size(rect.left_center() + vec2(10.0, -glass / 2.0), vec2(glass, glass)), "search", glass - 1.0, t.text_muted);
     let shortcut = crate::commands::command_shortcut_label(ui.ctx(), "view.palette");
     let shortcut = ui.painter().layout_no_wrap(shortcut, theme::regular(11.5), t.text_faint);
     let shortcut_pos = rect.right_center() - vec2(12.0 + shortcut.size().x, shortcut.size().y * 0.5);
     // Reserve the measured shortcut width in every language; long translations are elided
     // within the remaining space rather than painted underneath the shortcut.
     let text_right = (shortcut_pos.x - 10.0).max(rect.left());
-    let text_left = (rect.left() + 34.0).min(text_right);
+    let text_left = (rect.left() + 18.0 + glass).min(text_right);
     let text_rect = Rect::from_min_max(egui::pos2(text_left, rect.top()), egui::pos2(text_right, rect.bottom()));
     let mut job = egui::text::LayoutJob::simple_singleline(placeholder.to_owned(), theme::regular(13.0), t.text_faint);
     job.wrap = egui::text::TextWrapping { max_width: text_rect.width(), max_rows: 1, break_anywhere: true, ..Default::default() };

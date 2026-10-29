@@ -30,7 +30,7 @@ pub fn tab_strip(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
     // Native tabs (Preferences ▸ Appearance): on macOS, Finder's and Safari's (a title bar, then a
     // tab bar under it); elsewhere this strip with Home as a tab and "+" after the last tab, as in
     // Windows 11's File Explorer.
-    if app.native_tabs && cfg!(target_os = "macos") && app.integrated_titlebar {
+    if mac_unified(app) {
         mac_title_bar(app, ui);
         mac_tab_bar(app, ui);
         return;
@@ -256,7 +256,7 @@ pub fn tab_strip(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
                         });
                         ui.add_space(window_controls::SIDE_GAP - 4.0);
                     }
-                    title_controls(app, ui, button, tab_h);
+                    title_controls(app, ui, button, (button * 0.5).round(), Some(tab_h));
                 });
             });
         });
@@ -275,16 +275,22 @@ fn window_drag(ui: &mut egui::Ui) {
     }
 }
 
+/// Native tabs on macOS: the title bar holds the mode bar, and the tabs have their own bar under it.
+fn mac_unified(app: &PdfCraftApp) -> bool {
+    app.native_tabs && cfg!(target_os = "macos") && app.integrated_titlebar
+}
+
 /// The theme, keyboard-shortcut and Discord buttons at the right of the title bar (laid out right
-/// to left).
-fn title_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, button: f32, height: f32) {
+/// to left), with `glyph`-sized icons. Discord shows its name at `label_height`, or only its icon
+/// without one.
+fn title_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, button: f32, glyph: f32, label_height: Option<f32>) {
     let (icon, label) = match app.theme_preference {
         ThemePreference::System => ("monitor", tl!("Use system setting")),
         ThemePreference::Light => ("sun", tl!("Light gray")),
         ThemePreference::Dark => ("moon", tl!("Dark gray")),
     };
     let tip = format!("{}: {label}", tl!("Display theme"));
-    let response = icons::button(ui, icon, button, false, &tip);
+    let response = icons::button_with_glyph(ui, icon, button, glyph, false, &tip);
     // A click cycles System, Light, Dark; a right-click opens the menu.
     if response.clicked() {
         app.execute(match app.theme_preference {
@@ -294,11 +300,15 @@ fn title_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, button: f32, height:
         });
     }
     egui::Popup::context_menu(&response).id(response.id.with("theme_menu")).show(|ui| appearance_menu(app, ui));
-    if icons::button(ui, "circle-help", button, false, tl!("Keyboard shortcuts")).clicked() {
+    if icons::button_with_glyph(ui, "circle-help", button, glyph, false, tl!("Keyboard shortcuts")).clicked() {
         app.dialog = Some(Dialog::Shortcuts);
     }
     // One click to the community, from anywhere in the app.
-    if widgets::ghost_button_sized(ui, "messages-square", "Discord", height).on_hover_text(pdfcraft_engine::links::DISCORD).clicked() {
+    let discord = match label_height {
+        Some(height) => widgets::ghost_button_sized(ui, "messages-square", "Discord", height),
+        None => icons::button_with_glyph(ui, "messages-square", button, glyph, false, "Discord"),
+    };
+    if discord.on_hover_text(pdfcraft_engine::links::DISCORD).clicked() {
         app.execute("help.discord");
     }
 }
@@ -313,35 +323,19 @@ const MAC_HOME_TAB: f32 = 40.0;
 const MAC_TAB_GAP: f32 = 2.0;
 const MAC_PLUS: f32 = 30.0;
 
-/// macOS title bar with native tabs: the traffic lights, the active document's name centred, and the theme
-/// and shortcut buttons on the right. The tabs are in [`mac_tab_bar`] below it.
+/// macOS title bar with native tabs, as in Mail and Xcode: the traffic lights, then the mode bar
+/// fitted to the 28 pt band (Menu, the modes, search and the document buttons, then the theme and
+/// shortcut buttons). The tabs are in [`mac_tab_bar`] below it.
 fn mac_title_bar(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
     let t = Tokens::get(ui.ctx());
     egui::Panel::top("tab_strip")
         .exact_size(MAC_TITLE_BAR)
-        .frame(egui::Frame::NONE.fill(t.chrome).inner_margin(egui::Margin { left: MAC_CONTENT_LEFT as i8, right: 10, top: 0, bottom: 0 }))
+        .frame(egui::Frame::NONE.fill(t.chrome).inner_margin(egui::Margin { left: MAC_CONTENT_LEFT as i8, right: 8, top: 0, bottom: 0 }))
         .show(ui, |ui| {
             window_drag(ui);
-            let full = ui.max_rect();
-            // With the tab bar under it, the active tab already names the document: the title bar
-            // only keeps the lights and the buttons, so the name doesn't show twice.
-            let tabs_shown = !app.views.is_empty() || app.combine_tab.open;
-            let title = if tabs_shown {
-                String::new()
-            } else if app.combine_showing() {
-                tl!("Combine files").to_string()
-            } else {
-                app.active.and_then(|i| crate::canvas::tab_label(app, i)).unwrap_or_else(|| "PdfCraft".to_string())
-            };
-            let font = theme::semibold(13.0);
-            let mut job = egui::text::LayoutJob::simple_singleline(crate::bidi::visual(&title).into_owned(), font, t.text);
-            job.wrap = egui::text::TextWrapping::truncate_at_width((full.width() - 2.0 * 160.0).max(40.0));
-            let galley = ui.fonts_mut(|f| f.layout_job(job));
-            let at = egui::pos2(ui.ctx().content_rect().center().x - galley.size().x / 2.0, full.center().y - galley.size().y / 2.0);
-            ui.painter().galley(at, galley, t.text);
-            ui.horizontal_centered(|ui| {
-                ui.with_layout(Layout::right_to_left(Align::Center), |ui| title_controls(app, ui, 24.0, MAC_TITLE_BAR - 2.0));
-            });
+            let width = ui.ctx().content_rect().x_range();
+            ui.painter().hline(width, ui.max_rect().bottom() - 0.5, Stroke::new(1.0, t.divider));
+            ui.horizontal_centered(|ui| mode_controls(app, ui, MAC_TITLE_BAR));
         });
 }
 
@@ -792,54 +786,78 @@ fn tab(
 }
 
 pub fn mode_bar(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
+    // Native tabs on macOS: the mode bar is in the title bar.
+    if mac_unified(app) {
+        return;
+    }
     let t = Tokens::get(ui.ctx());
     egui::Panel::top("mode_bar")
         .exact_size(48.0)
         .frame(egui::Frame::NONE.fill(t.chrome).inner_margin(egui::Margin::symmetric(10, 0)).stroke(Stroke::new(1.0, t.divider)))
         .show(ui, |ui| {
-            ui.horizontal_centered(|ui| {
-                ui.spacing_mut().item_spacing.x = 2.0;
-                main_menu(app, ui);
-                ui.add_space(6.0);
-                ui.painter().vline(ui.cursor().left(), ui.max_rect().y_range().shrink(12.0), Stroke::new(1.0, t.divider));
-                ui.add_space(10.0);
-                // Acrobat's mode bar has no Read tab: reading is what the viewer does with no tool
-                // in use. Read mode (the panes hidden) stays a View command and a default workspace.
-                for (mode, label) in [(Mode::AllTools, "All tools"), (Mode::Edit, "Edit"), (Mode::Convert, "Convert"), (Mode::Sign, "E-Sign")] {
-                    if widgets::mode_tab(ui, tl!(label), app.mode == mode).clicked() {
-                        app.switch_mode(mode, true);
-                    }
-                }
-                ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
-                    ui.spacing_mut().item_spacing.x = 4.0;
-                    let has_doc = app.active.is_some();
-                    ui.add_enabled_ui(has_doc, |ui| {
-                        let tip = crate::commands::command_tip(ui.ctx(), tl!("Print ({key})"), "print.dialog");
-                        // A document that forbids printing says so here, before the dialog (#2669).
-                        let may_print = !has_doc || pdfcraft_engine::commands::command("print.dialog").is_some_and(|c| app.command_enabled(c));
-                        let mut print = ui.add_enabled_ui(may_print, |ui| icons::button(ui, "printer", 32.0, false, &tip)).inner;
-                        if !may_print {
-                            print = print.on_disabled_hover_text(crate::print_refused());
-                        }
-                        if print.clicked() {
-                            app.run_command("print.dialog");
-                        }
-                        let tip = crate::commands::command_tip(ui.ctx(), tl!("Save ({key})"), "file.save");
-                        if icons::button(ui, "save", 32.0, false, &tip).clicked() {
-                            app.run_command("file.save");
-                        }
-                        let tip = crate::commands::command_tip(ui.ctx(), tl!("Document properties ({key})"), "file.properties");
-                        if icons::button(ui, "info", 32.0, false, &tip).clicked() {
-                            app.dialog = Some(Dialog::Properties(PropsTab::Description));
-                        }
-                    });
-                    ui.add_space(8.0);
-                    if widgets::search_box(ui, tl!("Find tools and commands"), 260.0).clicked() {
-                        app.palette_open = true;
-                    }
-                });
-            });
+            ui.horizontal_centered(|ui| mode_controls(app, ui, 48.0));
         });
+}
+
+/// The mode bar's controls, at its own 48 pt or fitted to the macOS title bar. There the buttons
+/// are 24 pt around the same 16 pt glyphs, the search field 22 pt and only as wide as the room left
+/// (a button once too narrow), and the theme and shortcut buttons follow at the right end.
+fn mode_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, height: f32) {
+    let t = Tokens::get(ui.ctx());
+    let compact = height < 40.0;
+    let button = if compact { 24.0 } else { 32.0 };
+    let glyph = 16.0;
+    ui.spacing_mut().item_spacing.x = 2.0;
+    main_menu(app, ui, if compact { 24.0 } else { 30.0 });
+    ui.add_space(6.0);
+    ui.painter().vline(ui.cursor().left(), ui.max_rect().y_range().shrink(if compact { 7.0 } else { 12.0 }), Stroke::new(1.0, t.divider));
+    ui.add_space(10.0);
+    // Acrobat's mode bar has no Read tab: reading is what the viewer does with no tool
+    // in use. Read mode (the panes hidden) stays a View command and a default workspace.
+    for (mode, label) in [(Mode::AllTools, "All tools"), (Mode::Edit, "Edit"), (Mode::Convert, "Convert"), (Mode::Sign, "E-Sign")] {
+        if widgets::mode_tab_sized(ui, tl!(label), app.mode == mode, height).clicked() {
+            app.switch_mode(mode, true);
+        }
+    }
+    ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+        ui.spacing_mut().item_spacing.x = 4.0;
+        if compact {
+            title_controls(app, ui, button, glyph, None);
+            ui.add_space(4.0);
+        }
+        let has_doc = app.active.is_some();
+        ui.add_enabled_ui(has_doc, |ui| {
+            let tip = crate::commands::command_tip(ui.ctx(), tl!("Print ({key})"), "print.dialog");
+            // A document that forbids printing says so here, before the dialog (#2669).
+            let may_print = !has_doc || pdfcraft_engine::commands::command("print.dialog").is_some_and(|c| app.command_enabled(c));
+            let mut print = ui.add_enabled_ui(may_print, |ui| icons::button_with_glyph(ui, "printer", button, glyph, false, &tip)).inner;
+            if !may_print {
+                print = print.on_disabled_hover_text(crate::print_refused());
+            }
+            if print.clicked() {
+                app.run_command("print.dialog");
+            }
+            let tip = crate::commands::command_tip(ui.ctx(), tl!("Save ({key})"), "file.save");
+            if icons::button_with_glyph(ui, "save", button, glyph, false, &tip).clicked() {
+                app.run_command("file.save");
+            }
+            let tip = crate::commands::command_tip(ui.ctx(), tl!("Document properties ({key})"), "file.properties");
+            if icons::button_with_glyph(ui, "info", button, glyph, false, &tip).clicked() {
+                app.dialog = Some(Dialog::Properties(PropsTab::Description));
+            }
+        });
+        ui.add_space(8.0);
+        let label = tl!("Find tools and commands");
+        let search = if !compact {
+            widgets::search_box(ui, label, 260.0)
+        } else {
+            let room = ui.available_width() - 8.0;
+            if room >= 150.0 { widgets::search_box_sized(ui, label, room.min(240.0), 22.0) } else { icons::button_with_glyph(ui, "search", button, glyph, false, label) }
+        };
+        if search.clicked() {
+            app.palette_open = true;
+        }
+    });
 }
 
 /// Keep menus usable when their contents are taller than the window.
@@ -848,9 +866,9 @@ pub(crate) fn scroll_menu(ui: &mut egui::Ui, add: impl FnOnce(&mut egui::Ui)) {
     egui::ScrollArea::vertical().max_height(height).auto_shrink([true, true]).show(ui, add);
 }
 
-fn main_menu(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
+fn main_menu(app: &mut PdfCraftApp, ui: &mut egui::Ui, height: f32) {
     let t = Tokens::get(ui.ctx());
-    let resp = widgets::ghost_button(ui, "panel-left", tl!("Menu"));
+    let resp = widgets::ghost_button_sized(ui, "panel-left", tl!("Menu"), height);
     egui::Popup::menu(&resp).show(|ui| {
         scroll_menu(ui, |ui| {
             ui.set_min_width(230.0);

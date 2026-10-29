@@ -1368,8 +1368,9 @@ fn combine_tab_uses_tab_interaction_without_changing_close_or_document_state() {
     assert_eq!(h.state().views.iter().map(|v| v.id).collect::<Vec<_>>(), document_ids);
 }
 
-/// Native tabs on macOS (Preferences ▸ Appearance): the title bar keeps the traffic lights and the
-/// window controls, and Home, the document tabs and "+" sit in the tab bar under it, as in Finder.
+/// Native tabs on macOS (Preferences ▸ Appearance), as in Mail and Xcode: the title bar holds the
+/// traffic lights and the mode bar, and Home, the document tabs and "+" sit in the tab bar under
+/// it, so the window has two bars instead of three.
 #[cfg(target_os = "macos")]
 #[test]
 fn native_tabs_on_macos_sit_in_a_tab_bar_under_the_title_bar() {
@@ -1379,9 +1380,15 @@ fn native_tabs_on_macos_sit_in_a_tab_bar_under_the_title_bar() {
         app.open_bytes("band.pdf", None, FIXTURE.to_vec()).unwrap();
         app.open_bytes("second.pdf", None, FIXTURE.to_vec()).unwrap();
     });
+    use egui::accesskit::Role;
     let band = 28.0;
-    let r = h.get_by_label("Keyboard shortcuts").rect();
-    assert!(r.top() >= 0.0 && r.bottom() <= band, "Keyboard shortcuts: {r:?} inside the title bar");
+    // One of each: the mode bar moved up, it isn't drawn twice.
+    for label in ["Menu", "All tools", "E-Sign", "Find tools and commands", "Document properties", "Keyboard shortcuts"] {
+        let r = h.query_by_role_and_label(Role::Button, label).unwrap_or_else(|| h.get_by_label_contains(label)).rect();
+        assert!(r.top() >= 0.0 && r.bottom() <= band, "{label}: {r:?} inside the title bar");
+    }
+    let menu = h.get_by_label("Menu").rect();
+    assert!(menu.left() >= 62.0 + 4.0, "Menu {menu:?} clears the traffic lights");
     for label in ["Home", "band.pdf", "Open"] {
         let r = h.get_by_label(label).rect();
         assert!(r.top() >= band - 0.5 && r.bottom() <= band + 38.0 + 0.5, "{label}: {r:?} in the tab bar under the title bar");
@@ -1390,6 +1397,34 @@ fn native_tabs_on_macos_sit_in_a_tab_bar_under_the_title_bar() {
         let _gpu = crate::gpu();
         h.get_by_label("band.pdf").hover();
         h.run_steps(3);
+        h.render().unwrap().save(path).unwrap();
+    }
+}
+
+/// At the narrowest window the title bar's controls still don't overlap: the search field
+/// gives way to a button.
+#[cfg(target_os = "macos")]
+#[test]
+fn the_macos_title_bar_fits_the_narrowest_window() {
+    let mut h = Harness::builder().with_size(egui::vec2(820.0, 600.0)).build_eframe(|_cc| {
+        let mut app = PdfCraftApp::new();
+        app.set_option("language", "en").unwrap();
+        app.integrated_titlebar = true;
+        app.native_tabs = true;
+        app.open_bytes("narrow.pdf", None, FIXTURE.to_vec()).unwrap();
+        app
+    });
+    h.run_steps(4);
+    use egui::accesskit::Role;
+    let order = ["Menu", "All tools", "Edit", "Convert", "E-Sign", "Find tools and commands", "Document properties"];
+    let rects: Vec<_> = order.iter().map(|label| h.query_by_role_and_label(Role::Button, label).unwrap_or_else(|| h.get_by_label_contains(label)).rect()).collect();
+    for (pair, labels) in rects.windows(2).zip(order.windows(2)) {
+        assert!(pair[0].right() <= pair[1].left(), "{} {:?} overlaps {} {:?}", labels[0], pair[0], labels[1], pair[1]);
+    }
+    let theme = h.get_by_label_contains("Display theme").rect();
+    assert!(theme.right() <= 820.0, "theme button {theme:?} inside the window");
+    if let Ok(path) = std::env::var("PDFCRAFT_MAC_NARROW_SHOT") {
+        let _gpu = crate::gpu();
         h.render().unwrap().save(path).unwrap();
     }
 }
