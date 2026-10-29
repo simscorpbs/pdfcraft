@@ -35,6 +35,12 @@ pub fn paint(ui: &egui::Ui, rect: Rect, name: &str, size: f32, tint: Color32) {
 
 /// Square icon button: transparent until hovered; `selected` gets the accent treatment.
 pub fn button(ui: &mut egui::Ui, name: &str, box_size: f32, selected: bool, tooltip: &str) -> Response {
+    button_with_glyph(ui, name, box_size, (box_size * 0.5).round(), selected, tooltip)
+}
+
+/// [`button`] with the glyph's size set apart from the box's: a 24 pt button in the macOS title
+/// bar keeps the 16 pt glyph of the 32 pt buttons in the mode bar.
+pub fn button_with_glyph(ui: &mut egui::Ui, name: &str, box_size: f32, glyph: f32, selected: bool, tooltip: &str) -> Response {
     let t = Tokens::get(ui.ctx());
     // The shared button paints no fill of its own: the eased press wash below replaces it.
     let clear = |icon| ButtonVisuals { fill: Color32::TRANSPARENT, stroke: Stroke::NONE, icon };
@@ -68,7 +74,7 @@ pub fn button(ui: &mut egui::Ui, name: &str, box_size: f32, selected: bool, tool
         }
         ui.painter().set(wash, egui::Shape::Vec(shapes));
         // The glyph shrinks a little and drops a pixel while the pointer is down.
-        let size = (box_size * 0.5).round() * (1.0 - 0.08 * press.down);
+        let size = glyph * (1.0 - 0.08 * press.down);
         paint(ui, rect.translate(press.offset()), name, size, tint);
     }
     let resp = theme::hand(resp);
