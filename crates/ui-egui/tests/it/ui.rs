@@ -1401,30 +1401,46 @@ fn native_tabs_on_macos_sit_in_a_tab_bar_under_the_title_bar() {
     }
 }
 
-/// At the narrowest window the title bar's controls still don't overlap: the search field
-/// gives way to a button.
+/// At the narrowest window (half of a 1280 pt screen) the title bar's controls still don't overlap:
+/// the search field gives way to a button and Menu to its icon, and in a longer language the modes
+/// fold into one button with a menu.
 #[cfg(target_os = "macos")]
 #[test]
 fn the_macos_title_bar_fits_the_narrowest_window() {
-    let mut h = Harness::builder().with_size(egui::vec2(820.0, 600.0)).build_eframe(|_cc| {
-        let mut app = PdfCraftApp::new();
-        app.set_option("language", "en").unwrap();
-        app.integrated_titlebar = true;
-        app.native_tabs = true;
-        app.open_bytes("narrow.pdf", None, FIXTURE.to_vec()).unwrap();
-        app
-    });
-    h.run_steps(4);
     use egui::accesskit::Role;
-    let order = ["Menu", "All tools", "Edit", "Convert", "E-Sign", "Find tools and commands", "Document properties"];
-    let rects: Vec<_> = order.iter().map(|label| h.query_by_role_and_label(Role::Button, label).unwrap_or_else(|| h.get_by_label_contains(label)).rect()).collect();
-    for (pair, labels) in rects.windows(2).zip(order.windows(2)) {
-        assert!(pair[0].right() <= pair[1].left(), "{} {:?} overlaps {} {:?}", labels[0], pair[0], labels[1], pair[1]);
-    }
-    let theme = h.get_by_label_contains("Display theme").rect();
-    assert!(theme.right() <= 820.0, "theme button {theme:?} inside the window");
+    let narrow = |language: &'static str| {
+        let mut h = Harness::builder().with_size(egui::vec2(600.0, 520.0)).build_eframe(move |_cc| {
+            let mut app = PdfCraftApp::new();
+            app.set_option("language", language).unwrap();
+            app.integrated_titlebar = true;
+            app.native_tabs = true;
+            app.open_bytes("narrow.pdf", None, FIXTURE.to_vec()).unwrap();
+            app
+        });
+        h.run_steps(4);
+        h
+    };
+    let in_order = |h: &Harness<'static, PdfCraftApp>, order: &[&str], theme: &str| {
+        let rects: Vec<_> = order
+            .iter()
+            .map(|label| h.query_by_role_and_label(Role::Button, label).unwrap_or_else(|| h.get_by_label_contains(label)).rect())
+            .collect();
+        for (pair, labels) in rects.windows(2).zip(order.windows(2)) {
+            assert!(pair[0].right() <= pair[1].left(), "{} {:?} overlaps {} {:?}", labels[0], pair[0], labels[1], pair[1]);
+        }
+        let theme = h.get_by_label_contains(theme).rect();
+        assert!(theme.right() <= 600.0, "theme button {theme:?} inside the window");
+    };
+    let h = narrow("en");
+    in_order(&h, &["Menu", "All tools", "Edit", "Convert", "E-Sign", "Find tools and commands", "Document properties"], "Display theme");
+    let h = narrow("pt-BR");
+    assert!(h.query_by_role_and_label(Role::Button, "Editar").is_none(), "the modes are folded");
+    in_order(&h, &["Menu", "Todas as ferramentas", "Localizar ferramentas e comandos", "Propriedades do documento"], "Tema de exibição");
     if let Ok(path) = std::env::var("PDFCRAFT_MAC_NARROW_SHOT") {
         let _gpu = crate::gpu();
+        let mut h = h;
+        h.get_by_role_and_label(Role::Button, "Todas as ferramentas").click();
+        h.run_steps(3);
         h.render().unwrap().save(path).unwrap();
     }
 }

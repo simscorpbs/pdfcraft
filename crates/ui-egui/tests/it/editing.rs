@@ -1040,7 +1040,7 @@ fn save_prompt_fits_the_smallest_window_whatever_the_name() {
         format!("{}.pdf", "W".repeat(2000)),
     ];
     // The desktop window's minimum inner size (apps/pdfcraft/src/main.rs).
-    let size = egui::vec2(820.0, 520.0);
+    let size = egui::vec2(600.0, 520.0);
     for name in names {
         let start: String = name.chars().take(10).collect();
         let mut h = Harness::builder().with_size(size).build_eframe(move |_cc| {

@@ -319,7 +319,8 @@ fn native_options(integrated: bool, app_frame: bool, renderer: eframe::Renderer)
     let mut viewport = egui::ViewportBuilder::default()
         .with_title("PdfCraft")
         .with_inner_size([1440.0, 920.0])
-        .with_min_inner_size([820.0, 520.0])
+        // Narrow enough for half of a 1280 pt screen, beside another window.
+        .with_min_inner_size([600.0, 520.0])
         .with_drag_and_drop(true)
         // Wayland app id: matches packaging/linux/ai.storyteller.pdfcraft.desktop.
         .with_app_id(APP_ID);
