@@ -1522,6 +1522,23 @@ fn closing_the_edit_panel_leaves_editing() {
     assert_eq!(h.state().quick_tool, QuickTool::Select);
 }
 
+/// Edit a PDF opened from All tools turns on Edit text & images as the Edit tab does: the panel
+/// alone, with Select still the tool, edited nothing. Back puts it down again.
+#[test]
+fn edit_a_pdf_from_all_tools_turns_on_edit_text_and_images() {
+    use pdfcraft_ui_egui::{LeftPanel, Mode, QuickTool};
+    let mut h = harness(|app| app.open_bytes("fixture.pdf", None, FIXTURE.to_vec()).expect("fixture opens"));
+    h.get_by_label("Edit a PDF").click();
+    h.run_steps(3);
+    assert_eq!(h.state().left, LeftPanel::Tool("edit"));
+    assert_eq!(h.state().mode, Mode::AllTools);
+    assert_eq!(h.state().quick_tool, QuickTool::EditText);
+    h.get_by_label("Back to all tools").click();
+    h.run_steps(3);
+    assert_eq!(h.state().left, LeftPanel::AllTools);
+    assert_eq!(h.state().quick_tool, QuickTool::Select);
+}
+
 /// Organize pages in the Edit panel opens the Organize workspace: its own panel and the page grid,
 /// not the grid behind the Edit panel.
 #[test]
