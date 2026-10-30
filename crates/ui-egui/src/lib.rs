@@ -2311,8 +2311,11 @@ impl PdfCraftApp {
     /// Enter a tool from the catalogue, Home, palette or control channel. Organize is a
     /// workspace, so opening its panel also opens the page grid (without toggling it off).
     pub(crate) fn select_tool(&mut self, id: &'static str) {
-        // Another tool leaves editing: Edit text & images stays on only under its own panel.
-        if id != "edit" {
+        // Edit a PDF turns on Edit text & images, as the Edit tab does, so text and images are
+        // editable with one click; another tool leaves editing.
+        if id == "edit" {
+            self.quick_tool = QuickTool::EditText;
+        } else {
             self.leave_edit();
         }
         self.left = LeftPanel::Tool(id);
