@@ -10,7 +10,7 @@ const FIELD_MARGIN: egui::Margin = egui::Margin::symmetric(10, 6);
 /// Outer height of a single-line field, including its inset.
 const FIELD_MIN_HEIGHT: f32 = 30.0;
 /// Padding inside every modal.
-const DIALOG_PAD_X: i8 = 20;
+pub(crate) const DIALOG_PAD_X: i8 = 20;
 const DIALOG_PAD_Y: i8 = 16;
 
 fn dialog_frame(ctx: &egui::Context) -> egui::Frame {
@@ -137,6 +137,23 @@ pub fn mode_tab_sized(ui: &mut egui::Ui, label: &str, active: bool, height: f32)
     theme::hand(resp)
 }
 
+/// The modes as one button when the bar is too narrow for their tabs: the current mode's name,
+/// in the active tab's weight, and a chevron for the menu that switches it.
+pub fn mode_menu_button(ui: &mut egui::Ui, label: &str, height: f32) -> Response {
+    let t = Tokens::get(ui.ctx());
+    let font = theme::semibold(if height < 40.0 { 13.0 } else { 13.5 });
+    let w = ui.fonts_mut(|f| f.layout_no_wrap(label.to_owned(), font.clone(), t.text).size().x);
+    let (rect, resp) = ui.allocate_exact_size(vec2(w + 34.0, height), Sense::click());
+    resp.widget_info(|| egui::WidgetInfo::labeled(egui::WidgetType::Button, ui.is_enabled(), label));
+    let press = theme::Press::track(ui, &resp);
+    press.wash(ui, rect.shrink2(vec2(2.0, if height < 40.0 { 3.0 } else { 9.0 })), 6, false);
+    let body = rect.translate(press.offset());
+    ui.painter().text(body.left_center() + vec2(9.0, 0.0), Align2::LEFT_CENTER, label, font, t.text);
+    let chevron = Rect::from_center_size(egui::pos2(body.right() - 15.0, body.center().y), vec2(12.0, 12.0));
+    icons::paint(ui, chevron, "chevron-down", 12.0, t.text_muted);
+    theme::hand(resp)
+}
+
 /// Rounded pill button; `primary` fills with the accent.
 pub fn pill_button(ui: &mut egui::Ui, label: &str, primary: bool) -> Response {
     pill_button_marked(ui, label, primary, false)
@@ -185,14 +202,10 @@ pub fn ghost_button_sized(ui: &mut egui::Ui, icon: &str, label: &str, height: f3
     theme::hand(resp)
 }
 
-/// A search-field lookalike that opens the command palette.
-pub fn search_box(ui: &mut egui::Ui, placeholder: &str, width: f32) -> Response {
-    search_box_sized(ui, placeholder, width, 32.0)
-}
-
-/// [`search_box`] at a given height: the field stays a capsule and the magnifier scales with it
-/// (22 pt in the macOS title bar, as AppKit's small search field).
-pub fn search_box_sized(ui: &mut egui::Ui, placeholder: &str, width: f32, height: f32) -> Response {
+/// A search-field lookalike that opens the command palette. The field is a capsule and the
+/// magnifier scales with its height (32 pt in the mode bar, 22 pt in the macOS title bar, as
+/// AppKit's small search field).
+pub fn search_box(ui: &mut egui::Ui, placeholder: &str, width: f32, height: f32) -> Response {
     let t = Tokens::get(ui.ctx());
     let (rect, resp) = ui.allocate_exact_size(vec2(width, height), Sense::click());
     resp.widget_info(|| egui::WidgetInfo::labeled(egui::WidgetType::Button, ui.is_enabled(), placeholder));
@@ -630,7 +643,7 @@ mod tests {
                 ctx.set_fonts(theme::font_definitions());
                 let placeholder = "Werkzeuge und Befehle suchen";
                 let output = ctx.run_ui(egui::RawInput::default(), |ui| {
-                    search_box(ui, placeholder, width);
+                    search_box(ui, placeholder, width, 32.0);
                 });
                 let text_shapes: Vec<_> = output
                     .shapes

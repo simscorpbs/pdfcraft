@@ -928,7 +928,10 @@ pub(crate) fn body(
     labels: &[String],
     thumb: &mut dyn FnMut(usize) -> Option<egui::TextureId>,
 ) -> (bool, bool) {
-    ui.set_width(820.0);
+    // A window too narrow for the settings and the preview side by side keeps the settings.
+    let room = ui.ctx().content_rect().width() - 2.0 * f32::from(crate::widgets::DIALOG_PAD_X) - 32.0;
+    let preview = room >= 820.0;
+    ui.set_width(if preview { 820.0 } else { room.min(820.0) });
     ui.label(egui::RichText::new(tl!("Print")).font(theme::semibold(18.0)));
     ui.add_space(8.0);
     let settings = d.settings(sizes.len(), labels);
@@ -1257,6 +1260,9 @@ pub(crate) fn body(
                     );
                 });
         });
+        if !preview {
+            return;
+        }
         ui.add_space(12.0);
         // Preview.
         ui.vertical(|ui| {

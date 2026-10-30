@@ -88,13 +88,18 @@ fn dialogs(app: &mut PdfCraftApp, ctx: &egui::Context) {
     let mut close = false;
     let mut next = dialog;
     let modal = widgets::show_modal(ctx, "dialog", |ui| {
-        ui.set_width(match dialog {
-            Dialog::Properties(_) => 640.0,
-            Dialog::Print => 820.0,
-            Dialog::FieldProps | Dialog::BulkFieldProps => 600.0,
-            Dialog::About => 780.0,
-            _ => 520.0,
-        });
+        // No wider than the window, less the card's padding and a margin each side.
+        let room = ui.ctx().content_rect().width() - 2.0 * f32::from(widgets::DIALOG_PAD_X) - 32.0;
+        ui.set_width(
+            match dialog {
+                Dialog::Properties(_) => 640.0_f32,
+                Dialog::Print => 820.0,
+                Dialog::FieldProps | Dialog::BulkFieldProps => 600.0,
+                Dialog::About => 780.0,
+                _ => 520.0,
+            }
+            .min(room),
+        );
         match dialog {
             Dialog::WordCount => {
                 close = crate::word_count_ui::body(ui, app);

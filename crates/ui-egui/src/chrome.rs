@@ -799,24 +799,48 @@ pub fn mode_bar(app: &mut PdfCraftApp, ui: &mut egui::Ui) {
         });
 }
 
+/// The modes in the mode bar. Acrobat's has no Read tab: reading is what the viewer does with no
+/// tool in use. Read mode (the panes hidden) stays a View command and a default workspace.
+const MODES: [(Mode, &str); 4] = [(Mode::AllTools, "All tools"), (Mode::Edit, "Edit"), (Mode::Convert, "Convert"), (Mode::Sign, "E-Sign")];
+
 /// The mode bar's controls, at its own 48 pt or fitted to the macOS title bar. There the buttons
-/// are 24 pt around the same 16 pt glyphs, the search field 22 pt and only as wide as the room left
-/// (a button once too narrow), and the theme and shortcut buttons follow at the right end.
+/// are 24 pt around the same 16 pt glyphs, and the theme and shortcut buttons follow at the right
+/// end. In a narrow window the controls give way in turn, so they never overlap: the search field
+/// shrinks and then becomes a button, Menu keeps only its icon, and the modes fold into one button
+/// with a menu.
 fn mode_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, height: f32) {
     let t = Tokens::get(ui.ctx());
     let compact = height < 40.0;
     let button = if compact { 24.0 } else { 32.0 };
     let glyph = 16.0;
     ui.spacing_mut().item_spacing.x = 2.0;
-    main_menu(app, ui, if compact { 24.0 } else { 30.0 });
+    // The buttons at the right end, as wide as last frame (they don't change), give the room left.
+    let right_id = ui.id().with("mode_bar_right");
+    let right = ui.data(|d| d.get_temp::<f32>(right_id)).unwrap_or(0.0);
+    let room = ui.available_width() - right - 8.0;
+    let text = |font: egui::FontId, s: &str| ui.fonts_mut(|f| f.layout_no_wrap(s.to_owned(), font, t.text).size().x);
+    let menu_label = text(theme::medium(13.0), tl!("Menu")) + 38.0;
+    let tab_font = theme::semibold(if compact { 13.0 } else { 13.5 });
+    let tabs = MODES.iter().map(|(_, label)| text(tab_font.clone(), tl!(label)) + if compact { 18.0 } else { 22.0 } + 2.0).sum::<f32>();
+    // Menu, the divider and its spaces, the modes and at least a search button.
+    let (labelled, folded) = if room >= menu_label + 18.0 + tabs + button {
+        (true, false)
+    } else if room >= button + 18.0 + tabs + button {
+        (false, false)
+    } else {
+        (false, true)
+    };
+    main_menu(app, ui, if compact { 24.0 } else { 30.0 }, labelled);
     ui.add_space(6.0);
     ui.painter().vline(ui.cursor().left(), ui.max_rect().y_range().shrink(if compact { 7.0 } else { 12.0 }), Stroke::new(1.0, t.divider));
     ui.add_space(10.0);
-    // Acrobat's mode bar has no Read tab: reading is what the viewer does with no tool
-    // in use. Read mode (the panes hidden) stays a View command and a default workspace.
-    for (mode, label) in [(Mode::AllTools, "All tools"), (Mode::Edit, "Edit"), (Mode::Convert, "Convert"), (Mode::Sign, "E-Sign")] {
-        if widgets::mode_tab_sized(ui, tl!(label), app.mode == mode, height).clicked() {
-            app.switch_mode(mode, true);
+    if folded {
+        mode_menu(app, ui, height);
+    } else {
+        for (mode, label) in MODES {
+            if widgets::mode_tab_sized(ui, tl!(label), app.mode == mode, height).clicked() {
+                app.switch_mode(mode, true);
+            }
         }
     }
     ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
@@ -846,16 +870,33 @@ fn mode_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, height: f32) {
                 app.dialog = Some(Dialog::Properties(PropsTab::Description));
             }
         });
+        let fixed = ui.min_rect().width();
+        ui.data_mut(|d| d.insert_temp(right_id, fixed));
         ui.add_space(8.0);
         let label = tl!("Find tools and commands");
-        let search = if !compact {
-            widgets::search_box(ui, label, 260.0)
+        let room = ui.available_width() - 8.0;
+        let search = if room >= 150.0 {
+            widgets::search_box(ui, label, room.min(if compact { 240.0 } else { 260.0 }), if compact { 22.0 } else { 32.0 })
         } else {
-            let room = ui.available_width() - 8.0;
-            if room >= 150.0 { widgets::search_box_sized(ui, label, room.min(240.0), 22.0) } else { icons::button_with_glyph(ui, "search", button, glyph, false, label) }
+            icons::button_with_glyph(ui, "search", button, glyph, false, label)
         };
         if search.clicked() {
             app.palette_open = true;
+        }
+    });
+}
+
+/// The modes folded into one button: the current mode, and a menu of all of them.
+fn mode_menu(app: &mut PdfCraftApp, ui: &mut egui::Ui, height: f32) {
+    let current = MODES.iter().find(|(mode, _)| *mode == app.mode).map_or(MODES[0].1, |(_, label)| *label);
+    let resp = widgets::mode_menu_button(ui, tl!(current), height);
+    egui::Popup::menu(&resp).show(|ui| {
+        ui.set_min_width(180.0);
+        for (mode, label) in MODES {
+            if ui.selectable_label(app.mode == mode, tl!(label)).clicked() {
+                app.switch_mode(mode, true);
+                ui.close();
+            }
         }
     });
 }
@@ -866,9 +907,14 @@ pub(crate) fn scroll_menu(ui: &mut egui::Ui, add: impl FnOnce(&mut egui::Ui)) {
     egui::ScrollArea::vertical().max_height(height).auto_shrink([true, true]).show(ui, add);
 }
 
-fn main_menu(app: &mut PdfCraftApp, ui: &mut egui::Ui, height: f32) {
+/// The main menu's button, with its name or (`labelled` false, in a narrow window) its icon only.
+fn main_menu(app: &mut PdfCraftApp, ui: &mut egui::Ui, height: f32, labelled: bool) {
     let t = Tokens::get(ui.ctx());
-    let resp = widgets::ghost_button_sized(ui, "panel-left", tl!("Menu"), height);
+    let resp = if labelled {
+        widgets::ghost_button_sized(ui, "panel-left", tl!("Menu"), height)
+    } else {
+        icons::button_with_glyph(ui, "panel-left", height, 16.0, false, tl!("Menu"))
+    };
     egui::Popup::menu(&resp).show(|ui| {
         scroll_menu(ui, |ui| {
             ui.set_min_width(230.0);
