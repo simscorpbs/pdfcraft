@@ -383,6 +383,9 @@ fn app_creator<'a>(
         let mut app = PdfCraftApp::new();
         // First start (or settings from before Units existed): the region's unit.
         app.units = pdfcraft_ui_egui::units::Unit::system();
+        // First start: the system's own interface font (SF Pro on macOS, Segoe UI Variable on
+        // Windows; Inter elsewhere). Settings from before the choice existed keep it too.
+        app.ui_font = pdfcraft_ui_egui::theme::UiFont::System;
         #[cfg(target_os = "linux")]
         app.enable_desktop_theme();
         // The system's reopen-windows choice (macOS) starts the preference; a saved choice replaces it.
