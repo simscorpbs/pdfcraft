@@ -2486,7 +2486,10 @@ impl PdfCraftApp {
             self.reload_changed_files = on;
         }
         self.pinned.restore(&v["pinned_folders"]);
-        self.ui_font = serde_json::from_value(v["ui_font"].clone()).unwrap_or_default();
+        // A saved choice wins; settings without one keep the font the app started with.
+        if let Ok(font) = serde_json::from_value(v["ui_font"].clone()) {
+            self.ui_font = font;
+        }
         self.text_rendering = serde_json::from_value(v["text_rendering"].clone()).unwrap_or_default();
         if let Ok(preference) = serde_json::from_value::<ThemePreference>(v["theme"].clone()) {
             self.set_theme_preference(preference);
