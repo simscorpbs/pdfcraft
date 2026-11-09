@@ -12,6 +12,10 @@ use crate::{PdfCraftApp, widgets};
 /// The preview pane, and the paper inside it (12 pt inset on each side).
 const PREVIEW_W: f32 = 320.0;
 const PREVIEW_H: f32 = 380.0;
+/// What the Print card needs besides its settings, top to bottom: the macOS title bar and a
+/// margin above the card and below it (40 pt each), the card's padding, the title and the
+/// button row.
+const SETTINGS_CHROME_H: f32 = 2.0 * 40.0 + 2.0 * 16.0 + 34.0 + 50.0;
 const PREVIEW_INSET: f32 = 12.0;
 pub(crate) const PREVIEW_BOX: (f32, f32) = (PREVIEW_W - 2.0 * PREVIEW_INSET, PREVIEW_H - 2.0 * PREVIEW_INSET);
 /// Label printing reads the printed area of at most this many pages (each is a quick render on
@@ -938,7 +942,16 @@ pub(crate) fn body(
     let sheets = settings.as_ref().ok().and_then(|s| print::layout(sizes, s).ok()).unwrap_or_default();
     d.sheet = d.sheet.min(sheets.len().saturating_sub(1));
     ui.horizontal_top(|ui| {
-        // Settings.
+        // Settings. On a window too short for them they scroll, so the title stays clear of the
+        // macOS title bar and the buttons below stay on screen (the card is centred in the window).
+        let room = (ui.ctx().content_rect().height() - SETTINGS_CHROME_H).max(160.0);
+        egui::ScrollArea::vertical()
+            .id_salt("print-settings")
+            .max_height(room)
+            .max_width(470.0)
+            // The wheel and the bar scroll it; a press on a control stays that control's.
+            .scroll_source(egui::scroll_area::ScrollSource { drag: egui::scroll_area::DragScroll::Never, ..Default::default() })
+            .show(ui, |ui| {
         ui.vertical(|ui| {
             ui.set_width(470.0);
             egui::Grid::new("print-top").num_columns(2).spacing([10.0, 8.0]).show(ui, |ui| {
@@ -1259,6 +1272,7 @@ pub(crate) fn body(
                         .color(t.text_muted),
                     );
                 });
+        });
         });
         if !preview {
             return;

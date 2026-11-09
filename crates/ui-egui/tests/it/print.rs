@@ -5,6 +5,10 @@ use egui_kittest::Harness;
 use egui_kittest::kittest::{NodeT, Queryable};
 use pdfcraft_ui_egui::{Dialog, PdfCraftApp};
 
+/// Frames for the Print dialog to settle after it opens: its card is centred on the size of its
+/// scrolling settings, which takes a few frames to measure.
+const OPEN_STEPS: usize = 10;
+
 fn harness() -> Harness<'static, PdfCraftApp> {
     harness_with_settings(None)
 }
@@ -61,7 +65,7 @@ fn current_print_page_saves_the_viewed_page_when_labels_restart() {
         h.state_mut().set_option("page", &(current + 1).to_string()).unwrap();
         h.run_steps(3);
         assert!(h.state_mut().execute("print.dialog"));
-        h.run_steps(3);
+        h.run_steps(OPEN_STEPS);
         h.get_by_label("Current page").click();
         h.run_steps(3);
         assert_eq!(h.state().print_draft.current_page, current);
@@ -89,7 +93,7 @@ fn current_print_page_saves_the_viewed_page_when_labels_restart() {
 fn print_dialog_lays_out_sheets_and_saves_a_pdf() {
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     assert_eq!(h.state().dialog, Some(Dialog::Print));
     h.get_by_label("Pages to Print".to_uppercase().as_str());
     h.get_by_label("Sheet 1 of 1");
@@ -122,7 +126,7 @@ fn print_dialog_prints_the_selected_pages() {
     let tab = h.state().views.len() - 1;
     // Nothing picked: the whole document, and no "Selected pages" choice.
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     assert_eq!(h.state().print_draft.which, PrintWhich::All);
     assert!(h.query_by_label_contains("Selected pages").is_none());
     h.get_by_label("Sheet 1 of 5");
@@ -131,7 +135,7 @@ fn print_dialog_prints_the_selected_pages() {
     // Pages 2 and 4 picked.
     h.state_mut().views[tab].select_pages(&[1, 3]);
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     assert_eq!(h.state().print_draft.which, PrintWhich::Selected);
     h.get_by_label("Selected pages (2)");
     h.get_by_label("Sheet 1 of 2");
@@ -149,7 +153,7 @@ fn print_dialog_prints_the_selected_pages() {
     // The selection gone, the remembered choice falls back to the whole document.
     h.state_mut().views[tab].select_pages(&[]);
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     assert_eq!(h.state().print_draft.which, PrintWhich::All);
     assert!(h.state().print_draft.selected.is_empty());
 }
@@ -158,7 +162,7 @@ fn print_dialog_prints_the_selected_pages() {
 fn invalid_ranges_are_explained_in_the_preview() {
     let mut h = harness();
     h.state_mut().execute("print.dialog");
-    h.run_steps(2);
+    h.run_steps(OPEN_STEPS);
     h.state_mut().print_draft.which = pdfcraft_ui_egui::PrintWhich::Range;
     h.state_mut().print_draft.range = "7".into();
     h.run_steps(2);
@@ -173,7 +177,7 @@ fn cut_stack_dialog_previews_saves_and_refuses_duplex() {
     let bytes = h.state().session.create_blank(200.0, 300.0, 10).unwrap();
     h.state_mut().open_bytes("numbered.pdf", None, bytes.as_ref().clone()).unwrap();
     h.state_mut().execute("print.dialog");
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.get_by_label("Multiple").click();
     h.run_steps(2);
     // Pick the new order through the actual widgets.
@@ -210,7 +214,7 @@ fn cut_stack_dialog_previews_saves_and_refuses_duplex() {
 fn a_failed_save_as_pdf_keeps_the_dialog_open() {
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.state_mut().print_draft.printer = None;
     // A folder that doesn't exist: the write fails.
     let out = std::env::temp_dir().join(format!("pdfcraft-missing-{}", std::process::id())).join("x.pdf");
@@ -229,7 +233,7 @@ fn print_dialog_shows_the_printer_driver_options() {
     use pdfcraft_engine::print::spool;
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.state_mut().print_draft.printer = None;
     h.run_steps(1);
     assert!(h.query_by(|n| n.label().as_deref() == Some("Properties…") && n.is_disabled()).is_some(), "Save as PDF has no driver");
@@ -283,7 +287,7 @@ fn printers_listed_in_the_background_preselect_the_default_unless_one_was_picked
         ]
     }));
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(2);
+    h.run_steps(OPEN_STEPS);
     assert_eq!(h.state().dialog, Some(Dialog::Print), "the dialog doesn't wait for the printers");
     assert!(h.state().print_draft.printers_loading);
     assert_eq!(h.state().print_draft.printer, None);
@@ -307,7 +311,7 @@ fn printers_listed_in_the_background_preselect_the_default_unless_one_was_picked
     h.state_mut().dialog = None;
     let hold = gate.lock().unwrap();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(2);
+    h.run_steps(OPEN_STEPS);
     assert_eq!(h.state().print_draft.printers.len(), 2, "the last list shows while looking");
     {
         let d = &mut h.state_mut().print_draft;
@@ -386,7 +390,7 @@ fn architectural_page_can_be_matched_at_100_percent() {
     });
     h.run_steps(4);
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.get_by_label("PDF page: 36.00 × 24.00 in");
     h.get_by_label("Match page at 100%").click();
     h.run_steps(3);
@@ -403,7 +407,7 @@ fn architectural_page_can_be_matched_at_100_percent() {
 fn custom_page_cannot_silently_match_a_standard_paper() {
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     // The 300 x 400 pt fixture is not a standard sheet.
     assert!(pdfcraft_engine::print::matching_paper((300.0, 400.0)).is_none());
     let before = h.state().print_draft.clone();
@@ -446,7 +450,7 @@ fn a_printer_without_two_sided_printing_points_to_its_properties() {
 fn print_as_image_is_an_advanced_choice_that_saves_pictures() {
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.get_by_label("Advanced".to_uppercase().as_str()).click();
     h.run_steps(2);
     h.get_by_label("Print as image").click();
@@ -498,7 +502,7 @@ fn leaving_label_gives_back_the_paper_it_replaced() {
     let a4 = paper("A4");
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     for (mode, tab) in
         [(PrintHandling::Size, "Size"), (PrintHandling::Poster, "Poster"), (PrintHandling::Multiple, "Multiple"), (PrintHandling::Booklet, "Booklet")]
     {
@@ -549,7 +553,7 @@ fn label_stock_picked_from_the_paper_menu_is_undone_by_leaving_label() {
     let a4 = paper("A4");
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.state_mut().print_draft.paper = a4;
     h.run_steps(2);
     h.get_by_value("A4").click();
@@ -577,7 +581,7 @@ fn a_paper_picked_from_the_menu_while_in_label_is_kept() {
     let (a4, letter) = (paper("A4"), paper("US Letter"));
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.state_mut().print_draft.paper = a4;
     h.run_steps(2);
     h.get_by_role_and_label(Role::Button, "Label").click();
@@ -623,7 +627,7 @@ fn printer_options_are_read_off_the_gui_thread_and_a_dead_read_offers_nothing() 
         }]
     }));
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(2);
+    h.run_steps(OPEN_STEPS);
     let ask = |h: &mut Harness<'static, PdfCraftApp>, printer: &str| {
         let d = &mut h.state_mut().print_draft;
         d.driver_options = None;
@@ -676,7 +680,7 @@ fn a_dead_options_read_wakes_an_idle_dialog() {
         panic!("the read died");
     }));
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(2);
+    h.run_steps(OPEN_STEPS);
     let d = &mut h.state_mut().print_draft;
     d.driver_options = None;
     d.driver_options_loading = Some("Office".into());
@@ -729,7 +733,7 @@ fn print_restricted_documents_say_so_before_the_dialog() {
     h.run_steps(30);
     h.get_by_label_contains("don't allow printing");
     assert!(!h.state_mut().execute("print.dialog"));
-    h.run_steps(2);
+    h.run_steps(OPEN_STEPS);
     assert_eq!(h.state().dialog, None);
     assert_eq!(h.state().toast.as_ref().map(|t| t.0.as_str()), Some("The document's security settings don't allow printing"));
 }
@@ -758,7 +762,7 @@ fn paper_choice_survives_cancel_and_settings_restore() {
     let letter = PAPERS.iter().position(|(name, _)| *name == "US Letter").unwrap();
     let mut h = harness();
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.get_by_value("US Letter").click();
     h.run_steps(2);
     h.get_by_label("A4").click();
@@ -785,7 +789,7 @@ fn paper_choice_survives_cancel_and_settings_restore() {
     assert_eq!(app.print_draft, expected, "no other print preference becomes persistent");
     let mut restarted = harness_with_settings(Some(saved));
     assert!(restarted.state_mut().execute("print.dialog"));
-    restarted.run_steps(3);
+    restarted.run_steps(OPEN_STEPS);
     restarted.get_by_value("A4");
     assert_eq!(restarted.state().print_draft.paper, a4);
     restarted.get_by_value("A4").click();
@@ -798,7 +802,7 @@ fn paper_choice_survives_cancel_and_settings_restore() {
     assert_eq!(serde_json::from_str::<serde_json::Value>(&saved).unwrap()["print_paper"], "US Letter");
     let mut again = harness_with_settings(Some(saved));
     assert!(again.state_mut().execute("print.dialog"));
-    again.run_steps(3);
+    again.run_steps(OPEN_STEPS);
     again.get_by_value("US Letter");
     assert_eq!(again.state().print_draft.paper, letter);
 }
@@ -847,7 +851,7 @@ fn restored_paper_keeps_preview_and_saved_sheet_dimensions() {
     let a4 = PAPERS.iter().find(|(name, _)| *name == "A4").unwrap().1;
     let mut h = harness_with_settings(Some(r#"{"print_paper":"A4"}"#.into()));
     assert!(h.state_mut().execute("print.dialog"));
-    h.run_steps(3);
+    h.run_steps(OPEN_STEPS);
     h.get_by_value("A4");
     h.get_by_label("Sheet 1 of 1");
     let id = h.state().views[h.state().active.unwrap()].id;

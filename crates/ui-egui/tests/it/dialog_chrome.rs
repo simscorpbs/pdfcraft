@@ -96,3 +96,21 @@ fn document_properties_long_filename_does_not_overflow_card() {
     let card = card(&h, "dialog");
     assert!(card.width() <= 700.0, "dialog card should not blow out horizontally on long filename, width was: {}", card.width());
 }
+
+/// Print is taller than a laptop window: its card stays inside the window, clear of the macOS
+/// title bar drawn over the top 28 points, and scrolls to its buttons instead of running under
+/// the traffic lights and past the bottom edge.
+#[test]
+fn print_dialog_fits_a_short_window_below_the_title_bar() {
+    let mut h = Harness::builder().with_size(egui::vec2(1280.0, 760.0)).build_eframe(|_cc| {
+        let mut app = PdfCraftApp::new();
+        app.set_option("language", "en").unwrap();
+        app.open_bytes("doc.pdf", None, fixture()).unwrap();
+        app
+    });
+    assert!(h.state_mut().execute("print.dialog"));
+    h.run_steps(10);
+    let card = card(&h, "dialog");
+    assert!(card.top() >= 28.0, "the card starts under the title bar: {card:?}");
+    assert!(card.bottom() <= 760.0, "the card ends inside the window: {card:?}");
+}
