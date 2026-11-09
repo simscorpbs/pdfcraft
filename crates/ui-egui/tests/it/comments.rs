@@ -2304,3 +2304,25 @@ fn text_comments_can_save_a_zero_width_default() {
     assert_eq!(restored.comment_prefs.style(CommentTool::TextBox).width, 0.0);
     assert_eq!(restored.comment_prefs.style(CommentTool::Callout).width, 0.0);
 }
+
+/// A click on the grey around the page clears the text selection, as a click on the page away
+/// from text does: before, only a click on the page itself did.
+#[test]
+fn a_click_on_the_grey_around_the_page_clears_the_selection() {
+    let mut h = harness(|_| {});
+    h.state_mut().views[0].select_text(0, 4, 8);
+    h.run_steps(2);
+    assert!(h.state().views[0].selected_text().is_some());
+    let page = h.state().views[0].page_screen_rect(0).expect("on screen");
+    let view = h.state().views[0].viewport_rect();
+    // Beside the page, below the floating toolbar's height and clear of the scroll bar.
+    let grey = egui::pos2(page.right() + (view.right() - page.right()) / 2.0, page.center().y);
+    assert!(view.contains(grey) && !page.contains(grey), "{grey:?} is grey between {page:?} and {view:?}");
+    h.hover_at(grey);
+    h.run_steps(1);
+    h.drag_at(grey);
+    h.run_steps(1);
+    h.drop_at(grey);
+    h.run_steps(2);
+    assert!(h.state().views[0].selected_text().is_none(), "the selection is cleared");
+}

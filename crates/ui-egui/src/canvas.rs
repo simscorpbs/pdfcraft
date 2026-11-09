@@ -4044,6 +4044,18 @@ pub fn document_area(app: &mut PdfCraftApp, index: usize, ui: &mut egui::Ui) {
     });
 
     view.viewport_screen = out.inner_rect;
+    // A click on the grey around the pages clears the text selection, as a click on a page
+    // away from text does and as Acrobat does. Not under a floating bar or a menu.
+    if unobstructed
+        && selects_text
+        && let Some(p) = ui.input(|i| i.pointer.primary_clicked().then_some(i.pointer.interact_pos()).flatten())
+        && out.inner_rect.contains(p)
+        && !ui.input(|i| i.modifiers.shift)
+        && !view.screen_xforms.iter().any(|(_, xf)| xf.rect.contains(p))
+        && ui.ctx().layer_id_at(p).is_none_or(|layer| layer == ui.layer_id())
+    {
+        view.clear_selection();
+    }
     view.auto_scroll.paint(ui, avail);
     if unobstructed && matches!(tool, QuickTool::Select | QuickTool::ColumnSelect) {
         copy_selected |= selection_actions(ui, avail, view, info, prefs, allowed && !comments_hidden, can_copy);
