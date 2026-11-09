@@ -864,8 +864,10 @@ fn mode_controls(app: &mut PdfCraftApp, ui: &mut egui::Ui, height: f32) {
         ui.add_space(8.0);
         let label = tl!("Find tools and commands");
         let room = ui.available_width() - 8.0;
-        let search = if room >= 150.0 {
-            widgets::search_box(ui, label, room.min(if compact { 240.0 } else { 260.0 }), if compact { 22.0 } else { 32.0 })
+        let height = if compact { 22.0 } else { 32.0 };
+        let width = widgets::search_box_width(ui.ctx(), height);
+        let search = if room >= width {
+            widgets::search_box(ui, label, width, height)
         } else {
             icons::button_with_glyph(ui, "search", button, glyph, false, label)
         };

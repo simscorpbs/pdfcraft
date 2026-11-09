@@ -218,19 +218,18 @@ pub fn search_box(ui: &mut egui::Ui, placeholder: &str, width: f32, height: f32)
     let shortcut = crate::commands::command_shortcut_label(ui.ctx(), "view.palette");
     let shortcut = ui.painter().layout_no_wrap(shortcut, theme::regular(11.5), t.text_faint);
     let shortcut_pos = rect.right_center() - vec2(12.0 + shortcut.size().x, shortcut.size().y * 0.5);
-    // Reserve the measured shortcut width in every language; long translations are elided
-    // within the remaining space rather than painted underneath the shortcut.
-    let text_right = (shortcut_pos.x - 10.0).max(rect.left());
-    let text_left = (rect.left() + 18.0 + glass).min(text_right);
-    let text_rect = Rect::from_min_max(egui::pos2(text_left, rect.top()), egui::pos2(text_right, rect.bottom()));
-    let mut job = egui::text::LayoutJob::simple_singleline(placeholder.to_owned(), theme::regular(13.0), t.text_faint);
-    job.wrap = egui::text::TextWrapping { max_width: text_rect.width(), max_rows: 1, break_anywhere: true, ..Default::default() };
-    let text = ui.fonts_mut(|f| f.layout_job(job));
-    let elided = text.elided;
-    ui.painter().with_clip_rect(text_rect).galley(egui::pos2(text_left, rect.center().y - text.size().y * 0.5), text, t.text_faint);
     ui.painter().with_clip_rect(rect).galley(shortcut_pos, shortcut, t.text_faint);
-    let resp = resp.on_hover_cursor(egui::CursorIcon::Text);
-    if elided { resp.on_hover_text(placeholder) } else { resp }
+    // No placeholder text in the field: the magnifier and the shortcut say what it is, and its
+    // name is the tooltip and the accessible label.
+    resp.on_hover_cursor(egui::CursorIcon::Text).on_hover_text(placeholder)
+}
+
+/// Width of [`search_box`] at `height`: the magnifier and the shortcut with their margins.
+pub fn search_box_width(ctx: &egui::Context, height: f32) -> f32 {
+    let glass = if height < 28.0 { 13.0 } else { 16.0 };
+    let shortcut = crate::commands::command_shortcut_label(ctx, "view.palette");
+    let shortcut = ctx.fonts_mut(|f| f.layout_no_wrap(shortcut, theme::regular(11.5), egui::Color32::PLACEHOLDER)).size().x;
+    10.0 + glass + 12.0 + shortcut + 12.0
 }
 
 pub fn menu_item(ui: &mut egui::Ui, label: &str, shortcut: &str) -> Response {
@@ -632,33 +631,28 @@ mod tests {
     use super::*;
     use egui::Pos2;
 
+    /// The search field shows the magnifier and the shortcut only: its name is not painted in it
+    /// but stays its tooltip and accessible label.
     #[test]
-    fn search_placeholder_never_overlaps_the_shortcut() {
+    fn search_box_paints_no_placeholder_text() {
         let previous = crate::i18n::current();
-        for (code, expected) in [("en", "Ctrl+K"), ("de", "Strg+K")] {
-            crate::i18n::set_current(crate::i18n::Lang::from_code(code).unwrap());
-            for width in [260.0, 160.0, 90.0] {
-                let ctx = egui::Context::default();
-                ctx.set_os(egui::os::OperatingSystem::Nix);
-                ctx.set_fonts(theme::font_definitions());
-                let placeholder = "Werkzeuge und Befehle suchen";
-                let output = ctx.run_ui(egui::RawInput::default(), |ui| {
-                    search_box(ui, placeholder, width, 32.0);
-                });
-                let text_shapes: Vec<_> = output
-                    .shapes
-                    .iter()
-                    .filter_map(|shape| if let egui::Shape::Text(text) = &shape.shape { Some((shape.clip_rect, text)) } else { None })
-                    .collect();
-                let (clip, hint) = text_shapes.iter().find(|(_, text)| text.galley.job.text == placeholder).unwrap();
-                let (_, shortcut) = text_shapes.iter().find(|(_, text)| text.galley.job.text.contains('K')).unwrap();
-                assert_eq!(shortcut.galley.job.text, expected);
-                assert!(clip.right() <= shortcut.pos.x - 9.0, "hint must leave a gap before the shortcut at width {width}");
-                assert!(hint.galley.elided, "the long original German hint must be elided at width {width}");
-                assert_eq!(hint.galley.rows.len(), 1);
-                output.drop_without_applying_deltas();
-            }
-        }
+        crate::i18n::set_current(crate::i18n::Lang::from_code("en").unwrap());
+        let ctx = egui::Context::default();
+        ctx.set_os(egui::os::OperatingSystem::Nix);
+        ctx.set_fonts(theme::font_definitions());
+        let placeholder = "Find tools and commands";
+        let output = ctx.run_ui(egui::RawInput::default(), |ui| {
+            let width = search_box_width(ui.ctx(), 32.0);
+            search_box(ui, placeholder, width, 32.0);
+        });
+        let texts: Vec<_> = output
+            .shapes
+            .iter()
+            .filter_map(|shape| if let egui::Shape::Text(text) = &shape.shape { Some(text.galley.job.text.clone()) } else { None })
+            .collect();
+        output.drop_without_applying_deltas();
+        assert!(texts.iter().any(|t| t == "Ctrl+K"), "the shortcut is drawn: {texts:?}");
+        assert!(!texts.iter().any(|t| t.contains("Find")), "the name is not drawn: {texts:?}");
         crate::i18n::set_current(previous);
     }
 
